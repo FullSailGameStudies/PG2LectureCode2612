@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Erasing Multiple Items from a vector in a Loop</h1>
+
+<ul>
+    <li><a href="#-under-the-hood">What happens when `erase` is called?</a></li>
+    <li><a href="#-the-problem-iterator-invalidation">The Problem: Iterator Invalidation</a></li>
+    <li>
+        <a href="#-safe-pattern-for-erasing-in-a-loop">Safe Pattern for Erasing in a Loop</a>
+        <ul>
+            <li><a href="#-example-remove-all-even-numbers">✅ Example: Remove All Even Numbers</a></li>
+            <li><a href="#-key-insight">🧠 Key Insight:</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="#-alternative-reverse-iteration">Alternative: Reverse Iteration</a>
+        <ul>
+            <li><a href="#-why-this-works">✅ Why This Works:</a></li>
+        </ul>
+    </li>
+    <li><a href="#-alternative-for-loop-iteration">Alternative: for loop Iteration</a></li>
+    <li><a href="#-best-practices">🧠 Best Practices</a></li>
+    <li><a href="#-erasing-in-a-loop-coding-practice">Practice it!</a></li>
+</ul>
+
+<p>In C++, <code>std::vector</code> provides the <code>erase()</code> method to remove elements. However, <strong>erasing multiple elements in a loop</strong> requires careful handling to avoid <strong>iterator invalidation</strong> and <strong>skipped elements</strong>.</p>
+
+<hr>
+<h2 id="-under-the-hood">🧠 What Happens Under the Hood During a Vector Erase?</h2>
+  
+<p>To understand why iterator invalidation happens, you have to look at how a <code>std::vector</code> manages memory. A vector stores its elements in a <strong>contiguous block of memory</strong> (right next to each other, like a raw array).</p>
+
+<div class="explanation-container">
+    <h3>The Shuffle Effect</h3>
+    <p>When you call <code>nums.erase(it)</code>, the vector doesn't leave a hole or shrink the memory block. Instead, it performs a <strong>destructive shift operation</strong>:</p>
+    
+    <ol>
+        <li>The element at the current iterator position is destroyed.</li>
+        <li><strong>Every single element after that position</strong> must be shifted left by one slot to close the gap and maintain contiguous memory.</li>
+    </ol>
+</div>
+
+<div class="tip-box">
+    <span class="tip-badge">CRITICAL CONCEPT:</span> Because elements are physically copied or moved to a new memory slot during the shift, any existing iterator pointing to those shifted slots is now pointing to modified data or out-of-bounds memory. This is <strong>Iterator Invalidation</strong>.
+</div>
+
+<h3>Visualizing the Bug vs. The Fix</h3>
+<p>Imagine iterating through a vector of <code>nums = {1, 2, 3, 4}</code> and trying to remove the even numbers using a naive loop:</p>
+
+<div class="step-gallery">
+    <div class="step-card">
+        <h4>1. The Erase Step</h4>
+        <p>The iterator finds <code>2</code> at index 1 and erases it.</p>
+        <p><code>{ 1, [2], 3, 4 }</code></p>
+    </div>
+    <div class="step-card">
+        <h4>2. The Under-the-Hood Shift</h4>
+        <p>C++ immediately shifts <code>3</code> and <code>4</code> to the left to close the gap. The vector is now <code>{ 1, 3, 4 }</code>.</p>
+        <p>Notice that <strong>3 is now sitting at index 1</strong> (where 2 used to be)!</p>
+    </div>
+    <div class="step-card">
+        <h4>3. The Naive Bug (Why elements get skipped)</h4>
+        <p>If your loop blindly runs a standard <code>++it</code> or <code>i++</code> right after erasing, your iterator moves to index 2.</p>
+        <p>Index 2 now holds <code>4</code>. <strong>The number 3 was completely skipped</strong> without ever being checked by your <code>if</code> condition!</p>
+    </div>
+</div>
+
+<div class="tip-box">
+    <span class="tip-badge">💡</span><strong>The Fix:</strong> By assigning <code>it = nums.erase(it);</code>, 
+    C++ hands you a fresh, valid iterator pointing exactly to the element that just slid into that slot (the <code>3</code>). 
+    By skipping the <code>++it</code> on an erase step, your loop safely checks that new element on the next iteration.
+</div>
+
+<h2 id="-the-problem-iterator-invalidation">🔹 The Problem: Iterator Invalidation</h2>
+
+<p>When you erase an element from a vector using <code>erase()</code>, all iterators <strong>after the erased element</strong> become invalid. If you're iterating through the vector and erasing elements, this can lead to:</p>
+
+<ul>
+  <li><strong>Accessing invalid memory</strong></li>
+  <li><strong>Skipping elements unintentionally</strong></li>
+  <li><strong>Undefined behavior</strong></li>
+</ul>
+
+<hr>
+
+<h2 id="-safe-pattern-for-erasing-in-a-loop">🔸 Safe Pattern for Erasing in a Loop</h2>
+
+<p>To safely erase multiple elements, use a <strong><code>for</code> loop with an iterator</strong>, <strong><em>only increment the iterator if no erasure occurs</em></strong>.</p>
+
+<h3 id="-example-remove-all-even-numbers">✅ Example: Remove All Even Numbers</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;vector&gt;</span>
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; nums = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>};
+
+    <span class="keyword">for</span> (<span class="keyword">auto</span> it = nums.<span class="function">begin</span>(); it != nums.<span class="function">end</span>(); ) {
+        <span class="keyword">if</span> (*it % <span class="number">2</span> == <span class="number">0</span>) {
+            it = nums.<span class="function">erase</span>(it);  <span class="comment">// erase returns the next valid iterator</span>
+        } <span class="keyword">else</span> {
+            ++it;  <span class="comment">// only increment if no erase</span>
+        }
+    }
+
+    <span class="comment">// Output the result</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) {
+        <span class="namespace">std</span>::cout &lt;&lt; n &lt;&lt; <span class="string">" "</span>;
+    }
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3 id="-key-insight">🧠 Key Insight:</h3>
+<ul>
+  <li><code>erase(it)</code> removes the element and returns a <strong>valid iterator</strong> pointing to the next element.</li>
+  <li>If you increment the iterator after <code>erase()</code>, you skip the next element.</li>
+</ul>
+
+<hr>
+
+<h2 id="-alternative-reverse-iteration">🔹 Alternative: Reverse Iteration</h2>
+
+<p>If you're removing elements based on <strong>index</strong> or <strong>position</strong>, iterating <strong>backward</strong> can be safer:</p>
+
+<pre><code><span class="keyword">for</span> (<span class="keyword">int</span> i = nums.<span class="function">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; --i) {
+    <span class="keyword">if</span> (nums[i] % <span class="number">2</span> == <span class="number">0</span>) {
+        nums.<span class="function">erase</span>(nums.<span class="function">begin</span>() + i);
+    }
+}</code></pre>
+
+<h3 id="-why-this-works">✅ Why This Works:</h3>
+<ul>
+  <li>Erasing from the end avoids invalidating earlier indices.</li>
+  <li>No iterator invalidation occurs for elements before the erased one.</li>
+</ul>
+
+<hr>
+
+<h2 id="-alternative-for-loop-iteration">🔹 Alternative: for loop Iteration</h2>
+
+<p>If you're removing elements based on <strong>index</strong>, make sure to only increment the for loop variable when NOT erasing.</p>
+
+<pre><code><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="function">size</span>(); ) <span class="comment">//NOTE: no i++ here</span>
+{
+    <span class="keyword">if</span> (nums[i] % <span class="number">2</span> == <span class="number">0</span>) {
+        nums.<span class="function">erase</span>(nums.<span class="function">begin</span>() + i);
+    }
+    <span class="keyword">else</span> {
+        i++; <span class="comment">//only increment i when NOT erasing</span>
+    }
+}</code></pre>
+
+<hr>
+
+<h2 id="-best-practices">🧠 Best Practices</h2>
+
+<ul>
+  <li>Prefer <strong>iterator-based loops</strong> when working with <code>erase()</code>.</li>
+  <li>Avoid <code>range-based for</code> loops when modifying the container.</li>
+</ul>
+
+<h2 id="-erasing-in-a-loop-coding-practice">💻 Practice it! Erasing in a Loop Coding Practice</h2>
+
+<h3>🧩 Part B-3.1: create a declaration</h3>
+<ol>
+  <li>Open <code>Day2.h</code>.</li>
+  <li>Add a method declaration for a method called <code>KillZombies</code>.
+    <ul>
+      <li>It should return an int representing the number of zombies that were killed.</li>
+      <li>It should have 2 parameters: a vector of <code>Zombie</code> parameter and a <code>Player</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-3.2: create a definition</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>Add a method definition for <code>KillZombies</code>.
+    <ul>
+      <li>Inside the method, erase any zombie from the vector whose distance to the player is &lt; 4. (HINT: to calculate the distance between 2 points... <code>distance = sqrt( (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) )</code>)</li>
+      <li>Return the number of zombies that were erased from the vector.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-3.3: call a method</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>In the <code>PartB()</code> method, find the comment <code>Part B-3.3 Call KillZombies</code> and call the <code>KillZombies</code> method.</li>
+  <li>After calling the method, print how many zombies were killed.</li>
+</ol>
+
+
+</main>
+
+</body>
+</html>

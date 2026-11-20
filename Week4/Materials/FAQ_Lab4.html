@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Lab 4: Frequently Asked Questions</h1>
+
+<ul>
+  <li><a href="#-q-do-you-have-any-tips-for-lab-4">❓ Q: Do you have any tips for lab 4?</a></li>
+  <li><a href="#-q-im-getting-a-build-error-about-a-deleted-function-what-is-wrong">❓ Q: I'm getting a build error about a deleted function. What is wrong?</a></li>
+  <li><a href="#-q-why-am-im-getting-a-build-error-about-not-being-defined-on-the-ofstream">❓ Q: Why am I'm getting a build error about &lt;&lt; not being defined on the ofstream?</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-q-do-you-have-any-tips-for-lab-4">❓ Q: Do you have any tips for lab 4?</h2>
+
+<h3>💡 A: Of course! Here they are...</h3>
+
+<h4>📝 Reading &amp; Writing CSVs (Serialization/Deserialization)</h4>
+<ul>
+  <li><strong>CSV = Comma Separated Values</strong>
+    <ul>
+      <li>Each line = a row of data</li>
+      <li>Each comma = separates a field (like name, health, etc.)</li>
+    </ul>
+  </li>
+  <li>If you're stuck:
+    <ul>
+      <li><strong>Print out each line</strong> as you read it — does it match the file?</li>
+      <li><strong>Check for extra whitespace or newlines</strong> messing up your data</li>
+      <li><strong>Double-check your delimiter</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h4>🔁 Deserialization (Reading CSV into Objects)</h4>
+<ul>
+  <li>Think of deserialization as <strong>"taking a line and filling in the blanks"</strong> for an object:
+    <ul>
+      <li>Read the line</li>
+      <li>Split it up (on the delimiter)</li>
+      <li>Turn each piece into the right data type (int, float, string, etc.)</li>
+      <li>Use that data to <strong>create an object</strong></li>
+    </ul>
+  </li>
+  <li>If it's not working:
+    <ul>
+      <li>Are you trying to convert a string to an int but getting a weird result?</li>
+      <li>Are your object values all wrong?
+        <ul>
+          <li>Print the fields <strong>before creating</strong> the object to see what you're actually using.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4>💾 Serialization (Saving Data Back to CSV)</h4>
+<ul>
+  <li>Serialization = <strong>turning an object back into a CSV line</strong>
+    <ul>
+      <li>Grab the class members</li>
+      <li>Format them into a string with commas</li>
+      <li>Write that string to the file</li>
+    </ul>
+  </li>
+  <li>If you're stuck:
+    <ul>
+      <li>Confirm you're writing <strong>one line per object</strong></li>
+      <li>Make sure fields are in the <strong>right order</strong></li>
+      <li>Test with a small amount of data first — it's easier to spot mistakes</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>🧱 Creating Class Objects from File Data</h4>
+<ul>
+  <li>You’re using the file to <strong>fill out an object’s constructor or setters</strong>
+    <ul>
+      <li>Don’t overthink it — treat it like a fill-in-the-blank game:
+        <ul>
+          <li>Read → Split → Convert → Pass into object</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Common issues:
+    <ul>
+      <li>Forgetting to convert a string to the correct type</li>
+      <li>Mixing up the order of values</li>
+      <li>Passing too few or too many values to the constructor</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>🔍 Debugging File I/O Stuff</h4>
+<ul>
+  <li>Add LOTS of print statements
+    <ul>
+      <li>What line are you reading?</li>
+      <li>What’s in each field after you split it?</li>
+      <li>What values are being passed to the object?</li>
+    </ul>
+  </li>
+  <li>Keep the CSV file open in a text editor to cross-check formatting</li>
+  <li>Make a <strong>test CSV</strong> with only 2–3 rows to simplify debugging</li>
+</ul>
+
+<p><img src="./FileIOVisual.gif" alt="File I/O Visual"></p>
+
+<hr>
+
+<h2 id="-q-im-getting-a-build-error-about-a-deleted-function-what-is-wrong">❓ Q: I'm getting a build error about a deleted function. What is wrong?</h2>
+
+<h3>💡 A: Use pass by reference</h3>
+<p>You might be getting a build error like this:</p>
+<pre><code>error C2280: 'std::basic_ofstream&lt;char,std::char_traits&lt;char&gt;&gt;::basic_ofstream(const std::basic_ofstream&lt;char,std::char_traits&lt;char&gt;&gt; &amp;)': attempting to reference a deleted function</code></pre>
+<p>The problem is most likely with your serialize method. The problem is you're using pass-by-value.</p>
+
+<h4>To fix:</h4>
+<p>Use <code>pass-by-reference</code> on the <code>std::ofstream</code> parameter.</p>
+
+<hr>
+
+<h2 id="-q-why-am-im-getting-a-build-error-about-not-being-defined-on-the-ofstream">❓ Q: Why am I'm getting a build error about &lt;&lt; not being defined on the ofstream?</h2>
+
+<h3>💡 A: #include &lt;fstream&gt;</h3>
+<p>You might be getting a build error like this:</p>
+<pre><code>error C2676: binary '&lt;&lt;': 'std::ofstream' does not define this operator or a conversion to a type acceptable to the predefined operator</code></pre>
+<p>This is because you have not #included the fstream header.</p>
+
+<h4>To fix:</h4>
+<p>Add <code>#include &lt;fstream&gt;</code> to the header where you are using std::ofstream.</p>
+
+
+</main>
+
+</body>
+</html>

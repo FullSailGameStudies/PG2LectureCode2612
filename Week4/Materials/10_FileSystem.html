@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 File System</h1>
+
+<ul>
+    <li><a href="#1-checking-whether-a-file-exists">Checking whether a file exists</a></li>
+    <li><a href="#2-listing-files-in-a-directory">Listing Files in a Directory</a></li>
+    <li><a href="#-listing-files">Practice it!</a></li>
+</ul>
+
+
+<h2 id="1-checking-whether-a-file-exists">1. Checking Whether a File Exists</h2>
+
+<h3>Conceptual Overview</h3>
+
+<p>Checking for file existence involves querying the operating system’s file system to determine whether a given path refers to a valid object. On Windows, the <strong>C++17’s <code>&lt;filesystem&gt;</code> library</strong> provides a standardized, cross‑platform abstraction.</p>
+
+<p>Prior to C++17, developers often:</p>
+<ul>
+  <li>Tried opening the file using <code>&lt;fstream&gt;</code></li>
+  <li>Used Windows‑specific APIs such as <code>GetFileAttributes</code></li>
+</ul>
+
+<p>Today, <code>&lt;filesystem&gt;</code> is preferred for correctness, portability, and clarity.</p>
+
+
+<h3>Using `std::filesystem::exists`</h3>
+
+<pre><code><span class="comment">#include &lt;filesystem&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+
+<span class="keyword">namespace</span> <span class="namespace">fs</span> = <span class="namespace">std</span>::<span class="namespace">filesystem</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">fs</span>::<span class="type">path</span> filePath = <span class="string">"C:\\temp\\example.txt"</span>;
+
+    <span class="keyword">if</span> (<span class="namespace">fs</span>::<span class="function">exists</span>(filePath) &amp;&amp; <span class="namespace">fs</span>::<span class="function">is_regular_file</span>(filePath)) {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"File exists.\n"</span>;
+    } <span class="keyword">else</span> {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"File does not exist.\n"</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+
+<h2 id="2-listing-files-in-a-directory">2. Listing Files in a Directory</h2>
+
+<h3>Conceptual Overview</h3>
+<p>Listing directory contents requires iterating over file system entries. In modern C++, <code>&lt;filesystem&gt;</code> provides iterator‑based directory traversal that hides platform‑specific details.</p>
+
+<pre><code><span class="comment">#include &lt;filesystem&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+
+<span class="keyword">namespace</span> <span class="namespace">fs</span> = <span class="namespace">std</span>::<span class="namespace">filesystem</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">fs</span>::<span class="type">path</span> directoryPath = <span class="string">"C:\\temp"</span>;
+
+    <span class="keyword">if</span> (!<span class="namespace">fs</span>::<span class="function">exists</span>(directoryPath) || !<span class="namespace">fs</span>::<span class="function">is_directory</span>(directoryPath)) {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Invalid directory.\n"</span>;
+        <span class="keyword">return</span> <span class="number">1</span>;
+    }
+
+    <span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; entry : <span class="namespace">fs</span>::<span class="type">directory_iterator</span>(directoryPath)) {
+        <span class="namespace">std</span>::cout &lt;&lt; entry.<span class="function">path</span>() &lt;&lt; <span class="string">'\n'</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3>Explanation</h3>
+<ul>
+  <li><code>fs::directory_iterator</code> iterates over immediate directory entries.</li>
+  <li><code>directory_iterator</code> gives a <code>std::filesystem::directory_entry</code> object.
+    <ul>
+      <li><code>entry.path()</code> returns the full path to the file or folder.</li>
+      <li><code>path()</code> returns a <code>std::filesystem::path</code> object.
+        <ul>
+          <li>Useful members of the path object:
+            <ul>
+              <li><code>filename()</code> - the name of the file without the path</li>
+              <li><code>extension()</code> - the extension of the file</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+
+
+<h2 id="-listing-files">💻 Practice it! Listing Files</h2>
+
+<h3>🧩 Listing Files</h3>
+<ul>
+  <li>Open the <code>Lectures.cpp</code> file in the <code>Lectures</code> project.</li>
+  <li>Modify <code>case 1</code> of the switch block.
+    <ul>
+        <li>Use the <code>std::filesystem</code> functions to list all of the <code>CPP</code> files in the <code>current directory</code>.</li>
+    </ul>
+    </li>
+</ul>
+
+</main>
+
+</body>
+</html>

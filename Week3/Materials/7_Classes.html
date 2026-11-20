@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding C++ Classes</h1>
+
+<ul>
+    <li><a href="#-what-is-a-class">🧠 What is a Class?</a></li>
+    <li><a href="#-syntax-of-a-class">🧱 Syntax of a Class</a></li>
+    <li><a href="#-access-modifiers-in-c">🔐 Access Modifiers in C++</a></li>
+    <li><a href="#-example-a-simple-car-class">🧪 Example: A Simple `Car` Class</a></li>
+    <li><a href="#-summary-table">✅ Summary Table</a></li>
+    <li><a href="#-create-a-class">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-is-a-class">🧠 What is a Class?</h2>
+
+<p>A <strong>class</strong> in C++ is a <strong>user-defined</strong> data type that serves as a blueprint for creating <strong>objects</strong>. It encapsulates <strong>member variables</strong> (fields) and <strong>member functions</strong> (methods) that operate on the data, following the principles of <strong>Object-Oriented Programming (OOP)</strong>.</p>
+
+<hr>
+
+<h2 id="-syntax-of-a-class">🧱 Syntax of a Class</h2>
+
+<blockquote>
+  NOTE: classes are usually declared in header files.
+</blockquote>
+
+<pre><code><span class="keyword">class</span> <span class="type">ClassName</span> {
+  <span class="keyword">private</span>:
+    <span class="comment">// Private data members</span>
+
+  <span class="keyword">protected</span>:
+    <span class="comment">// Protected members</span>
+
+  <span class="keyword">public</span>:
+    <span class="comment">// Public methods and constructors</span>
+};</code></pre>
+
+<hr>
+
+<h2 id="-access-modifiers-in-c">🔐 Access Modifiers in C++</h2>
+
+<p>Access modifiers control the <strong>visibility</strong> and <strong>accessibility</strong> of class members (variables and functions). C++ provides three main access specifiers:</p>
+
+<h3>1. `private`</h3>
+<ul>
+  <li><strong>Default</strong> access level for class members.</li>
+  <li>Members are <strong>only accessible</strong> within the class itself.</li>
+  <li>Used to <strong>encapsulate</strong> and protect internal data.</li>
+</ul>
+
+<pre><code><span class="keyword">class</span> <span class="type">Example</span> {
+  <span class="keyword">private</span>:
+    <span class="keyword">int</span> secret;
+
+  <span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">setSecret</span>(<span class="keyword">int</span> s) { secret = s; }
+    <span class="keyword">int</span> <span class="function">getSecret</span>() { <span class="keyword">return</span> secret; }
+};</code></pre>
+
+<h3>2. `public`</h3>
+<ul>
+  <li>Members are <strong>accessible from outside</strong> the class.</li>
+  <li>Used to define the <strong>interface</strong> of the class.</li>
+</ul>
+
+<pre><code><span class="keyword">class</span> <span class="type">Example</span> {
+  <span class="keyword">public</span>:
+    <span class="keyword">int</span> id;
+    <span class="keyword">void</span> <span class="function">showID</span>() { cout &lt;&lt; <span class="string">"ID: "</span> &lt;&lt; id &lt;&lt; endl; }
+};</code></pre>
+
+<h3>3. `protected`</h3>
+<ul>
+  <li>Members are <strong>not accessible</strong> from outside the class.</li>
+  <li>But they are accessible in <strong>derived (child) classes</strong>.</li>
+  <li>Useful in <strong>inheritance</strong> scenarios.</li>
+</ul>
+
+<pre><code><span class="keyword">class</span> <span class="type">Base</span> {
+  <span class="keyword">protected</span>:
+    <span class="keyword">int</span> value;
+};
+
+<span class="keyword">class</span> <span class="type">Derived</span> : <span class="keyword">public</span> <span class="type">Base</span> {
+  <span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">setValue</span>(<span class="keyword">int</span> v) { value = v; }
+    <span class="keyword">int</span> <span class="function">getValue</span>() { <span class="keyword">return</span> value; }
+};</code></pre>
+
+<hr>
+
+<h2 id="-example-a-simple-car-class">🧪 Example: A Simple `Car` Class</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Car</span> {
+  <span class="keyword">private</span>:
+    <span class="type">string</span> brand;
+    <span class="keyword">int</span> year;
+
+<span class="keyword">public</span>:
+    <span class="type">Car</span>(<span class="type">string</span> b, <span class="keyword">int</span> y) {
+        brand = b;
+        year = y;
+    }
+
+    <span class="keyword">void</span> <span class="function">displayInfo</span>() {
+        cout &lt;&lt; <span class="string">"Brand: "</span> &lt;&lt; brand &lt;&lt; <span class="string">", Year: "</span> &lt;&lt; year &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Car</span> car1(<span class="string">"Toyota"</span>, <span class="number">2020</span>);
+    car1.<span class="function">displayInfo</span>();
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-summary-table">✅ Summary Table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Access Modifier</th>
+      <th>Accessible Within Class</th>
+      <th>Accessible Outside Class</th>
+      <th>Accessible in Derived Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>private</code></td>
+      <td>✅ Yes</td>
+      <td>❌ No</td>
+      <td>❌ No</td>
+    </tr>
+    <tr>
+      <td><code>protected</code></td>
+      <td>✅ Yes</td>
+      <td>❌ No</td>
+      <td>✅ Yes</td>
+    </tr>
+    <tr>
+      <td><code>public</code></td>
+      <td>✅ Yes</td>
+      <td>✅ Yes</td>
+      <td>✅ Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+    
+<h2 id="-create-a-class">💻 Practice it! Create a Class</h2>
+
+<h3>🧩 Part A-1.1 Create a Card class</h3>
+<ol>
+  <li>Right-click the Lectures project in the solution explorer and select "Add/Class..."</li>
+  <li>Enter <code>Card</code> as the name and press enter to create the class.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

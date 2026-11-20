@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 The Four Pillars of Object-Oriented Programming (OOP)</h1>
+
+<p>Object-Oriented Programming is built on four foundational principles—<strong>Encapsulation, Abstraction, Inheritance, and Polymorphism</strong>. These pillars work together to create modular, maintainable, and scalable software systems. Below is a detailed discussion of each:</p>
+
+<hr>
+
+<h3>🤝 Interrelationship of Pillars</h3>
+<ul>
+  <li><strong>Encapsulation</strong> and <strong>Abstraction</strong> work together to hide complexity.</li>
+  <li><strong>Inheritance</strong> and <strong>Polymorphism</strong> enable extensibility and dynamic behavior.</li>
+  <li>Combined, these pillars make OOP powerful for building modular, maintainable, and scalable software systems.</li>
+</ul>
+
+<hr>
+
+<h2>🔒 Encapsulation</h2>
+<p>Encapsulation is the principle of <strong>bundling data (attributes) and behavior (methods) into a single unit</strong>, typically a class, and restricting direct access to some components. This is achieved through <strong>access modifiers</strong> (e.g., <code>private</code>, <code>protected</code>, <code>public</code>).</p>
+
+<ul>
+  <li><strong>Purpose:</strong>
+    <ul>
+      <li>Protects the internal state of an object from unintended interference.</li>
+      <li>Promotes modularity and maintainability.</li>
+    </ul>
+  </li>
+  <li><strong>Example:</strong><br>
+    A <code>BankAccount</code> class hides its balance behind getter and setter methods, ensuring validation before changes.
+  </li>
+  <li><strong>Key Benefit:</strong><br>
+    Reduces coupling and increases cohesion.
+  </li>
+</ul>
+
+<hr>
+
+<h2>🎭 Abstraction</h2>
+<p>Abstraction focuses on <strong>exposing only essential features while hiding unnecessary details</strong>. It allows developers to work at a higher conceptual level without worrying about implementation complexity.</p>
+
+<ul>
+  <li><strong>Purpose:</strong>
+    <ul>
+      <li>Simplifies interaction with complex systems.</li>
+      <li>Provides clear contracts through abstract classes or interfaces.</li>
+    </ul>
+  </li>
+  <li><strong>Example:</strong><br>
+    An interface <code>PaymentProcessor</code> defines methods like <code>processPayment()</code>, without specifying how the payment is processed internally.
+  </li>
+  <li><strong>Key Benefit:</strong><br>
+    Enhances flexibility and scalability.
+  </li>
+</ul>
+
+<hr>
+
+<h2>🌳 Inheritance</h2>
+<p>Inheritance enables a class (child or subclass) to <strong>reuse and extend the properties and behaviors of another class (parent or superclass)</strong>.</p>
+
+<ul>
+  <li><strong>Purpose:</strong>
+    <ul>
+      <li>Promotes code reuse.</li>
+      <li>Establishes hierarchical relationships.</li>
+    </ul>
+  </li>
+  <li><strong>Example:</strong><br>
+    A <code>Car</code> class inherits from a <code>Vehicle</code> class, gaining attributes like <code>speed</code> and methods like <code>move()</code>.
+  </li>
+  <li><strong>Key Benefit:</strong><br>
+    Reduces redundancy and supports polymorphism.
+  </li>
+  <li><strong>Caution:</strong><br>
+    Overuse can lead to fragile hierarchies; composition is often preferred for flexibility.
+  </li>
+</ul>
+
+<hr>
+
+<h2>🔄 Polymorphism</h2>
+<p>Polymorphism allows <strong>objects of different classes to be treated uniformly through a common interface</strong>, while each object can respond differently to the same method call.</p>
+
+<ul>
+  <li><strong>Types:</strong>
+    <ul>
+      <li><strong>Compile-time (Static):</strong> Method overloading.</li>
+      <li><strong>Run-time (Dynamic):</strong> Method overriding via inheritance.</li>
+    </ul>
+  </li>
+  <li><strong>Example:</strong><br>
+    A <code>draw()</code> method behaves differently for <code>Circle</code> and <code>Rectangle</code> objects, even when called through a <code>Shape</code> reference.
+  </li>
+  <li><strong>Key Benefit:</strong><br>
+    Enables extensibility and dynamic behavior without modifying existing code.
+  </li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

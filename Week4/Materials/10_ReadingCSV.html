@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Reading CSV Data Using `ifstream` in C++</h1>
+
+<ul>
+    <li><a href="#-overview">🧾 Overview</a></li>
+    <li><a href="#-key-concepts">🧠 Key Concepts</a></li>
+    <li><a href="#%EF%B8%8F-basic-example">🛠️ Basic Example</a></li>
+    <li><a href="#%EF%B8%8F-common-pitfalls">⚠️ Common Pitfalls</a></li>
+    <li><a href="#-best-practices">✅ Best Practices</a></li>
+    <li><a href="#-reading-csv-files">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-overview">🧾 Overview</h2>
+
+<p>In C++, the <code>ifstream</code> class (from the <code>&lt;fstream&gt;</code> header) is used to read data from files. To read <strong>CSV (Comma-Separated Values)</strong> data, you typically read each line as a string and then parse the line by splitting it on commas.</p>
+
+<p>This approach is <strong>manual</strong>, but it gives you full control over how the data is interpreted and processed.</p>
+
+<hr>
+
+<h2 id="-key-concepts">🧠 Key Concepts</h2>
+
+<h3>Line-by-Line Reading</h3>
+<p>Use <code>std::getline(file, line)</code> to read each row of the CSV file.</p>
+<ul>
+  <li><code>getline</code> will read a line from the stream.
+    <ul>
+      <li>The first parameter is the stream to read.</li>
+      <li>The second parameter is the string to store the data into.</li>
+    </ul>
+  </li>
+</ul>
+<blockquote>getline will read until it encounters the <code>\n</code> character OR the end of the stream.</blockquote>
+
+<h3>String Stream Parsing</h3>
+<p>Use <code>std::stringstream</code> to split each line into fields using <code>std::getline(ss, field, ',')</code>.</p>
+<ul>
+  <li>Take the string from step 1 above and create a stringstream.</li>
+  <li>Use the stringstream with getline to read pieces of CSV data.</li>
+  <li>You can tell getline what character (the delimiter) to look for instead of <code>\n</code>.
+    <ul>
+      <li>Give getline a 3rd char argument. getline will use this character instead of <code>\n</code>.</li>
+    </ul>
+  </li>
+</ul>
+<blockquote>getline will read until it encounters the character OR the end of the stream.</blockquote>
+
+<pre><code><span class="namespace">std</span>::<span class="type">stringstream</span> ss(line);
+<span class="namespace">std</span>::<span class="function">getline</span>(ss, field, <span class="string">','</span>);</code></pre>
+
+<h3>Reading Multiple Lines</h3>
+<p>Use the stream's <code>eof()</code> method to check if you are at the end of the file OR use the return type from calling <code>std::getline</code>.</p>
+<pre><code><span class="keyword">while</span>(<span class="keyword">not</span> file.<span class="function">eof</span>()) { 
+    <span class="comment">//read the line</span>
+    <span class="comment">//parse the line using stringstream</span>
+}
+
+<span class="comment">//OR...</span>
+
+<span class="keyword">while</span> (<span class="namespace">std</span>::<span class="function">getline</span>(file, line)) { <span class="comment">//read the line</span>
+    <span class="comment">//parse the line using stringstream</span>
+}</code></pre>
+
+<h3 id="-storing-data-in-a-vector">🧪 Storing Data in a Vector</h3>
+<p>You can store parsed data in a container like <code>std::vector</code> for further processing:</p>
+
+<pre><code><span class="keyword">struct</span> <span class="type">Student</span> {
+    <span class="namespace">std</span>::<span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+    <span class="namespace">std</span>::<span class="type">string</span> major;
+};
+
+<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="type">Student</span>&gt; students;
+
+<span class="keyword">while</span> (<span class="namespace">std</span>::<span class="function">getline</span>(file, line)) {
+    <span class="namespace">std</span>::<span class="type">stringstream</span> ss(line);
+    <span class="namespace">std</span>::<span class="type">string</span> name, ageStr, major;
+
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, name, <span class="string">','</span>);
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, ageStr, <span class="string">','</span>);
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, major, <span class="string">','</span>);
+
+    students.<span class="function">push_back</span>({name, <span class="namespace">std</span>::<span class="function">stoi</span>(ageStr), major});
+}</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-basic-example">🛠️ Basic Example</h2>
+
+<p>Suppose we have a file <code>students.csv</code>:</p>
+<pre><code>Name,Age,Major
+Alice,21,Computer Science
+Bob,22,Mathematics
+Charlie,20,Physics</code></pre>
+
+<h3>🧱 Required Headers</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;fstream&gt;</span>
+<span class="comment">#include &lt;sstream&gt;</span>
+<span class="comment">#include &lt;string&gt;</span>
+<span class="comment">#include &lt;vector&gt;</span></code></pre>
+
+<h3>Reading a Simple CSV File</h3>
+<pre><code><span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">std</span>::<span class="type">ifstream</span> file(<span class="string">"students.csv"</span>);
+    <span class="namespace">std</span>::<span class="type">string</span> line;
+
+    <span class="keyword">if</span> (file.<span class="function">is_open</span>()) {
+        <span class="comment">// Read header</span>
+        <span class="namespace">std</span>::<span class="function">getline</span>(file, line);
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Header: "</span> &lt;&lt; line &lt;&lt; <span class="string">"\n"</span>;
+
+        <span class="comment">// Read data rows</span>
+        <span class="keyword">while</span> (<span class="namespace">std</span>::<span class="function">getline</span>(file, line)) {
+            <span class="namespace">std</span>::<span class="type">stringstream</span> ss(line);
+            <span class="namespace">std</span>::<span class="type">string</span> name, age, major;
+
+            <span class="namespace">std</span>::<span class="function">getline</span>(ss, name, <span class="string">','</span>);
+            <span class="namespace">std</span>::<span class="function">getline</span>(ss, age, <span class="string">','</span>);
+            <span class="namespace">std</span>::<span class="function">getline</span>(ss, major, <span class="string">','</span>);
+
+            <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name
+                      &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age
+                      &lt;&lt; <span class="string">", Major: "</span> &lt;&lt; major &lt;&lt; <span class="string">"\n"</span>;
+        }
+
+        file.<span class="function">close</span>();
+    } <span class="keyword">else</span> {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Failed to open file.\n"</span>;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-common-pitfalls">⚠️ Common Pitfalls</h2>
+<ul>
+  <li>Not checking if the file opened successfully</li>
+  <li>Assuming all rows have the same number of fields</li>
+  <li>Using <code>std::stoi</code> without error checking</li>
+</ul>
+
+<hr>
+
+<h2 id="-best-practices">✅ Best Practices</h2>
+<ul>
+  <li>Always validate file opening and data format</li>
+  <li>Use <code>std::getline</code> with a delimiter for parsing</li>
+  <li>Consider using a CSV library for complex files (e.g., Fast C++ CSV Parser)</li>
+</ul>
+
+    
+<h2 id="-reading-csv-files">💻 Practice it! Reading CSV Files</h2>
+<h3>🧩 Part A-3 LoadPosition</h3>
+<ol>
+  <li>Open the <code>Day10.cpp</code> file.</li>
+  <li>Add code to the <code>LoadPosition</code> method.</li>
+  <li>Open the file for input.
+    <ul>
+      <li>If the file is open:
+        <ul>
+          <li>Read the line from the file.</li>
+          <li>Parse the line using <code>getline</code>. Remember that the <code>worldX</code> is the second part of the line.</li>
+          <li>Print to the console "LOADED POSITION: " and the <code>worldX</code>.</li>
+        </ul>
+      </li>
+      <li>Else:
+        <ul>
+          <li>Print the file could not be opened.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Close the file.</li>
+  <li>Return the <code>worldX</code> value.</li>
+    <li>Run menu option <code>3. Read CSV file</code> to test your code.</li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/Part_A_2_LoadResults.png" alt="read csv results"></p>
+
+</main>
+
+</body>
+</html>

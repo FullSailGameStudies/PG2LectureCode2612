@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- 🌟 THE OFFLINE FIX: Forces the browser to mock a minimal valid origin over file:/// paths -->
+	<meta name="referrer" content="strict-origin-when-cross-origin">
+	<title>PG2 Course Topics</title>
+
+	<style>
+		:root {
+			--bg-primary: #0d1117;
+			--bg-secondary: #0A1E32;
+			--bg-active: #21262d;
+			--border-color: #30363d;
+			--text-primary: #c9d1d9;
+			--text-muted: #8b949e;
+			--accent: #58a6ff;
+			--sidebar-width: 260px;
+		}
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			overflow: hidden;
+			background-color: var(--bg-primary);
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		}
+
+		body {
+			display: flex;
+		}
+
+		/* Sidebar Wrapper with Smooth width transition */
+		.sidebar {
+			width: var(--sidebar-width);
+			background-color: var(--bg-secondary);
+			border-right: 1px solid var(--border-color);
+			height: 100vh;
+			position: fixed;
+			top: 0;
+			left: 0;
+			overflow-y: auto;
+			overflow-x: hidden;
+			padding: 24px 14px;
+			box-sizing: border-box;
+			transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease;
+			z-index: 10;
+		}
+
+		/* Header menu toggle container */
+		.nav-header-container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+
+		/* Toggle Menu Button Styling */
+		.toggle-btn {
+			background: var(--bg-active);
+			border: 1px solid var(--border-color);
+			color: var(--text-primary);
+			border-radius: 6px;
+			padding: 6px 10px;
+			cursor: pointer;
+			font-size: 0.9rem;
+			transition: background 0.2s;
+		}
+
+			.toggle-btn:hover {
+				background: #30363d;
+				color: var(--accent);
+			}
+
+		.nav-menu {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			border: 1px solid var(--border-color);
+		}
+
+		.sidebar h2 {
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			color: var(--text-muted);
+			margin: 24px 0 10px 4px;
+			padding-left: 8px;
+			border-left: 2px solid var(--border-color);
+			font-weight: 700;
+			transition: opacity 0.15s ease;
+		}
+
+			.sidebar h2.active-header {
+				border-left-color: var(--accent);
+				color: #f0f6fc;
+			}
+
+		.sidebar ul {
+			list-style: none;
+			padding: 6px 0;
+			margin: 0 0 16px 0;
+			background-color: var(--bg-primary);
+			border-radius: 8px;
+		}
+
+		.sidebar li {
+			margin-bottom: 2px;
+		}
+
+		.sidebar a {
+			display: block;
+			padding: 8px 12px;
+			color: var(--text-primary);
+			text-decoration: none;
+			font-size: 0.88rem;
+			border-radius: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+			.sidebar a:hover {
+				background-color: var(--bg-active);
+				color: var(--accent);
+			}
+
+		.sidebar li.active a {
+			background-color: #1f6feb25;
+			color: var(--accent);
+			font-weight: 600;
+			border-left: 3px solid var(--accent);
+			border-radius: 0;
+			padding-left: 9px;
+		}
+
+		/* Main Window Content Box Adjustments */
+		.main-content {
+			margin-left: var(--sidebar-width);
+			width: calc(100% - var(--sidebar-width));
+			height: 100vh;
+			transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1), width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		iframe[name="content-frame"] {
+			width: 100%;
+			height: 100%;
+			border: none;
+		}
+
+		/* COLLAPSED SIDEBAR STATES */
+        body.sidebar-collapsed {
+            --sidebar-width: 60px;
+        }
+
+		body.sidebar-collapsed .sidebar {
+			padding: 20px 4px;
+		}
+
+        body.sidebar-collapsed .accordion-toggle {
+            font-size: 0.8em; /* 80% of the surrounding text */
+        }
+
+		body.sidebar-collapsed .sidebar h2,
+		body.sidebar-collapsed .accordion-toggle span,
+		body.sidebar-collapsed .section-title,
+		body.sidebar-collapsed .day-title span,
+		body.sidebar-collapsed .sidebar a span {
+			opacity: 0;
+			pointer-events: none;
+			display: none; /* Safely hides layout structures when closed */
+		}
+
+		body.sidebar-collapsed .day-title {
+			padding: 2px 9px;
+			background-color: #444444;
+			border-radius: 0px;
+		}
+
+		body.sidebar-collapsed .panel-content {
+			display: grid;
+			justify-content: center;
+		}
+
+		body.sidebar-collapsed .sidebar ul {
+			padding: 0;
+		}
+
+		body.sidebar-collapsed .sidebar a {
+			text-align: center;
+			padding: 10px 0;
+			justify-content: center;
+		}
+
+
+		.nav-section {
+			margin-bottom: 15px;
+		}
+
+		.section-title {
+			font-size: 0.85rem;
+			color: #888;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			margin-bottom: 5px;
+			padding-left: 5px;
+		}
+
+		.section-links, .day-links {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+			.section-links a, .day-links a {
+				display: flex;
+				align-items: center;
+				color: #ccc;
+				text-decoration: none;
+				padding: 8px 10px;
+				border-radius: 0;
+				font-size: 0.95rem;
+				transition: background 0.2s;
+			}
+
+				.section-links a:hover, .day-links a:hover {
+					background-color: #2a2a2a;
+					color: #fff;
+				}
+
+			.section-links span, .day-links span {
+				margin-right: 8px;
+				font-size: 1.1rem;
+			}
+
+		/* Accordion Week Styles */
+		.accordion-item {
+			margin-bottom: 10px;
+		}
+
+		.accordion-toggle {
+			width: 100%;
+			background: none;
+			border: none;
+			color: #fff;
+			text-align: left;
+			padding: 10px 5px;
+			font-size: 1.05rem;
+			font-weight: bold;
+			cursor: pointer;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			outline: none;
+		}
+
+			.accordion-toggle::after {
+				content: '▶';
+				font-size: 0.75rem;
+				color: #888;
+				transition: transform 0.2s;
+			}
+
+		.accordion-item.hactive .accordion-toggle::after {
+			transform: rotate(90deg);
+		}
+
+		/* Collapsible Panel Logic */
+		.accordion-panel {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.25s ease-out;
+		}
+
+		/* Daily Grouping Layout */
+		.day-group {
+			margin-top: 12px;
+		}
+
+		.day-title {
+			font-size: 0.8rem;
+			color: #999999;
+			background-color: #252525;
+			padding: 2px 60px 2px 16px;
+			border-radius: 0 3px 3px 0;
+			display: inline-block;
+			font-weight: bold;
+			margin-bottom: 4px;
+			border-top: 1px solid var(--accent);
+		}
+	</style>
+
+</head>
+<body>
+
+	<!-- Left Panel Navigation Structure Layout -->
+	<nav class="sidebar">
+
+		<!-- Header Control Row -->
+		<div class="nav-header-container">
+			<h2 style="margin:0; border:none; padding:0;">💻 PG2 Menu</h2>
+			<button class="toggle-btn" id="menuToggle" title="Toggle Navigation">☰</button>
+		</div>
+
+		<ul class="nav-menu">
+			<li><a href="welcome.html" target="content-frame" title="Overview & Syllabus">📋<span>Overview & Syllabus</span> </a></li>
+		</ul>
+
+		<ul class="nav-menu">
+			<li class="accordion-item">
+				<button class="accordion-toggle"><div><span>FAQs</span>❓</div></button>
+				<div class="accordion-panel">
+					<div class="panel-content">
+						<div class="day-group">
+							<ul class="section-links">
+								<li><a href="Shared/FAQ_General.html" target="content-frame" title="General">❓<span>General</span></a></li>
+								<li><a href="Shared/FAQ_GitHub.html" target="content-frame" title="GitHub">🐙<span>GitHub</span></a></li>
+								<li><a href="Week1/Materials/0_HelperClasses.html" target="content-frame" title="Helper Classes">🛠️<span>Helper Classes</span></a></li>
+								<li><a href="Week1/Materials/FAQ_Lab1.html" target="content-frame" title="Lab 1 FAQ">🛠️<span>Lab 1</span></a></li>
+								<li><a href="Week2/Materials/FAQ_Lab2.html" target="content-frame" title="Lab 2 FAQ">🛠️<span>Lab 2</span></a></li>
+								<li><a href="Week3/Materials/FAQ_Lab3.html" target="content-frame" title="Lab 3 FAQ">🛠️<span>Lab 3</span></a></li>
+								<li><a href="Week4/Materials/FAQ_Lab4.html" target="content-frame" title="Lab 4 FAQ">🛠️<span>Lab 4</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+
+		</ul>
+
+		<ul class="nav-menu">
+
+			<!-- Week 1 Collapsible Accordion -->
+			<li class="accordion-item">
+				<button class="accordion-toggle"><div><span>Week</span> 1 </div></button>
+				<div class="accordion-panel">
+					<div class="panel-content">
+						<!-- Day 1 Grouping -->
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 1️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week1/Materials/1_StaticMethods.html" target="content-frame" title="Static methods">🛠️<span>Static methods</span></a></li>
+								<li><a href="Week1/Materials/1_HelperClasses.html" target="content-frame" title="Helper Classes">🤝<span>Helper Classes</span></a></li>
+								<li><a href="Week1/Materials/1_NonStaticMethods.html" target="content-frame" title="Non-static methods">🏃<span>Non-static methods</span></a></li>
+								<li><a href="Week1/Materials/1_ReturnValues_Arguments.html" target="content-frame" title="Calling Methods">⚡<span>Calling methods</span></a></li>
+								<li><a href="Week1/Materials/1_CreatingMethods.html" target="content-frame" title="Creating methods">⚙️<span>Creating methods</span></a></li>
+								<li><a href="https://forms.office.com/r/CSJQvCM0fD" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<!-- Day 2 Grouping -->
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 2️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week1/Materials/2_References.html" target="content-frame" title="References">🔗<span>References</span></a></li>
+								<li><a href="Week1/Materials/2_Const.html" target="content-frame" title="Const">🔒<span>Const</span></a></li>
+								<li><a href="Week1/Materials/2_Iterators.html" target="content-frame" title="Iterators">🏹<span>Iterators</span></a></li>
+								<li><a href="Week1/Materials/2_Vectors.html" target="content-frame" title="Vectors">📦<span>Vectors</span></a></li>
+								<li><a href="Week1/Materials/2_ErasingInALoop.html" target="content-frame" title="Erasing in a loop">🗑️<span>Erasing in a loop</span></a></li>
+								<li><a href="https://forms.office.com/r/SmyXe3ufa3" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<!-- Day 3 Grouping -->
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 3️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week1/Materials/3_DefaultParameters.html" target="content-frame" title="Default parameters">🎭<span>Default parameters</span></a></li>
+								<li><a href="Week1/Materials/2_Vectors.html" target="content-frame" title="Vectors">📦<span>Vectors</span></a></li>
+								<li><a href="https://forms.office.com/r/fcPX1HHfRD" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<ul class="nav-menu">
+			<!-- Week 2 Collapsible Accordion -->
+			<li class="accordion-item">
+				<button class="accordion-toggle"><div><span>Week</span> 2 </div></button>
+				<div class="accordion-panel">
+					<div class="panel-content">
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 4️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week2/Materials/4_Recursion.html" target="content-frame" title="Recursion">🧠<span>Recursion</span></a></li>
+								<li><a href="Week2/Materials/4_Pseudocode.html" target="content-frame" title="Pseudocode">🔤<span>Pseudocode</span></a></li>
+								<li><a href="Week2/Materials/4_Sorting.html" target="content-frame" title="Sorting">🔢<span>Sorting</span></a></li>
+								<li><a href="https://forms.office.com/r/XUQYr2qrf4" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 5️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week2/Materials/5_Searching.html" target="content-frame" title="Searching">🔍<span>Searching</span></a></li>
+								<li><a href="Week2/Materials/5_Maps01.html" target="content-frame" title="Maps">🗺️<span>Maps</span></a></li>
+								<li><a href="https://forms.office.com/r/QRNDCnA8Fw" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 6️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week2/Materials/6_Maps02.html" target="content-frame" title="Maps">🗺️<span>Maps</span></a></li>
+								<li><a href="Week2/Materials/6_TimeComplexity.html" target="content-frame" title="Time complexity">⏱️<span>Time complexity</span></a></li>
+								<li><a href="https://forms.office.com/r/pi9bMm1SfR" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<ul class="nav-menu">
+			<!-- Week 3 Collapsible Accordion -->
+			<li class="accordion-item">
+				<button class="accordion-toggle"><div><span>Week</span> 3 </div></button>
+				<div class="accordion-panel">
+					<div class="panel-content">
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 7️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week3/Materials/7_Classes.html" target="content-frame" title="Classes">🏛️<span>Classes</span></a></li>
+								<li><a href="Week3/Materials/7_Fields.html" target="content-frame" title="Fields">🗃️<span>Fields</span></a></li>
+								<li><a href="Week3/Materials/7_GettersSetters.html" target="content-frame" title="Getters and setters">🔐<span>Getters and setters</span></a></li>
+								<li><a href="Week3/Materials/7_Constructors.html" target="content-frame" title="Constructors">🏗️<span>Constructors</span></a></li>
+								<li><a href="Week3/Materials/7_Instances.html" target="content-frame" title="Instances">🧬<span>Instances</span></a></li>
+								<li><a href="Week3/Materials/7_Structs.html" target="content-frame" title="Structs">🧱<span>Structs</span></a></li>
+								<li><a href="https://forms.office.com/r/s02tg66qFm" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 8️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week3/Materials/8_Inheritance.html" target="content-frame" title="Inheritance">🌳<span>Inheritance</span></a></li>
+								<li><a href="Week3/Materials/8_Polymorphism.html" target="content-frame" title="Polymorphism">🔄<span>Polymorphism</span></a></li>
+								<li><a href="Week3/Materials/8_Misc.html" target="content-frame" title="Misc. concepts">🧩<span>Misc. concepts</span></a></li>
+								<li><a href="https://forms.office.com/r/0bGwGBWENi" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 9️⃣</div>
+							<ul class="day-links">
+								<li><a href="Week3/Materials/9_Pointers.html" target="content-frame" title="Pointers">📍<span>Pointers</span></a></li>
+								<li><a href="Week3/Materials/9_Upcasting.html" target="content-frame" title="Upcasting">🔼<span>Upcasting</span></a></li>
+								<li><a href="Week3/Materials/9_Destructors.html" target="content-frame" title="Destructors">💥<span>Destructors</span></a></li>
+								<li><a href="Week3/Materials/9_FourPillars.html" target="content-frame" title="4 pillars of OOP">🤝<span>4 pillars of OOP</span></a></li>
+								<li><a href="https://forms.office.com/r/Yc5p0bEgB8" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+
+		</ul>
+		<ul class="nav-menu">
+			<!-- Week 4 Collapsible Accordion -->
+			<li class="accordion-item">
+				<button class="accordion-toggle"><div><span>Week</span> 4 </div></button>
+				<div class="accordion-panel">
+					<div class="panel-content">
+						<div class="day-group">
+							<div class="day-title"><span>Day</span> 🔟</div>
+							<ul class="day-links">
+								<li><a href="Week4/Materials/10_CSV.html" target="content-frame" title="CSV">🧾<span>CSV</span></a></li>
+								<li><a href="Week4/Materials/10_FileSystem.html" target="content-frame" title="File System">📁<span>File System</span></a></li>
+								<li><a href="Week4/Materials/10_WritingCSV.html" target="content-frame" title="Writing CSV">💾<span>Writing CSV</span></a></li>
+								<li><a href="Week4/Materials/10_ReadingCSV.html" target="content-frame" title="Reading CSV">📥<span>Reading CSV</span></a></li>
+								<li><a href="Week4/Materials/10_Serializing.html" target="content-frame" title="Serializing">📤<span>Serializing</span></a></li>
+								<li><a href="Week4/Materials/10_Deserializing.html" target="content-frame" title="Deserializing">⏳<span>Deserializing</span></a></li>
+								<li><a href="https://forms.office.com/r/tp8VDCWS2P" target="content-frame" title="Lecture Quiz">📋<span>Lecture Quiz</span></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- View Screen Display Window Panel -->
+	<main class="main-content">
+		<iframe name="content-frame"
+				src="welcome.html"
+				title="Course Material Content View">
+		</iframe>
+	</main>
+
+	<!-- Active Tracking Controller Scripts -->
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const sidebar = document.querySelector(".sidebar");
+			const menuToggle = document.getElementById("menuToggle");
+			const body = document.body;
+
+			// Toggle sidebar collapse state
+			menuToggle.addEventListener("click", () => {
+				body.classList.toggle("sidebar-collapsed");
+				// Changes icon indicator context safely depending on layout state
+				menuToggle.textContent = body.classList.contains("sidebar-collapsed") ? "❯" : "☰";
+			});
+
+			const updateActiveHeaderIndicator = (activeLink) => {
+				sidebar.querySelectorAll("h2.active-header").forEach(h2 => h2.classList.remove("active-header"));
+				const parentUl = activeLink.closest("ul");
+				if (parentUl) {
+					const structuralHeader = parentUl.previousElementSibling;
+					if (structuralHeader && structuralHeader.tagName === "H2") {
+						structuralHeader.classList.add("active-header");
+					}
+				}
+			};
+
+			// Initialize default header track matching styles
+			const defaultActiveItem = sidebar.querySelector("li.active a");
+			if (defaultActiveItem) {
+				updateActiveHeaderIndicator(defaultActiveItem);
+			}
+
+			// Monitor click loops inside navigation blocks
+			sidebar.addEventListener("click", (e) => {
+				const link = e.target.closest("a");
+				if (!link || link.getAttribute("target") !== "content-frame") return;
+
+				sidebar.querySelectorAll("li.active").forEach(li => li.classList.remove("active"));
+				link.parentElement.classList.add("active");
+
+				updateActiveHeaderIndicator(link);
+			});
+		});
+	</script>
+
+	<script>
+		// Dynamic height calculation to prevent dynamic sub-content or flex items from squishing
+		document.querySelectorAll('.accordion-toggle').forEach(button => {
+			button.addEventListener('click', () => {
+				const item = button.parentElement;
+				const panel = button.nextElementSibling;
+
+				// Toggle active status for tracking rotations/highlights
+                item.classList.toggle('hactive');
+
+				if (item.classList.contains('hactive')) {
+					// Dynamically compute scrollHeight to accommodate arbitrary inner topic length safely
+					panel.style.maxHeight = panel.scrollHeight + "px";
+				} else {
+					panel.style.maxHeight = null;
+				}
+			});
+		});
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Const</h1>
+
+<ul>
+    <li><a href="#1-constant-variables">Constant Variables</a></li>
+    <li><a href="#2-function-parameters-const-references">Function Parameters (Const References)</a></li>
+    <li><a href="#3-const-member-functions">Const Member Functions</a></li>
+    <li><a href="#4-const-objects">Const Objects</a></li>
+    <li><a href="#5-const-in-function-return-types">Const in Function Return Types</a></li>
+    <li><a href="#-const-coding-practice">Practice it!</a></li>
+</ul>
+
+<p>Below is a GENERALIZED list of rules when it comes to <code>const</code>. From this point on in your labs you should be thinking about what needs to be const and why -- this rule set is here to help. For the most part in the first 2 weeks you will be adding <code>const</code> where needed in the parameters of your methods as a hint.</p>
+
+<hr>
+
+<h2 id="basic-rules-of-const-in-c">Basic Rules of `const` in C++</h2>
+
+<h3 id="1-constant-variables">1. Constant Variables</h3>
+<p>A <code>const</code> variable is a variable that cannot be modified. Its value cannot change, and it is what we call in programming <strong>immutable</strong>. If you see the word immutable, we are usually referring to something being protected from change using the <code>const</code> keyword.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">const int</span> x = <span class="number">5</span>;</code></pre>
+<p>In this example, <code>x</code> cannot be modified after it is initialized. <code>x</code> must be initialized at the time of declaration due to it being <code>const</code>.</p>
+
+<hr>
+
+<h3 id="2-function-parameters-const-references">2. Function Parameters (Const References)</h3>
+<p>A <code>const &amp;</code> (const reference) parameter means that the function receives a reference to the original data without copying it, and promises not to modify it. This technique reduces memory usage and improves performance while also ensuring data safety.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">void</span> <span class="function">print</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; s);</code></pre>
+<p>In this example, we have a function declaration named <code>print</code> that takes in a <code>const &amp;</code> of a <code>std::string</code>. This <code>string</code> is passed by reference (so it avoids copying), and marked as <code>const</code> because the function doesn’t need to change it.</p>
+
+<hr>
+
+<h3 id="3-const-member-functions">3. Const Member Functions</h3>
+<p>A <code>const</code> member function is a function that does not modify the internal state of the object. It is indicated by placing the `const` keyword after the function signature. Only <code>const</code> member functions can be called on <code>const</code> objects.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">class</span> <span class="type">MyClass</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">int</span> <span class="function">getValue</span>() <span class="keyword">const</span>; <span class="comment">//cannot modify the "price" field of the class.</span>
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> price;
+};</code></pre>
+<p>In this example, <code>getValue</code> is a const member function, which means it cannot modify any member variables of the object (unless they are marked <code>mutable</code>).</p>
+
+<hr>
+
+<h3 id="4-const-objects">4. Const Objects</h3>
+<p>A <code>const</code> object is one declared with the <code>const</code> keyword, meaning it cannot be modified after creation. Only <code>const</code> member functions can be called on such objects.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">const</span> <span class="type">MyClass</span> obj;</code></pre>
+<p>In this example, we have declared a <code>const</code> object of type <code>MyClass</code>. This means that <code>obj</code> cannot be modified, and only member functions marked as <code>const</code> can be called on it (like <code>getValue()</code> in the previous example).</p>
+
+<hr>
+
+<h3 id="5-const-in-function-return-types">5. Const in Function Return Types</h3>
+
+<p>Returning <code>const</code> by <strong>value</strong> is rarely useful and often avoided, because the returned copy is still modifiable by the caller.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">const int</span> <span class="function">getVal</span>();  <span class="comment">// Usually discouraged</span></code></pre>
+
+<p>Returning <code>const</code> by <strong>reference</strong> is more useful. It avoids copying large objects and ensures the returned reference cannot be used to modify the original data.</p>
+
+<p>Example:</p>
+<pre><code><span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; <span class="function">getName</span>() <span class="keyword">const</span>;</code></pre>
+<p>In this example, the function returns a <code>const</code> reference to a string, meaning the caller can access the string but not change it.</p>
+
+    
+<h2 id="-const-coding-practice">💻 Practice it! Const Coding Practice</h2>
+
+<h3>🧩 Part B-2.1: create a *declaration*</h3>
+<ol>
+  <li>Open <code>Day2.h</code>.</li>
+  <li>Add a method declaration for a method called <code>RenderZombies</code>.
+    <ul>
+      <li>It should not return anything.</li>
+      <li>It should have 1 parameter: a vector of <code>Zombie</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.2: create a *definition*</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>Add a method definition for <code>RenderZombies</code>.
+    <ul>
+      <li>In the method definition, call <code>Render</code> for each <code>Zombie</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.3: call the method</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>In the <code>PartB()</code> method, find the comment <code>Part B-2.3 call RenderZombies</code> and call the <code>RenderZombies</code> method.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

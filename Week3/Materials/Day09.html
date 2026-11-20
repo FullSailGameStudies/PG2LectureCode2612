@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Day 09 Lecture Practices</h1>
+
+<ul>
+  <li><a href="#-modify-deck">💻 Modify Deck</a></li>
+  <li><a href="#-modify-blackjackdeck">💻 Modify BlackjackDeck</a></li>
+  <li><a href="#-blackjackhand-class-setup">💻 BlackjackHand Class Setup</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-modify-deck">💻 Modify Deck</h2>
+
+<h3>🧩 Part C-1 Modify Deck</h3>
+<p>We need to modify the existing Deck class to store pointers to Card objects.</p>
+<ol>
+  <li>Open the <code>Deck.h</code> file.
+    <ul>
+      <li>Change <code>DealCard</code> to return a <code>Card*</code></li>
+      <li>Change the vector to hold <code>Card*</code></li>
+      <li>add a virtual <code>destructor</code></li>
+      <li>add a <code>Cleanup</code> method</li>
+    </ul>
+  </li>
+  <li>Open the <code>Deck.cpp</code> file.
+    <ul>
+      <li>modify the <code>DealCard</code> definition to use <code>Card*</code></li>
+      <li>Add code for the destructor to call the <code>Cleanup</code> method</li>
+      <li>Add the definition for <code>Cleanup</code>.
+        <ul>
+          <li>loop over the vector of cards and delete each pointer.</li>
+          <li>clear the vector after the loop.</li>
+        </ul>
+      </li>
+      <li>modify the definition of <code>MakeCards</code> to create Card pointers.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h2 id="-modify-blackjackdeck">💻 Modify BlackjackDeck</h2>
+
+<h3>🧩 Part C-2 Modify BlackjackDeck</h3>
+<ul>
+  <li>Open the <code>BlackjackDeck.cpp</code> file
+    <ul>
+      <li>modify the definition of <code>MakeCards</code> to create BlackjackCard pointers.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="-blackjackhand-class-setup">💻 BlackjackHand Class Setup</h2>
+
+<h3>🧩 Part C-3.1 Create a BlackjackHand class</h3>
+<ol>
+  <li>Right-click the Lectures project in the solution explorer and select "Add/Class..."</li>
+  <li>Enter <code>BlackjackHand</code> as the name and press enter to create the class.</li>
+  <li>Add the following items to the BlackjackHand class:
+    <ul>
+      <li>Fields: vector of pointers to Card objects, an int for the score</li>
+      <li>a getter for the score field</li>
+      <li>a getter for the Cards field</li>
+      <li>a constructor that initializes the score to 0</li>
+      <li>a Clear method.
+        <ul>
+          <li>reset the score to 0</li>
+          <li>loop over the vector of cards and delete each pointer.</li>
+          <li>clear the vector after the loop.</li>
+        </ul>
+      </li>
+      <li>destructor that calls <code>Clear</code></li>
+      <li>an AddCard method
+        <ul>
+          <li>it should take 1 parameter: a pointer to a Card</li>
+          <li>add the card pointer to the vector.</li>
+          <li>update the score for the hand</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part C-3.2 Create BlackjackDeck and BlackjackHand objects</h3>
+<ol>
+  <li>Open the <code>Day9.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part C-3.2 Create BlackjackDeck and BlackjackHand objects</code>. After the comment...</li>
+  <li>Create an instance of your BlackjackDeck class.</li>
+  <li>call the <code>Shuffle</code> method on your BlackjackDeck object</li>
+  <li>Create an instance of your BlackjackHand class</li>
+  <li>call <code>DealCard</code> twice on the deck. add each card to the BlackjackHand object using the <code>AddCard</code> method.</li>
+</ol>
+
+<h3>🧩 Part C-3.3 call GameTextures::RenderImage</h3>
+<ol>
+  <li>Open the <code>Day9.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part C-3.3 call GameTextures::RenderImage on each of the Card objects in the hand</code>. After the comment...</li>
+  <li>Get the vector of cards from the BlackjackHand object.</li>
+  <li>Loop over the vector. In the loop...
+    <ul>
+      <li>call <code>GameTextures::RenderImage</code> method. pass the face and suit of your card object. Also pass the x, y, and scale variables.</li>
+      <li>keep track of how many cards have been shown.
+        <ul>
+          <li>if you've rendered 13 cards,
+            <ul>
+              <li>reset x back to 5</li>
+              <li>increment y by cardSize.y + 5</li>
+              <li>reset the card count to 0</li>
+            </ul>
+          </li>
+          <li>else increment x by cardSize.x + 5</li>
+        </ul>
+      </li>
+      <li>after the loop, print to the console the current score of the BlackjackHand object</li>
+    </ul>
+  </li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/BlackjackHandResults.png" alt="BlackjackHand Results"></p>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day07.html">Day 7</a></li>
+  <li><a href="./Day08.html">Day 8</a></li>
+  <li><a href="./Day09.html">Day 9</a></li>
+</ul>
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+
+<p>Here are the lecture quizzes...</p>
+<ul>
+  <li><a href="https://forms.office.com/r/s02tg66qFm">Day 7</a></li>
+  <li><a href="https://forms.office.com/r/0bGwGBWENi">Day 8</a></li>
+  <li><a href="https://forms.office.com/r/Yc5p0bEgB8">Day 9</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

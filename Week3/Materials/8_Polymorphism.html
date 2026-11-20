@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Polymorphism in C++</h1>
+
+<ul>
+    <li><a href="#1-compile-time-polymorphism">🔹 1. Compile-Time Polymorphism</a></li>
+    <li><a href="#2-run-time-polymorphism">🔹 2. Run-Time Polymorphism</a></li>
+    <li><a href="#-syntax-and-structure">🧱 Syntax and Structure</a></li>
+    <li><a href="#-full-example">🧪 Full Example</a></li>
+    <li><a href="#-virtualoverride-summary">🧭 Virtual/Override Summary</a></li>
+    <li><a href="#why-use-polymorphism">Why Use Polymorphism?</a></li>
+    <li><a href="#-best-practices">🧰 Best Practices</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#-polymorphism">Practice it!</a></li>
+</ul>
+
+<p><strong>Polymorphism</strong> is a core concept in object-oriented programming (OOP) that allows objects of different types to be treated as objects of a common base type. In C++, polymorphism enables flexibility and reusability in code by allowing the same interface to behave differently for different underlying data types.</p>
+
+<p>There are two main types of polymorphism in C++:</p>
+<ol>
+  <li><strong>Compile-time polymorphism</strong> (static polymorphism)</li>
+  <li><strong>Run-time polymorphism</strong> (dynamic polymorphism)</li>
+</ol>
+
+<hr>
+
+<h2 id="1-compile-time-polymorphism">1. Compile-Time Polymorphism</h2>
+
+<p>The decision about which function to call is made at <strong>compile time</strong>. This is achieved through <strong>function overloading</strong> and <strong>operator overloading</strong>.</p>
+
+<h3>Function Overloading</h3>
+<p>For a function to be overloaded, the methods...</p>
+<ul>
+  <li>must be different on the parameters
+    <ul>
+      <li>the number of parameters are different OR</li>
+      <li>the type of parameters are different</li>
+    </ul>
+  </li>
+  <li>must have the same exact name (casing is critical)</li>
+</ul>
+<blockquote>
+  NOTE: it is NOT enough that the functions are different on the return type. The return type can be different but it is not enough to make an overload. The parameters have to be different.
+</blockquote>
+
+<h3>Example: Function Overloading</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Print</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">show</span>(<span class="keyword">int</span> i) {
+        cout &lt;&lt; <span class="string">"Integer: "</span> &lt;&lt; i &lt;&lt; endl;
+    }
+
+    <span class="keyword">void</span> <span class="function">show</span>(<span class="keyword">double</span> d) {
+        cout &lt;&lt; <span class="string">"Double: "</span> &lt;&lt; d &lt;&lt; endl;
+    }
+
+    <span class="keyword">void</span> <span class="function">show</span>(<span class="type">string</span> s) {
+        cout &lt;&lt; <span class="string">"String: "</span> &lt;&lt; s &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Print</span> p;
+    p.<span class="function">show</span>(<span class="number">5</span>);
+    p.<span class="function">show</span>(<span class="number">3.14</span>);
+    p.<span class="function">show</span>(<span class="string">"Hello"</span>);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3>Operator Overloading in C++</h3>
+<p>Operator overloading in C++ allows developers to redefine the behavior of operators (like +, -, ==, etc.) for user-defined types (classes or structs). This makes objects of those types behave more like built-in types, improving code readability and usability.</p>
+
+<h4>Key Points</h4>
+<ol>
+  <li><strong>Syntax:</strong> Operator overloading is done by defining a special function using the keyword <code>operator</code> followed by the operator symbol.
+    <pre><code><span class="type">return_type</span> <span class="keyword">operator</span>&lt;symbol&gt;(<span class="type">parameter_list</span>);</code></pre>
+  </li>
+  <li><strong>Rules:</strong>
+    <ul>
+      <li>You cannot create new operators; only overload existing ones.</li>
+      <li>At least one operand must be a user-defined type.</li>
+      <li>Some operators cannot be overloaded (e.g., <code>::</code>, <code>.</code>, <code>sizeof</code>).</li>
+      <li>Overloading does not change operator precedence or associativity.</li>
+    </ul>
+  </li>
+  <li><strong>Types of overloading:</strong>
+    <ul>
+      <li>Member function: Operates on the current object (<code>this</code>).</li>
+      <li>Non-member function: Often used when the left operand is not the class type.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>Example: Operator Overloading</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Complex</span> {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> real, imag;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    <span class="type">Complex</span>(<span class="keyword">double</span> r = <span class="number">0</span>, <span class="keyword">double</span> i = <span class="number">0</span>) : real(r), imag(i) {}
+
+    <span class="comment">// Overload '+' operator</span>
+    <span class="type">Complex</span> <span class="keyword">operator</span>+(<span class="keyword">const</span> <span class="type">Complex</span>&amp; other) <span class="keyword">const</span> {
+        <span class="keyword">return</span> <span class="type">Complex</span>(real + other.real, imag + other.imag);
+    }
+
+    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">const</span> {
+        cout &lt;&lt; real &lt;&lt; <span class="string">" + "</span> &lt;&lt; imag &lt;&lt; <span class="string">"i"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Complex</span> c1(<span class="number">3.0</span>, <span class="number">4.0</span>);
+    <span class="type">Complex</span> c2(<span class="number">1.5</span>, <span class="number">2.5</span>);
+
+    <span class="type">Complex</span> sum = c1 + c2;  <span class="comment">// Uses overloaded operator+</span>
+    sum.<span class="function">display</span>();          <span class="comment">// Output: 4.5 + 6.5i</span>
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="2-run-time-polymorphism">2. Run-Time Polymorphism</h2>
+
+<p>This is achieved using <strong>inheritance</strong> and <strong>virtual functions</strong>. The function call is resolved at runtime using <strong>dynamic dispatch</strong>.</p>
+
+<h3>Key Concepts:</h3>
+<ul>
+  <li><strong>Base class pointer/reference</strong> can point to <strong>derived class objects</strong>.</li>
+  <li><code>virtual</code>: Declares a function in the base class that can be overridden in derived classes, enabling dynamic dispatch via a <strong>vtable</strong> (virtual table).</li>
+  <li><code>override</code>: Used in the derived class to explicitly state an intention to override a base virtual function, helping catch signature mismatches at compile time.</li>
+</ul>
+
+<hr>
+
+<h2 id="-syntax-and-structure">🧱 Syntax and Structure</h2>
+
+<h3>Base Class</h3>
+<pre><code><span class="keyword">class</span> <span class="type">Base</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">virtual void</span> <span class="function">display</span>() <span class="keyword">const</span> {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Base display()"</span> &lt;&lt; <span class="namespace">std</span>::endl;
+    }
+};</code></pre>
+
+<h3>Derived Class</h3>
+<blockquote>
+  NOTE: the method signature in the derived MUST match the signature in the base
+</blockquote>
+<pre><code><span class="keyword">class</span> <span class="type">Derived</span> : <span class="keyword">public</span> <span class="type">Base</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">display</span>() <span class="keyword">const override</span>; 
+};
+
+<span class="keyword">void</span> <span class="namespace">Derived</span>::<span class="function">display</span>() <span class="keyword">const</span> {
+    <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Derived display()"</span> &lt;&lt; <span class="namespace">std</span>::endl;
+}</code></pre>
+
+<hr>
+
+<h2 id="-full-example">🧪 Full Example</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">virtual void</span> <span class="function">speak</span>() {
+        cout &lt;&lt; <span class="string">"Animal speaks "</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Dog</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">speak</span>() <span class="keyword">override</span> {
+        <span class="comment">// FULL override: do NOT call the base version</span>
+        cout &lt;&lt; <span class="string">"Dog barks"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Cat</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">speak</span>() <span class="keyword">override</span> {
+        <span class="comment">// EXTENSION override: call the base version</span>
+        <span class="namespace">Animal</span>::<span class="function">speak</span>();
+        cout &lt;&lt; <span class="string">"Cat meows"</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">void</span> <span class="function">makeSound</span>(<span class="type">Animal</span>* a) {
+    a-&gt;<span class="function">speak</span>();  <span class="comment">// Dynamic dispatch</span>
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Dog</span> d;
+    <span class="type">Cat</span> c;
+
+    <span class="function">makeSound</span>(&amp;d);  <span class="comment">// Output: Dog barks</span>
+    <span class="function">makeSound</span>(&amp;c);  <span class="comment">// Output: Animal speaks Cat meows
+
+    return 0;
+}</span></code></pre>
+
+<h2 id="-virtualoverride-summary">🧭 Virtual/Override Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Keyword</th>
+      <th>Used In</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>virtual</code></td>
+      <td>Base class</td>
+      <td>Enables dynamic dispatch</td>
+    </tr>
+    <tr>
+      <td><code>override</code></td>
+      <td>Derived class</td>
+      <td>Ensures correct overriding of base method</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="why-use-polymorphism">Why Use Polymorphism?</h2>
+<ul>
+  <li><strong>Extensibility:</strong> Easily add new classes with minimal changes to existing code.</li>
+  <li><strong>Maintainability:</strong> Reduces code duplication and improves readability.</li>
+  <li><strong>Flexibility:</strong> Write more generic and reusable code.</li>
+</ul>
+
+<h2 id="-best-practices">🧰 Best Practices</h2>
+<ul>
+  <li>Always use <code>override</code> in derived classes to avoid subtle bugs.</li>
+  <li>Use <code>const</code> correctness if the base method is <code>const</code>.</li>
+  <li>Prefer using <strong>references or pointers</strong> to the base class for polymorphism.</li>
+</ul>
+
+<hr>
+
+<h2>Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Mechanism</th>
+      <th>Binding Time</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Compile-time</strong></td>
+      <td>Function/Operator Overloading</td>
+      <td>Compile Time</td>
+      <td><code>show(int)</code>, <code>show(double)</code></td>
+    </tr>
+    <tr>
+      <td><strong>Run-time</strong></td>
+      <td>Virtual Functions</td>
+      <td>Run Time</td>
+      <td><code>speak()</code> in <code>Animal</code> class</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2 id="-polymorphism">💻 Practice it! Polymorphism</h2>
+
+<h3>🧩 Part B-1.5 Override (polymorphism)</h3>
+<ol>
+  <li><code>override</code> the Value method.
+    <ul>
+      <li>It should return an int</li>
+      <li>use the face to calculate a card value. A = 1, 2 = 2 ... J = 10, Q = 10, K = 10</li>
+    </ul>
+  </li>
+  <li>Test the Blackjack Card again.</li>
+  <li>&nbsp;&nbsp;&nbsp;Check that the Value method returns the new value of the card.
+  </li>
+</ol>
+
+</main>
+
+</body>
+</html>

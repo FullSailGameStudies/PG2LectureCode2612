@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Default Parameters in C++</h1>
+
+<ul>
+    <li><a href="#-syntax-of-default-parameters">Syntax of Default Parameters</a></li>
+    <li>
+        <a href="#-default-parameters-in-member-functions">Default Parameters in Member Functions</a>
+        <ul>
+            <li><a href="#-correct-usage">✅ Correct Usage</a></li>
+            <li><a href="#-incorrect-usage">❌ Incorrect Usage</a></li>
+        </ul>
+    </li>
+    <li><a href="#-key-rules-and-best-practices">Key Rules and Best Practices</a></li>
+    <li><a href="#-example-class-with-default-parameters">Example: Class with Default Parameters</a></li>
+    <li><a href="#-default-parameter-coding-practice">Practice it!</a></li>
+</ul>
+
+<p>In C++, <strong>default parameters</strong> allow you to specify <strong>default values</strong> for function arguments. This enables functions to be called with <strong>fewer arguments</strong> than they are defined to accept, improving flexibility and readability.</p>
+
+<hr>
+
+<h2 id="-syntax-of-default-parameters">🔹 Syntax of Default Parameters</h2>
+
+<p>A default parameter is specified by assigning a value in the <strong>function declaration</strong>:</p>
+
+<pre><code><span class="keyword">void</span> <span class="function">greet</span>(<span class="namespace">std</span>::<span class="type">string</span> name = <span class="string">"Guest"</span>);</code></pre>
+
+<p>This allows the function to be called with or without an argument:</p>
+
+<pre><code><span class="function">greet</span>();           <span class="comment">// Uses default: "Guest"</span>
+<span class="function">greet</span>(<span class="string">"Alice"</span>);    <span class="comment">// Uses provided argument</span></code></pre>
+
+<hr>
+
+<h2 id="-default-parameters-in-member-functions">🔸 Default Parameters in Member Functions</h2>
+
+<p>When using default parameters in <strong>class member functions</strong>, the default values should be specified <strong><em>only in the declaration</em></strong>, not in the definition.</p>
+
+<h3 id="-correct-usage">✅ Correct Usage</h3>
+
+<pre><code><span class="comment">// Header file or class definition</span>
+<span class="keyword">class</span> <span class="type">Greeter</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">greet</span>(<span class="namespace">std</span>::<span class="type">string</span> name = <span class="string">"Guest"</span>);  <span class="comment">// Default specified here</span>
+};
+
+<span class="comment">// Source file</span>
+<span class="keyword">void</span> <span class="namespace">Greeter</span>::<span class="function">greet</span>(<span class="namespace">std</span>::<span class="type">string</span> name) {
+    <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Hello, "</span> &lt;&lt; name &lt;&lt; <span class="string">"!"</span> &lt;&lt; <span class="namespace">std</span>::endl;
+}</code></pre>
+
+<h3 id="-incorrect-usage">❌ Incorrect Usage</h3>
+
+<pre><code><span class="comment">// Header file</span>
+<span class="keyword">class</span> <span class="type">Greeter</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">greet</span>(<span class="namespace">std</span>::<span class="type">string</span> name);  <span class="comment">// No default here</span>
+};
+
+<span class="comment">// Source file</span>
+<span class="keyword">void</span> <span class="namespace">Greeter</span>::<span class="function">greet</span>(<span class="namespace">std</span>::<span class="type">string</span> name = <span class="string">"Guest"</span>) {  <span class="comment">// ❌ Error!</span>
+    <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Hello, "</span> &lt;&lt; name &lt;&lt; <span class="string">"!"</span> &lt;&lt; <span class="namespace">std</span>::endl;
+}</code></pre>
+
+<p><strong>Why is this incorrect?</strong><br>
+C++ allows default arguments to be specified <strong>only once</strong>—typically in the declaration. Specifying them again in the definition leads to a <strong>compiler error</strong> or <strong>ambiguity</strong>.</p>
+
+<hr>
+
+<h2 id="-key-rules-and-best-practices">🧠 Key Rules and Best Practices</h2>
+
+<ul>
+  <li>✅ <strong>Specify default arguments in the function declaration</strong>, especially in header files.</li>
+  <li>❌ <strong>Do not repeat default arguments in the function definition</strong>.</li>
+  <li>❌ Default arguments must appear <strong>at the end</strong> of the parameter list. If there are any required parameters, they must appear before the default parameters in the parameter list.</li>
+  <li>Use default parameters to simplify overloaded functions when the behavior is similar.</li>
+  <li>Avoid using default parameters in virtual functions if polymorphism is involved, as default arguments are <strong>statically bound</strong>.</li>
+</ul>
+
+<hr>
+
+<h2 id="-example-class-with-default-parameters">🧪 Example: Class with Default Parameters</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;string&gt;</span>
+
+<span class="keyword">class</span> <span class="type">Logger</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">log</span>(<span class="namespace">std</span>::<span class="type">string</span> message, <span class="namespace">std</span>::<span class="type">string</span> level = <span class="string">"INFO"</span>);
+};
+
+<span class="keyword">void</span> <span class="namespace">Logger</span>::<span class="function">log</span>(<span class="namespace">std</span>::<span class="type">string</span> message, <span class="namespace">std</span>::<span class="type">string</span> level) {
+    <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"["</span> &lt;&lt; level &lt;&lt; <span class="string">"] "</span> &lt;&lt; message &lt;&lt; <span class="namespace">std</span>::endl;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Logger</span> logger;
+    logger.<span class="function">log</span>(<span class="string">"System started"</span>);               <span class="comment">// Uses default level "INFO"</span>
+    logger.<span class="function">log</span>(<span class="string">"Disk full"</span>, <span class="string">"WARNING"</span>);         <span class="comment">// Uses provided level</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h2 id="-default-parameter-coding-practice">💻 Practice it! Default Parameter Coding Practice</h2>
+
+<h3>🧩 Part C-1.1: add a default value</h3>
+<ol>
+  <li>Open <code>Day3.h</code></li>
+  <li>Modify the <code>ShiftColors</code> method.
+    <ul>
+      <li>Give the <code>channelToShift</code> parameter a default value of <code>RED</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part C-1.2: call the method</h3>
+<ol>
+  <li>Open <code>Day3.cpp</code> and find the comment <code>Part C-1.2</code></li>
+  <li>In the <code>PartC_1()</code> method in <code>Day3.cpp</code> write an if-else.
+    <ul>
+      <li>If the channel is red, then call <code>ShiftColors</code> but don't pass the channel variable.</li>
+      <li>Else call <code>ShiftColors</code> and pass the channel variable.</li>
+    </ul>
+  </li>
+</ol>
+
+
+</main>
+
+</body>
+</html>

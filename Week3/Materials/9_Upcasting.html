@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Upcasting in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-upcasting">🧠 What is Upcasting?</a></li>
+    <li><a href="#-key-characteristics">✅ Key Characteristics</a></li>
+    <li><a href="#-why-use-upcasting">🧪 Why Use Upcasting?</a></li>
+    <li><a href="#%EF%B8%8F-limitations">⚠️ Limitations</a></li>
+    <li><a href="#-summary">🧭 Summary</a></li>
+    <li><a href="#-upcasting">Practice it!</a></li>
+</ul>
+
+<p><strong>Upcasting</strong> is the process of converting a pointer or reference of a <strong>derived class</strong> to a <strong>base class</strong> type. It is called "upcasting" because in a class hierarchy, the base class is conceptually higher than the derived class.</p>
+
+<pre><code><span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">virtual void</span> <span class="function">speak</span>() {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Animal speaks\n"</span>;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Dog</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">speak</span>() <span class="keyword">override</span> {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Dog barks\n"</span>;
+    }
+};
+
+<span class="type">Animal</span> myPet = <span class="type">Dog</span>();  <span class="comment">// only copies the Animal parts of Dog to the myPet variable</span>
+<span class="type">Animal</span>* aPtr = <span class="keyword">new</span> <span class="type">Dog</span>(); <span class="comment">// 🔼 Upcasting. points aPtr to the Dog object</span>
+aPtr-&gt;<span class="function">speak</span>(); <span class="comment">// Output: Dog barks (due to polymorphism)</span>
+<span class="keyword">delete</span> aPtr; <span class="comment">// deallocate the Dog object</span></code></pre>
+
+<hr>
+
+<h2 id="-key-characteristics">✅ Key Characteristics</h2>
+
+<ul>
+  <li><strong>Safe and implicit</strong>: No cast operator is needed.</li>
+  <li><strong>Supports polymorphism</strong>: If the base class has virtual functions, the derived class's overridden methods will be called.</li>
+  <li><strong>Loses access to derived-specific members</strong>: Only base class members are accessible through the base class pointer/reference.</li>
+</ul>
+
+<hr>
+
+<h2 id="-why-use-upcasting">🧪 Why Use Upcasting?</h2>
+
+<h3>🔄 Polymorphism</h3>
+<p>Allows writing flexible and reusable code that works with base class types but behaves according to the derived class implementation.</p>
+
+<pre><code><span class="keyword">void</span> <span class="function">makeItSpeak</span>(<span class="type">Animal</span>* a) {
+    a-&gt;<span class="function">speak</span>(); <span class="comment">// Calls the appropriate speak() method</span>
+}</code></pre>
+
+<h3>🧰 Code Reusability</h3>
+<p>You can store different derived objects in a single container of base class pointers:</p>
+
+<pre><code><span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="type">Animal</span>*&gt; zoo;
+zoo.<span class="function">push_back</span>(<span class="keyword">new</span> <span class="type">Dog</span>());
+zoo.<span class="function">push_back</span>(<span class="keyword">new</span> <span class="type">Cat</span>());</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-limitations">⚠️ Limitations</h2>
+
+<ul>
+  <li>You <strong>cannot access</strong> members that are only in the derived class.</li>
+  <li>If you need to access derived-specific functionality, you must <strong>downcast</strong> (with care).</li>
+</ul>
+
+<hr>
+
+<h2 id="-summary">🧭 Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Upcasting</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Direction</strong></td>
+      <td>Derived → Base</td>
+    </tr>
+    <tr>
+      <td><strong>Safe?</strong></td>
+      <td>✅ Yes</td>
+    </tr>
+    <tr>
+      <td><strong>Implicit?</strong></td>
+      <td>✅ Yes</td>
+    </tr>
+    <tr>
+      <td><strong>Polymorphic behavior</strong></td>
+      <td>✅ Yes (if virtual functions are used)</td>
+    </tr>
+    <tr>
+      <td><strong>Access to derived members</strong></td>
+      <td>❌ No</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2 id="-upcasting">💻 Practice it! Upcasting</h2>
+
+<h3>🧩 Part B-3.1 Upcasting Blackjack Card pointers</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-3.1 create a vector to store pointers to Card objects</code>. After the comment...</li>
+  <li>Create a vector to store pointers to Card objects.</li>
+  <li>Add pointers to Blackjack Card objects that were created on the HEAP.</li>
+</ol>
+    
+<h3>🧩 Part B-3.2 call the Value function</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-3.2  call the Value function</code>. After the comment...</li>
+  <li>Loop over the vector and print out the Value of each Card on a new line.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

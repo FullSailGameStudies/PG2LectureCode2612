@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding Fields in C++ Classes</h1>
+
+<ul>
+    <li><a href="#-what-are-fields">🧠 What Are Fields?</a></li>
+    <li><a href="#-syntax-of-fields-in-a-class">🧱 Syntax of Fields in a Class</a></li>
+    <li><a href="#-example-student-class-with-fields">🧪 Example: `Student` Class with Fields</a></li>
+    <li><a href="#-access-control-for-fields">🔐 Access Control for Fields</a></li>
+    <li><a href="#-best-practices">🧠 Best Practices</a></li>
+    <li><a href="#%EF%B8%8F-naming-conventions-for-fields">✍️ Naming Conventions for Fields</a></li>
+    <li><a href="#-add-fields">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-are-fields">🧠 What Are Fields?</h2>
+
+<p>In C++, <strong>fields</strong> (also called <strong>data members</strong> or <strong>member variables</strong>) are variables declared inside a class. They represent the <strong>state or attributes</strong> of an object. Each object has its <strong>own copy</strong> of the fields.</p>
+
+<hr>
+
+<h2 id="-syntax-of-fields-in-a-class">🧱 Syntax of Fields in a Class</h2>
+
+<pre><code><span class="keyword">class</span> <span class="type">ClassName</span> {
+  <span class="keyword">private</span>:
+    <span class="keyword">int</span> field1;
+    <span class="keyword">double</span> field2;
+
+  <span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">setField1</span>(<span class="keyword">int</span> value);
+    <span class="keyword">int</span> <span class="function">getField1</span>();
+};</code></pre>
+
+<hr>
+
+<h2 id="-example-student-class-with-fields">🧪 Example: `Student` Class with Fields</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Student</span> {
+  <span class="keyword">private</span>:
+    <span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+
+  <span class="keyword">public</span>:
+    <span class="type">Student</span>(<span class="type">string</span> n, <span class="keyword">int</span> a) {
+        name = n;
+        age = a;
+    }
+
+    <span class="keyword">void</span> <span class="function">displayInfo</span>() {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Student</span> s1(<span class="string">"Alice"</span>, <span class="number">20</span>);
+    <span class="type">Student</span> s2(<span class="string">"Bob"</span>, <span class="number">22</span>);
+
+    s1.<span class="function">displayInfo</span>();
+    s2.<span class="function">displayInfo</span>();
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-access-control-for-fields">🔐 Access Control for Fields</h2>
+
+<p>Fields can be declared with different <strong>access modifiers</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifier</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>private</code></td>
+      <td>Accessible only within the class (default for classes)</td>
+    </tr>
+    <tr>
+      <td><code>public</code></td>
+      <td>Accessible from outside the class</td>
+    </tr>
+    <tr>
+      <td><code>protected</code></td>
+      <td>Accessible within the class and derived classes</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-best-practices">🧠 Best Practices</h2>
+
+<ul>
+  <li>Use <code>private</code> fields to protect internal state.</li>
+  <li>Provide <code>public</code> <strong>getter</strong> and <strong>setter</strong> methods to access and modify fields.</li>
+  <li>Initialize fields using <strong>constructors</strong>.</li>
+</ul>
+
+<hr>
+
+<h2 id="%EF%B8%8F-naming-conventions-for-fields">✍️ Naming Conventions for Fields</h2>
+
+<p>Consistent naming conventions improve <strong>readability</strong>, <strong>maintainability</strong>, and help distinguish between <strong>fields</strong>, <strong>parameters</strong>, and <strong>local variables</strong>.</p>
+
+<h3>🔤 Common Conventions:</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Convention</th>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>camelCase</code></td>
+      <td><code>studentName</code></td>
+      <td>Common in many C++ codebases</td>
+    </tr>
+    <tr>
+      <td><code>snake_case</code></td>
+      <td><code>student_name</code></td>
+      <td>Often used in C-style or embedded systems</td>
+    </tr>
+    <tr>
+      <td><code>m_</code> prefix</td>
+      <td><code>m_age</code></td>
+      <td>"member" prefix to distinguish fields from parameters</td>
+    </tr>
+    <tr>
+      <td><code>_</code> suffix</td>
+      <td><code>name_</code></td>
+      <td>Common in modern C++ to avoid naming conflicts</td>
+    </tr>
+    <tr>
+      <td><code>this-&gt;</code> usage</td>
+      <td><code>this-&gt;name</code></td>
+      <td>Explicitly refers to the field when shadowed by a parameter</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>✅ Best Practice Example:</h3>
+
+<pre><code><span class="keyword">class</span> <span class="type">Student</span> {
+  <span class="keyword">private</span>:
+    <span class="type">string</span> name_;
+    <span class="keyword">int</span> age_;
+
+  <span class="keyword">public</span>:
+    <span class="type">Student</span>(<span class="type">string</span> name, <span class="keyword">int</span> age) {
+        name_ = name;
+        age_ = age;
+    }
+
+    <span class="keyword">void</span> <span class="function">displayInfo</span>() {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name_ &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age_ &lt;&lt; endl;
+    }
+};</code></pre>
+
+<p>Or using <code>this-&gt;</code>:</p>
+
+<pre><code><span class="type">Student</span>(<span class="type">string</span> name, <span class="keyword">int</span> age) {
+    <span class="keyword">this</span>-&gt;name = name;
+    <span class="keyword">this</span>-&gt;age = age;
+}</code></pre>
+
+    
+
+<h2 id="-add-fields">💻 Practice it! Add fields</h2>
+
+<h3>🧩 Part A-1.2 Fields</h3>
+<ol>
+  <li>Add the following Fields to the Card class:
+    <ul>
+      <li>suit and face. both should be strings.</li>
+    </ul>
+  </li>
+</ol>
+
+</main>
+
+</body>
+</html>

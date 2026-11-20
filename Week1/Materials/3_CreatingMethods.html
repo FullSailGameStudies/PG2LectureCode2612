@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Adding Methods to Classes in C++</h1>
+
+<ul>
+  <li><a href="#-declaration-vs.-definition">🔹 Declaration vs. Definition</a></li>
+  <li><a href="#-best-practices">✅ Best Practices</a></li>
+  <li><a href="#-quiz">🎯 Quiz!</a></li>
+</ul>
+
+<p>In C++, class methods (member functions) can be <strong>declared</strong> inside the class and <strong>defined</strong> outside the class body. This separation improves code organization, readability, and maintainability—especially in large-scale software systems.</p>
+
+<hr>
+
+<h2 id="-declaration-vs.-definition">🔹 Declaration vs. Definition</h2>
+
+<h3><strong>Declaration</strong></h3>
+<ul>
+  <li>Introduces the function's <strong>signature</strong> (return type, name, parameters).</li>
+  <li>Placed <strong>inside the class definition</strong>, typically in a <strong>header file</strong> (<code>.h</code> or <code>.hpp</code>).</li>
+  <li>Does <strong>not</strong> include the function body.</li>
+</ul>
+
+<h4><strong>Header File: `Rectangle.h`</strong></h4>
+<pre><code><span class="keyword">class</span> <span class="type">Rectangle</span> {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> width;
+    <span class="keyword">double</span> height;
+
+<span class="keyword">public</span>:
+    <span class="type">Rectangle</span>(<span class="keyword">double</span> w, <span class="keyword">double</span> h);  <span class="comment">// Constructor declaration</span>
+    <span class="keyword">double</span> <span class="function">area</span>() <span class="keyword">const</span>;            <span class="comment">// Method declaration</span>
+    <span class="keyword">void</span> <span class="function">scale</span>(<span class="keyword">double</span> factor);      <span class="comment">// Method declaration</span>
+};</code></pre>
+
+<h3><strong>Definition</strong></h3>
+<ul>
+  <li>Provides the <strong>actual code</strong> for the function.</li>
+  <li>Placed <strong>outside the class</strong>, typically in a <strong>source file</strong> (<code>.cpp</code>).</li>
+  <li>❗Must use the <strong>class scope resolution operator (<code>::</code>)</strong> to indicate that the function belongs to the class.</li>
+</ul>
+
+<h4><strong>Source File: `Rectangle.cpp`</strong></h4>
+<p>❗ Make sure to put the <code>ClassName::</code> on the method name so that the compiler knows what class that the method belongs to. In the code below, <code>Rectangle::</code> was added to the method names.</p>
+<pre><code><span class="comment">#include "Rectangle.h"</span>
+
+<span class="comment">// Constructor definition using class scope</span>
+<span class="namespace">Rectangle</span>::<span class="type">Rectangle</span>(<span class="keyword">double</span> w, <span class="keyword">double</span> h) : width(w), height(h) {}
+
+<span class="comment">// Method definition using class scope</span>
+<span class="keyword">double</span> <span class="namespace">Rectangle</span>::<span class="function">area</span>() <span class="keyword">const</span> {
+    <span class="keyword">return</span> width * height;
+}
+
+<span class="comment">// Another method definition using class scope</span>
+<span class="keyword">void</span> <span class="namespace">Rectangle</span>::<span class="function">scale</span>(<span class="keyword">double</span> factor) {
+    width *= factor;
+    height *= factor;
+}</code></pre>
+
+<h4>🔍 Why Use the Class Scope (`ClassName::`)?</h4>
+
+<p>The <strong>scope resolution operator <code>::</code></strong> is essential when defining methods outside the class because:</p>
+
+<ul>
+  <li>It <strong>binds the function definition to the class</strong> it belongs to.</li>
+  <li>Without it, the compiler would treat the function as a <strong>free-standing function</strong>, not a class member.</li>
+  <li>It maintains <strong>clear modularity</strong> between interface (declaration) and implementation (definition).</li>
+</ul>
+
+<hr>
+
+<h2 id="-best-practices">✅ Best Practices</h2>
+
+<ul>
+  <li>Always use <code>ClassName::</code> when defining methods outside the class.</li>
+  <li>Keep class declarations in header files and definitions in source files.</li>
+  <li>Use <code>const</code> for methods that do not modify the object’s state.</li>
+  <li>Inline short methods only when performance is critical and the logic is trivial.</li>
+</ul>
+
+
+<h2 id="-quiz">🎯 Quiz!</h2>
+
+<p>Here's a short quiz on the topic: <a href="./3_CreatingMethods_quiz.html">quiz</a></p>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<hr>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day01.html">Day 1</a></li>
+  <li><a href="./Day02.html">Day 2</a></li>
+  <li><a href="./Day03.html">Day 3</a></li>
+</ul>
+
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+<p>Here are the lecture quizzes...</p>
+<ul>
+    <li><a href="https://forms.office.com/r/CSJQvCM0fD">Day 1</a></li>
+    <li><a href="https://forms.office.com/r/SmyXe3ufa3">Day 2</a></li>
+    <li><a href="https://forms.office.com/r/fcPX1HHfRD">Day 3</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Helper Classes</h1>
+
+<p>There are 2 helper classes that are provided for the labs: <strong>Input</strong> and <strong>Console</strong>. You’ll find the files under the <strong>Misc/Input</strong> and <strong>Misc/Console</strong> folders in the Solution Explorer.</p>
+
+<hr>
+
+<h2>🔹 Console Class</h2>
+
+<p>The Console class is provided in the labs to make it easier to <strong>print things to the Console window</strong>. You’ll find the class in the labs in the <strong>Misc/Console</strong> folders in Solution Explorer. Investigate the <strong>Console.h</strong> file to discover the methods available and how to call them.</p>
+
+<h3>File Location</h3>
+<p>You can find the Console class declared and defined in the Console.cpp and Console.h files. They can be located under the Misc/Console folder in the Solution Explorer.</p>
+
+<p><img src="./ConsoleClass.png" alt="File Location"></p>
+
+<h3>Console::Write</h3>
+<p>Console::Write will print the parameter at the current cursor location in the console.</p>
+<pre><code><span class="comment">//prints "Hello Gotham."</span> 
+<span class="namespace">Console</span>::<span class="function">Write</span>(<span class="string">"Hello Gotham."</span>); 
+
+<span class="comment">//prints "Hello Gotham." with a foreground color of Yellow and a background color of Cyan.</span>
+<span class="namespace">Console</span>::<span class="function">Write</span>(<span class="string">"Hello Gotham."</span>, <span class="namespace">ConsoleColor</span>::<span class="type">Yellow</span>, <span class="namespace">ConsoleColor</span>::<span class="type">Cyan</span>);</code></pre>
+
+<h3>Console::WriteLine</h3>
+<p>Console::WriteLine will print the parameter at the current cursor location in the console and then move the cursor to the beginning of the next line.</p>
+<pre><code><span class="comment">//prints "Hello Gotham." and moves the cursor to the next line</span>
+<span class="namespace">Console</span>::<span class="function">WriteLine</span>(<span class="string">"Hello Gotham."</span>); 
+
+<span class="comment">//prints "Hello Gotham." with a foreground color of Yellow and a background color of Cyan.</span> 
+<span class="comment">//Then it moves the cursor to the next line.</span>
+<span class="namespace">Console</span>::<span class="function">WriteLine</span>(<span class="string">"Hello Gotham."</span>, <span class="namespace">ConsoleColor</span>::<span class="type">Yellow</span>, <span class="namespace">ConsoleColor</span>::<span class="type">Cyan</span>);</code></pre>
+
+<h3>Console::SetCursorLeft</h3>
+<p>Console::SetCursorLeft moves the cursor horizontally to the position as specified by the argument to the method.</p>
+<pre><code><span class="comment">//moves the cursor to the 15th column (the horizontal x position) in the console</span>
+<span class="namespace">Console</span>::<span class="function">SetCursorLeft</span>(<span class="number">15</span>); </code></pre>
+
+<h3>Console::SetCursorPosition</h3>
+<p>Console::SetCursorPosition moves the cursor horizontally and vertically as specified by the arguments to the method.</p>
+<pre><code><span class="comment">//moves the cursor in the console to the</span> 
+<span class="comment">//5th column (x position) and the 10th row (y position)</span>
+<span class="namespace">Console</span>::<span class="function">SetCursorPosition</span>(<span class="number">5</span>, <span class="number">10</span>); </code></pre>
+
+<h3>Console::GetWindowWidth</h3>
+<p>Console::GetWindowWidth returns the horizontal size of the console window.</p>
+<pre><code><span class="keyword">int</span> width = <span class="namespace">Console</span>::<span class="function">GetWindowWidth</span>(); </code></pre>
+
+<h3>Console::GetWindowHeight</h3>
+<p>Console::GetWindowHeight returns the vertical size of the console window.</p>
+<pre><code><span class="keyword">int</span> height = <span class="namespace">Console</span>::<span class="function">GetWindowHeight</span>(); </code></pre>
+
+<h3>Console::Reset</h3>
+<p>Console::Reset sets the foreground and background colors back to the default values for the console.</p>
+<pre><code><span class="namespace">Console</span>::<span class="function">Reset</span>(); </code></pre>
+
+<h3>Console::Clear</h3>
+<p>Console::Clear will clear the console window.</p>
+<blockquote>
+    What this actually does it just scroll the window down to show nothing in the window. It does not actually remove anything that was printed before calling Clear. If you scroll up, you will still see those items.
+</blockquote>
+<pre><code><span class="namespace">Console</span>::<span class="function">Clear</span>(); </code></pre>
+
+<hr>
+
+<h2>🔹 Input Class</h2>
+
+<p>The Input class is provided in the labs to make it <strong>easier to get input from the user</strong>. You’ll find the class in the labs in the <strong>Misc/Input</strong> folders in Solution Explorer. Investigate the <strong>Input.h</strong> file to discover the methods available and how to call them.</p>
+
+<p>There are 4 methods: <strong>GetString</strong>, <strong>GetInteger</strong>, <strong>GetMenuSelection</strong>, and <strong>PressEnter</strong>. These methods are static therefore to call them you use the Input class name with the :: scope resolution operator.</p>
+
+<h3>File Location</h3>
+<p>You can find the Input class declared and defined in the Input.cpp and Input.h files. They can be located under the Misc/Input folder in the Solution Explorer.</p>
+
+<p><img src="./InputClass.png" alt="File Location"></p>
+
+<h3>Input::GetString</h3>
+<p>Will print a message then return the string that the user enters.</p>
+<pre><code><span class="comment">//prints "What is your name?" and returns the user-entered string</span>
+<span class="namespace">std</span>::<span class="type">string</span> myName = <span class="namespace">Input</span>::<span class="function">GetString</span>(<span class="string">"What is your name?"</span>);</code></pre>
+
+<h3>Input::GetInteger</h3>
+<p>Will print a message then return the integer that the user enters.</p>
+<blockquote>
+    NOTE: pass 2 integers for the min and max range for the integer. GetInteger will not return until a number is entered that is within that range.
+</blockquote>
+<pre><code><span class="comment">//prints "What is your age?"</span>
+<span class="comment">//returns the int when the user-entered number is between 0 and 120 (inclusive)</span>
+<span class="keyword">int</span> age = <span class="namespace">Input</span>::<span class="function">GetInteger</span>(<span class="string">"What is your age?"</span>, <span class="number">0</span>, <span class="number">120</span>);</code></pre>
+
+
+</main>
+
+</body>
+</html>

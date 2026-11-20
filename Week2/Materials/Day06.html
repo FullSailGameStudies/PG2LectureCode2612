@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Day 06 Lecture Practices</h1>
+
+<ul>
+  <li><a href="#-maps">💻 Maps</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-maps">💻 Maps</h2>
+
+<h3>🧩 Part C-1: Erase from Maps</h3>
+<p>We'll utilize the code from Day 5 for the Day 6 Practice.</p>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part C-1 erasing from a std::map</code>. After the comment...</li>
+  <li>Call the <code>groupedColors</code> find method to try to find the <code>BLUE</code> ColorChannel.</li>
+  <li>If the <code>BLUE</code> channel is not found, then print to the console that the channel could not be found.</li>
+  <li>Else, if the <code>BLUE</code> channel is found, then...
+    <ul>
+      <li>Randomly pick a number from 0 - 255.</li>
+      <li>Print a message to the console indicating that you'll be erasing all the lights with a blue channel less than 'x'.</li>
+    </ul>
+  </li>
+</ol>
+<blockquote>
+  Example: Erasing all lights with a blue channel less than 57
+</blockquote>
+<ul>
+  <li>Loop over the vector for the Blue channel.
+    <ul>
+      <li>If the blue channel is less than the randomly picked value, then erase the light from the vector.</li>
+      <li>Keep track of how many lights were removed.</li>
+    </ul>
+  </li>
+  <li>After the loop, print the number of lights that were removed.</li>
+  <li>If the vector for the Blue channel becomes empty, then remove the Blue channel from the <code>groupedColors</code> map.</li>
+</ul>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/MapEraseResults.png" alt="map.erase results"></p>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day04.html">Day 4</a></li>
+  <li><a href="./Day05.html">Day 5</a></li>
+  <li><a href="./Day06.html">Day 6</a></li>
+</ul>
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+
+<p>Here are the lecture quizzes...</p>
+<ul>
+  <li><a href="https://forms.office.com/r/XUQYr2qrf4">Day 4</a></li>
+  <li><a href="https://forms.office.com/r/QRNDCnA8Fw">Day 5</a></li>
+  <li><a href="https://forms.office.com/r/pi9bMm1SfR">Day 6</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

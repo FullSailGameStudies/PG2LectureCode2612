@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding Destructors in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-a-destructor">🧠 What is a Destructor?</a></li>
+    <li><a href="#syntax-and-basics">Syntax and Basics</a></li>
+    <li><a href="#raii-and-why-destructors-matter">RAII and Why Destructors Matter</a></li>
+    <li><a href="#virtual-vs-nonvirtual-destructors">Virtual vs. Non‑Virtual Destructors</a></li>
+    <li><a href="#implicitlydeclared-defaulted-and-deleted-destructors">Implicitly‑Declared, Defaulted, and Deleted Destructors</a></li>
+    <li><a href="#destruction-order-and-lifetime-nuances">Destruction Order and Lifetime Nuances</a></li>
+    <li><a href="#exceptions-and-noexcept-in-destructors">Exceptions and noexcept in Destructors</a></li>
+    <li><a href="#pure-virtual-destructors-with-a-definition">Pure Virtual Destructors with a Definition</a></li>
+    <li><a href="#common-pitfalls">Common Pitfalls</a></li>
+    <li><a href="#examples">Examples</a></li>
+    <li><a href="#best-practices-summary">Best Practices Summary</a></li>
+    <li><a href="#-destructors">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-is-a-destructor">🧠 What is a Destructor?</h2>
+
+<p>A <strong>destructor</strong> is a special member function that runs automatically when an object's lifetime ends. Its job is to release resources (memory, file handles, sockets, mutexes, etc.) and restore invariants.</p>
+
+<hr>
+
+<h2 id="syntax-and-basics">Syntax and Basics</h2>
+
+<ul>
+  <li><strong>Name:</strong> <code>~ClassName()</code></li>
+  <li><strong>Parameters:</strong> none (cannot be overloaded or templated in parameter list)</li>
+  <li><strong>Qualifiers:</strong> can be <code>virtual</code>, <code>override</code> (for virtual), <code>= default</code>, <code>= delete</code>, and specified <code>noexcept</code> (implicitly <code>noexcept(true)</code> unless you declare otherwise)</li>
+  <li><strong>Returns:</strong> nothing</li>
+</ul>
+
+<pre><code><span class="keyword">struct</span> <span class="type">File</span> {
+    <span class="type">File</span>(<span class="keyword">const char</span>* path);
+    ~<span class="type">File</span>();              <span class="comment">// destructor</span>
+    <span class="comment">// ...</span>
+};</code></pre>
+
+<p><strong>When it runs:</strong></p>
+<ul>
+  <li>For <strong>automatic</strong> (stack) objects: when the object goes out of scope (including by exception unwinding).</li>
+  <li>For <strong>members</strong>: after the containing object's destructor body finishes, members are destroyed in <strong>reverse</strong> order of declaration.</li>
+  <li>For <strong>bases</strong>: base class subobjects are destroyed <strong>after</strong> the most‑derived's destructor body, again in reverse inheritance order.</li>
+  <li>For <strong>dynamic</strong> objects (<code>new</code>): when you call <code>delete</code> (or <code>delete[]</code> for arrays).</li>
+  <li>For <strong>static storage duration</strong> (e.g., global objects): after <code>main()</code> finishes, in reverse order of construction.</li>
+  <li>For <strong>temporary</strong> objects: at the end of the full-expression that created them (unless lifetime is extended by binding to a <code>const&amp;</code>).</li>
+</ul>
+
+<hr>
+
+<h2 id="raii-and-why-destructors-matter">RAII and Why Destructors Matter</h2>
+
+<p>With RAII (Resource Acquisition Is Initialization), you <strong>acquire</strong> resources in constructors and <strong>always</strong> release them in destructors. This guarantees cleanup even if exceptions are thrown.</p>
+
+<pre><code><span class="keyword">class</span> <span class="type">ScopedHandle</span> {
+<span class="keyword">public</span>:
+    <span class="type">ScopedHandle</span>(<span class="keyword">int</span> fd) : fd_(fd) {}
+    ~<span class="type">ScopedHandle</span>() { <span class="keyword">if</span> (fd_ &gt;= <span class="number">0</span>) ::<span class="function">close</span>(fd_); } <span class="comment">// always runs</span>
+
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> fd_{-<span class="number">1</span>};
+};</code></pre>
+
+<p>Prefer <strong>smart pointers</strong> (<code>std::unique_ptr</code>, <code>std::shared_ptr</code>) over manual <code>new/delete</code>. They encode ownership and make correct destruction far easier.</p>
+
+<hr>
+
+<h2 id="virtual-vs-nonvirtual-destructors">Virtual vs. Non‑Virtual Destructors</h2>
+
+<ul>
+  <li>Use a <strong>virtual destructor</strong> when a class is intended to be used <strong>polymorphically</strong> (i.e., deleted through a base pointer/reference).</li>
+</ul>
+
+<pre><code><span class="keyword">struct</span> <span class="type">Base</span> {
+    <span class="keyword">virtual</span> ~<span class="type">Base</span>() = <span class="keyword">default</span>;  <span class="comment">// virtual because we expect polymorphic use</span>
+};
+
+<span class="keyword">struct</span> <span class="type">Derived</span> : <span class="keyword">public</span> <span class="type">Base</span> {
+    ~<span class="type">Derived</span>() <span class="keyword">override</span> { <span class="comment">/* free Derived-specific resources */</span> }
+};
+
+<span class="type">Base</span>* p = <span class="keyword">new</span> <span class="type">Derived</span>{};
+<span class="keyword">delete</span> p;  <span class="comment">// Calls Derived::~Derived() then Base::~Base() — correct due to virtual dtor</span></code></pre>
+
+<ul>
+  <li>If you delete a <code>Derived</code> object through a non-virtual <code>Base*</code> and <code>Base</code>'s destructor isn't virtual, behavior is <strong>undefined</strong> (typically only the base subobject is destroyed).</li>
+  <li>If a class is <strong>not</strong> meant for polymorphism, a non-virtual destructor is fine (and slightly smaller/faster).</li>
+</ul>
+
+<hr>
+
+<h2 id="implicitlydeclared-defaulted-and-deleted-destructors">Implicitly‑Declared, Defaulted, and Deleted Destructors</h2>
+
+<ul>
+  <li>If you don't declare a destructor, the compiler generates one. It:
+    <ul>
+      <li>Destroys bases and members (recursively).</li>
+      <li>Is <code>noexcept(true)</code> by default.</li>
+      <li>Is <strong>trivial</strong> if all bases/members have trivial destructors and certain conditions hold.</li>
+    </ul>
+  </li>
+  <li>You can explicitly ask for the synthesized behavior:
+    <pre><code>~<span class="type">X</span>() = <span class="keyword">default</span>;      <span class="comment">// request compiler-generated destructor</span></code></pre>
+  </li>
+  <li>You may <strong>delete</strong> a destructor to forbid destruction (rare; mostly for special framework patterns):
+    <pre><code>~<span class="type">X</span>() = <span class="keyword">delete</span>;       <span class="comment">// object cannot be destroyed (almost never what you want)</span></code></pre>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="destruction-order-and-lifetime-nuances">Destruction Order and Lifetime Nuances</h2>
+
+<ul>
+  <li><strong>Members</strong> are destroyed in the <strong>reverse order</strong> of declaration in the class.</li>
+  <li><strong>Base classes</strong> are destroyed <strong>after</strong> the most-derived destructor body, also in reverse base order.</li>
+  <li><strong>Arrays</strong>: <code>delete[]</code> must be used for memory allocated with <code>new[]</code>, otherwise undefined behavior and likely leaks or partial destruction.
+    <pre><code><span class="type">Widget</span>* a = <span class="keyword">new</span> <span class="type">Widget</span>[<span class="number">10</span>];
+<span class="keyword">delete</span>[] a; <span class="comment">// calls ~Widget() 10 times</span></code></pre>
+  </li>
+  <li><strong>Static objects</strong>: Destruction order across translation units is unspecified; avoid cross‑TU dependencies at destruction time (or use the “construct on first use” idiom with function‑local statics).</li>
+</ul>
+
+<hr>
+
+<h2 id="exceptions-and-noexcept-in-destructors">Exceptions and noexcept in Destructors</h2>
+
+<ul>
+  <li>A destructor is implicitly <code>noexcept(true)</code> unless you declare otherwise.</li>
+  <li><strong>Never let exceptions escape a destructor</strong> called during stack unwinding from another exception—this calls <code>std::terminate()</code>.</li>
+</ul>
+
+<pre><code><span class="keyword">struct</span> <span class="type">Logger</span> {
+    ~<span class="type">Logger</span>() <span class="keyword">noexcept</span> {
+        <span class="keyword">try</span> {
+            <span class="comment">// operations that might throw</span>
+        } <span class="keyword">catch</span> (...) {
+            <span class="comment">// swallow/log; do not rethrow</span>
+        }
+    }
+};</code></pre>
+
+<p>If a destructor genuinely may need to report failure, provide an explicit <code>close()</code>/<code>commit()</code> member that can throw/return a status, and keep the destructor non-throwing.</p>
+
+<hr>
+
+<h2 id="pure-virtual-destructors-with-a-definition">Pure Virtual Destructors with a Definition</h2>
+
+<p>You can make a class abstract by declaring a <strong>pure virtual destructor</strong>, but you <strong>must still provide a definition</strong> because base subobjects must be destructible.</p>
+
+<pre><code><span class="keyword">struct</span> <span class="type">Interface</span> {
+    <span class="keyword">virtual</span> ~<span class="type">Interface</span>() = <span class="number">0</span>; <span class="comment">// pure, makes class abstract</span>
+};
+
+<span class="type">Interface</span>::~<span class="type">Interface</span>() = <span class="keyword">default</span>; <span class="comment">// required definition</span></code></pre>
+
+<hr>
+
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+
+<ol>
+  <li><strong>Forgetting <code>virtual</code></strong> on base classes used polymorphically.</li>
+  <li><strong>Throwing from destructors</strong>, especially during stack unwinding.</li>
+  <li><strong>Mismatched <code>new</code>/<code>delete</code></strong> vs. <code>new[]</code>/<code>delete[]</code>.</li>
+  <li><strong>Manual memory management</strong>: double-delete, leaks, or missing copy/move logic. Prefer <code>std::unique_ptr</code> / <code>std::shared_ptr</code> / containers.</li>
+  <li><strong>Use‑after‑free</strong> bugs if pointers/references outlive the object.</li>
+  <li><strong>Static deinit order</strong> across translation units (avoid cross‑unit dependencies during teardown).</li>
+</ol>
+
+<hr>
+
+<h2 id="examples">Examples</h2>
+
+<p><strong>Polymorphic cleanup with virtual destructor</strong></p>
+
+<pre><code><span class="comment">#include &lt;memory&gt;</span>
+<span class="comment">#include &lt;iostream&gt;</span>
+
+<span class="keyword">struct</span> <span class="type">Shape</span> {
+    <span class="keyword">virtual</span> ~<span class="type">Shape</span>() = <span class="keyword">default</span>;
+    <span class="keyword">virtual double</span> <span class="function">area</span>() <span class="keyword">const</span> = <span class="number">0</span>;
+};
+
+<span class="keyword">struct</span> <span class="type">Circle</span> : <span class="keyword">public</span> <span class="type">Shape</span> {
+    <span class="type">Circle</span>(<span class="keyword">double</span> r) : r(r) {}
+    ~<span class="type">Circle</span>() <span class="keyword">override</span> { <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"~Circle\n"</span>; }
+    <span class="keyword">double</span> <span class="function">area</span>() <span class="keyword">const override</span> { <span class="keyword">return</span> <span class="number">3.14159</span> * r * r; }
+    <span class="keyword">double</span> r;
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">std</span>::<span class="type">unique_ptr</span>&lt;<span class="type">Shape</span>&gt; s = <span class="namespace">std</span>::<span class="function">make_unique</span>&lt;<span class="type">Circle</span>&gt;(<span class="number">2.0</span>);
+    <span class="namespace">std</span>::cout &lt;&lt; s-&gt;<span class="function">area</span>() &lt;&lt; <span class="string">"\n"</span>;
+} <span class="comment">// ~Circle runs automatically, then ~Shape</span></code></pre>
+
+<h2 id="best-practices-summary">Best Practices Summary</h2>
+
+<ul>
+  <li>Tie ownership to objects (RAII). Prefer <strong>smart pointers</strong> and standard containers.</li>
+  <li>Mark destructors <strong>virtual</strong> on polymorphic bases.</li>
+  <li>Keep destructors <strong><code>noexcept</code></strong>; never let them throw.</li>
+  <li>Ensure <strong>delete symmetry</strong> (<code>new</code>↔<code>delete</code>, <code>new[]</code>↔<code>delete[]</code>).</li>
+  <li>Be mindful of <strong>destruction order</strong> (members reverse declaration; bases after derived body).</li>
+</ul>
+
+
+<h2 id="-destructors">💻 Practice it! Destructors</h2>
+
+<h3>🧩 Part B-3.3 Add destructor</h3>
+<ol>
+  <li>Open the <code>Card</code> header</li>
+  <li>Add a default virtual destructor</li>
+</ol>
+    
+<h3>🧩 Part B-3.4 delete the objects</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-3.4  delete the objects</code>. After the comment...</li>
+  <li>Loop over the vector and delete the cards.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

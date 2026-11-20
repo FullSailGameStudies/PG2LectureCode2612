@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <main class="main-content" id="w1-static-nonstatic">
+
+        <h1>📘 Calling Non-Static Member Functions in C++</h1>
+
+        <ul>
+            <li><a href="#definition">Definition:</a></li>
+            <li><a href="#characteristics">Characteristics:</a></li>
+            <li><a href="#example">Example:</a></li>
+            <li><a href="#-calling-non-static-methods-coding-practice">Practice it!</a></li>
+        </ul>
+
+        <p>In C++, member functions of a class can be either <strong>static</strong> or <strong>non-static</strong>. Understanding the difference between them is crucial for designing efficient and logical object-oriented programs.</p>
+
+        <h3 id="definition">Definition:</h3>
+        <p>Non-static member functions are associated with an <strong>instance</strong> of a class. They can access both <strong>instance variables</strong> and <strong>static variables</strong> of the class.</p>
+
+        <h3 id="characteristics">Characteristics:</h3>
+        <ul>
+            <li>❗Require an object to be called. ❗</li>
+            <li>Have access to the <code>this</code> pointer (i.e., the current object).</li>
+            <li>Can access and modify instance (non-static) data members.</li>
+        </ul>
+
+        <h3 id="example">Example:</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Student</span> {
+<span class="keyword">private</span>:
+        <span class="type">string</span> name;
+        <span class="keyword">int</span> age;
+
+<span class="keyword">public</span>:
+        <span class="keyword">void</span> <span class="function">setDetails</span>(<span class="type">string</span> n, <span class="keyword">int</span> a) {
+            name = n; <span class="comment">//non-static methods can access and modify the data members of the class</span>
+            age = a;
+        }
+
+        <span class="keyword">void</span> <span class="function">display</span>() {
+            cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age &lt;&lt; endl;
+        }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+        <span class="comment">//</span>
+        <span class="comment">// Step 1. Create an object of the Student class</span>
+        <span class="type">Student</span> s1;  
+
+        <span class="comment">//</span>
+        <span class="comment">// Step 2. Use the Student variable to call the non-static methods</span>
+        s1.<span class="function">setDetails</span>(<span class="string">"Alice"</span>, <span class="number">20</span>); 
+        s1.<span class="function">display</span>();  <span class="comment">// Output: Name: Alice, Age: 20</span>
+
+
+        <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+
+<h2 id="-calling-non-static-methods-coding-practice">💻 Practice it!</h2>
+
+
+<h3>🧩 Part A-2: move player to a predefined Target spot</h3>
+<ul>
+    <li>open <code>Day1.cpp</code></li>
+    <li>find the comment <code>Part A-1.3</code> in method <code>PartA_1_3()</code></li>
+    <li>Use the Move functions (MoveRight, MoveLeft, MoveUp, MoveDown) to move the <code>player</code> object to the target.</li>
+    <li>To test it: run the Lectures project and select <code>4. Part A-1.3: calling non-static methods</code>.</li>
+</ul>
+<div class="tip-box">
+    <span class="tip-badge">TIP:</span> you'll probably need to run it once to see where the player needs to move to.
+</div>
+
+</main>
+
+</body>
+</html>

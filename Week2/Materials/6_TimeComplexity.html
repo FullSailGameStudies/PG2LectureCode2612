@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 What Is Time Complexity?</h1>
+
+<ul>
+  <li><a href="#-why-does-it-matter">📦 Why Does It Matter?</a></li>
+  <li><a href="#%EF%B8%8F-big-o-notation">⏱️ Big-O Notation</a></li>
+  <li><a href="#-example-linear-vs-quadratic">🧪 Example: Linear vs. Quadratic</a></li>
+  <li><a href="#-key-takeaways">🧭 Key Takeaways</a></li>
+</ul>
+
+<p><strong>Time complexity</strong> is a way to describe <strong>how the running time of an algorithm increases</strong> as the size of the input grows.</p>
+
+<p>Think of it as a <strong>mathematical estimate</strong> of how much time your code will take to run, especially when dealing with <strong>large amounts of data</strong>.</p>
+
+<hr>
+
+<h2 id="-why-does-it-matter">📦 Why Does It Matter?</h2>
+
+<p>Imagine sorting a list of 10 names vs. 10 million names. You want to know:</p>
+<ul>
+  <li>Will your algorithm still be fast?</li>
+  <li>Will it slow down a little or a lot?</li>
+</ul>
+<p>Time complexity helps you <strong>predict performance</strong> without actually running the program.</p>
+
+<hr>
+
+<h2 id="%EF%B8%8F-big-o-notation">⏱️ Big-O Notation</h2>
+
+<p>We use <strong>Big-O notation</strong> to express time complexity. It describes the <strong>upper bound</strong> of an algorithm’s running time.</p>
+
+<p>Here are some common time complexities:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Big-O Notation</th>
+      <th>Name</th>
+      <th>Example Scenario</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>O(1)</code></td>
+      <td>Constant time</td>
+      <td>Accessing an array element</td>
+    </tr>
+    <tr>
+      <td><code>O(log n)</code></td>
+      <td>Logarithmic time</td>
+      <td>Binary search</td>
+    </tr>
+    <tr>
+      <td><code>O(n)</code></td>
+      <td>Linear time</td>
+      <td>Looping through an array</td>
+    </tr>
+    <tr>
+      <td><code>O(n log n)</code></td>
+      <td>Log-linear time</td>
+      <td>Merge sort, Quick sort (average)</td>
+    </tr>
+    <tr>
+      <td><code>O(n^2)</code></td>
+      <td>Quadratic time</td>
+      <td>Nested loops (e.g., bubble sort)</td>
+    </tr>
+    <tr>
+      <td><code>O(2^n)</code></td>
+      <td>Exponential time</td>
+      <td>Recursive algorithms (e.g., brute force)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="BigO.png" alt="Order-of Chart"></p>
+
+<hr>
+
+<h2 id="-example-linear-vs-quadratic">🧪 Example: Linear vs. Quadratic</h2>
+
+<p>Let’s say you have a list of <code>n</code> numbers:</p>
+
+<ul>
+  <li>A <strong>linear algorithm</strong> (like finding the max) checks each number once → <code>O(n)</code></li>
+  <li>A <strong>quadratic algorithm</strong> (like comparing every pair) does <code>n × n</code> comparisons → <code>O(n^2)</code></li>
+</ul>
+
+<p>So if <code>n = 1,000</code>:</p>
+<ul>
+  <li>Linear: ~1,000 steps</li>
+  <li>Quadratic: ~1,000,000 steps 😬</li>
+</ul>
+
+<hr>
+
+<h2 id="-key-takeaways">🧭 Key Takeaways</h2>
+
+<ul>
+  <li>Time complexity helps you <strong>compare algorithms</strong>.</li>
+  <li>It focuses on <strong>growth rate</strong>, not exact time.</li>
+  <li><strong>Lower time complexity = better scalability</strong>.</li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

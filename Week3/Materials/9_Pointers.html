@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Pointers in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-a-pointer">🧠 What is a Pointer?</a></li>
+    <li><a href="#-pointer-declaration-and-initialization">🧱 Pointer Declaration and Initialization</a></li>
+    <li><a href="#-accessing-values-with-pointers">🔍 Accessing Values with Pointers</a></li>
+    <li><a href="#-example-basic-pointer-usage">🧪 Example: Basic Pointer Usage</a></li>
+    <li><a href="#-pointer-arithmetic">🧮 Pointer Arithmetic</a></li>
+    <li><a href="#-pointers-and-functions">🧰 Pointers and Functions</a></li>
+    <li><a href="#-dynamic-memory-allocation">🧠 Dynamic Memory Allocation</a></li>
+    <li><a href="#-creating-class-instances-on-the-heap">🧱 Creating Class Instances on the Heap</a></li>
+    <li><a href="#%EF%B8%8F-common-pitfalls">⚠️ Common Pitfalls</a></li>
+    <li><a href="#-summary-table">🧭 Summary Table</a></li>
+    <li><a href="#-pointers">Practice it!</a></li>
+</ul>
+
+<p>A <strong>pointer</strong> is a variable that stores a <strong>memory address</strong>. Pointers are a powerful feature in C++ that allow for <strong>dynamic memory management</strong>, <strong>efficient array handling</strong> and <strong>function argument manipulation</strong>.</p>
+
+<hr>
+
+<h2 id="-pointer-declaration-and-initialization">🧱 Pointer Declaration and Initialization</h2>
+
+<pre><code><span class="keyword">int</span> x = <span class="number">10</span>;
+<span class="keyword">int</span>* ptr = &amp;x;  <span class="comment">// ptr stores the address of x</span>
+
+<span class="type">Person</span> <span class="function">bruce</span>(<span class="string">"Bruce Wayne"</span>);
+<span class="type">Person</span>* pBats = &amp;bruce; <span class="comment">// pBats stores the memory address of bruce</span></code></pre>
+
+<ul>
+  <li><code>int* ptr</code>: Declares a pointer to an integer.</li>
+  <li><code>&amp;x</code>: The <strong>address-of</strong> operator, returns the memory address of <code>x</code>.</li>
+</ul>
+
+<hr>
+
+<h2 id="-accessing-values-with-pointers">🔍 Accessing Values with Pointers</h2>
+
+<pre><code>cout &lt;&lt; *ptr &lt;&lt; endl;  <span class="comment">// Dereferencing: prints the value at the address stored in ptr</span>
+cout &lt;&lt; pBats-&gt;<span class="function">Name</span>(); <span class="comment">// use the arrow notation to access the class members of bruce</span></code></pre>
+
+<ul>
+  <li><code>*ptr</code>: The <strong>dereference</strong> operator, accesses the value at the memory address.</li>
+  <li><code>-&gt;</code>: arrow notation (aka member access operator) is used to dereference the pointer and access the members of an object when you have a pointer to an object.</li>
+</ul>
+
+<blockquote>
+  NOTE: <code>ptr-&gt;member</code> is equivalent to <code>(*ptr).member</code>
+</blockquote>
+
+<hr>
+
+<h2 id="-example-basic-pointer-usage">🧪 Example: Basic Pointer Usage</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> a = <span class="number">42</span>;
+    <span class="keyword">int</span>* p = &amp;a;
+
+    cout &lt;&lt; <span class="string">"Value of a: "</span> &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Address of a: "</span> &lt;&lt; &amp;a &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Pointer p: "</span> &lt;&lt; p &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Value pointed to by p: "</span> &lt;&lt; *p &lt;&lt; endl;
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-pointer-arithmetic">🧮 Pointer Arithmetic</h2>
+
+<p>Pointers can be incremented or decremented to traverse arrays:</p>
+
+<pre><code><span class="keyword">int</span> arr[] = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+<span class="keyword">int</span>* p = arr;
+
+cout &lt;&lt; *p &lt;&lt; endl;     <span class="comment">// 10</span>
+cout &lt;&lt; *(p + <span class="number">1</span>) &lt;&lt; endl; <span class="comment">// 20</span></code></pre>
+
+<hr>
+
+<h2 id="-pointers-and-functions">🧰 Pointers and Functions</h2>
+
+<h3>Pass-by-Reference Using Pointers</h3>
+
+<pre><code><span class="keyword">void</span> <span class="function">increment</span>(<span class="keyword">int</span>* num) {
+    (*num)++;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> x = <span class="number">5</span>;
+    <span class="function">increment</span>(&amp;x);
+    cout &lt;&lt; x &lt;&lt; endl;  <span class="comment">// Output: 6</span>
+}</code></pre>
+
+<hr>
+
+<h2 id="-dynamic-memory-allocation">🧠 Dynamic Memory Allocation</h2>
+
+<p>C++ allows dynamic memory allocation using <code>new</code> and deallocation using <code>delete</code>.</p>
+
+<pre><code><span class="keyword">int</span>* p = <span class="keyword">new int</span>;  <span class="comment">// dynamically allocate memory</span>
+*p = <span class="number">100</span>;
+cout &lt;&lt; *p &lt;&lt; endl;
+<span class="keyword">delete</span> p;          <span class="comment">// free the memory</span></code></pre>
+
+<p>For arrays:</p>
+
+<pre><code><span class="keyword">int</span>* arr = <span class="keyword">new int</span>[<span class="number">5</span>];  <span class="comment">// allocate array</span>
+<span class="keyword">delete</span>[] arr;           <span class="comment">// deallocate array</span></code></pre>
+
+<hr>
+
+<h2 id="-creating-class-instances-on-the-heap">🧱 Creating Class Instances on the Heap</h2>
+
+<p>In C++, you can create objects either on the <strong>stack</strong> or on the <strong>heap</strong>. When you create an object on the heap, you use the <code>new</code> keyword, and you manage its lifetime manually using `delete`.</p>
+
+<h3>🔹 Syntax</h3>
+
+<pre><code><span class="type">ClassName</span>* obj = <span class="keyword">new</span> <span class="type">ClassName</span>();  <span class="comment">// Allocate on heap</span>
+...
+<span class="keyword">delete</span> obj;  <span class="comment">// Deallocate memory</span></code></pre>
+
+<h3>🧪 Example: Class Instance on the Heap</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Student</span> {
+<span class="keyword">public</span>:
+    <span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+
+    <span class="type">Student</span>(<span class="type">string</span> n, <span class="keyword">int</span> a) : name(n), age(a) {}
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="comment">// Create object on the heap</span>
+    <span class="type">Student</span>* s = <span class="keyword">new</span> <span class="type">Student</span>(<span class="string">"Alice"</span>, <span class="number">20</span>);
+
+    <span class="comment">// Access members using pointer</span>
+    s-&gt;<span class="function">display</span>();
+
+    <span class="comment">// Clean up memory</span>
+    <span class="keyword">delete</span> s;
+
+    return 0;
+}</code></pre>
+
+<h3>🧠 Why Use Heap Allocation?</h3>
+<ul>
+  <li><strong>Dynamic lifetime</strong>: Object exists until you explicitly delete it.</li>
+  <li><strong>Useful for large objects</strong> or when object size is not known at compile time.</li>
+  <li><strong>Shared across scopes</strong>: Can be passed around without worrying about scope-based destruction.</li>
+</ul>
+
+<h3>⚠️ Best Practices</h3>
+<ul>
+  <li>Always <code>delete</code> what you <code>new</code> to avoid <strong>memory leaks</strong>.</li>
+  <li>Prefer using <strong>smart pointers</strong> (<code>std::unique_ptr</code>, <code>std::shared_ptr</code>) in modern C++ to manage memory automatically.</li>
+</ul>
+
+<hr>
+
+<h2 id="%EF%B8%8F-common-pitfalls">⚠️ Common Pitfalls</h2>
+<ul>
+  <li><strong>Dangling pointer</strong>: Pointer pointing to deallocated memory.</li>
+  <li><strong>Memory leak</strong>: Forgetting to <code>delete</code> dynamically allocated memory.</li>
+  <li><strong>Uninitialized pointer</strong>: Using a pointer before assigning it a valid address.</li>
+</ul>
+
+<hr>
+
+<h2 id="-summary-table">🧭 Summary Table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Syntax Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Declare pointer</strong></td>
+      <td><code>int* p;</code></td>
+      <td>Pointer to an integer</td>
+    </tr>
+    <tr>
+      <td><strong>Assign address</strong></td>
+      <td><code>p = &amp;x;</code></td>
+      <td>Store address of <code>x</code> in <code>p</code></td>
+    </tr>
+    <tr>
+      <td><strong>Dereference</strong></td>
+      <td><code>*p</code></td>
+      <td>Access value at address</td>
+    </tr>
+    <tr>
+      <td><strong>Dynamic allocation</strong></td>
+      <td><code>p = new int;</code></td>
+      <td>Allocate memory</td>
+    </tr>
+    <tr>
+      <td><strong>Deallocation</strong></td>
+      <td><code>delete p;</code></td>
+      <td>Free memory</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  
+
+<h2 id="-pointers">💻 Practice it! Pointers</h2>
+
+<h3>🧩 Part B-2.1 Create a BlackjackCard object on the HEAP</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-2.1 Create a BlackjackCard object on the HEAP</code>. After the comment...</li>
+  <li>Create an instance of your BlackjackCard class on the HEAP. You can use any face and suit.</li>
+</ol>
+
+<h3>🧩 Part B-2.2 call GameTextures::RenderImage</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-2.2 call GameTextures::RenderImage with the BlackjackCard Heap object</code>. After the comment...</li>
+  <li>call <code>GameTextures::RenderImage</code> method. pass the face and suit of your card object. Also pass the x, y, and scale variables.</li>
+</ol>
+
+<h3>🧩 Part B-2.3 call BlackjackCard functions</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-2.3 </code>. After the comment...</li>
+  <li>call the <code>Value</code> method and print the value of the card. </li>
+  <li>call the <code>Print</code> method of the card. </li>
+</ol>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Day 05 Lecture Practices</h1>
+
+<ul>
+  <li><a href="#-search">💻 Search</a></li>
+  <li><a href="#-maps">💻 Maps</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-search">💻 Search</h2>
+
+<h3>🧩 Part B-1: Linear Search</h3>
+<ol>
+  <li>Open <code>Searcher.h</code> and add a method declaration called <code>LinearSearch</code>. The method should search a vector of <code>Light</code> objects for a specific value of the green channel.</li>
+</ol>
+<blockquote>
+  NOTE: open the Light.h file to see the declaration of the Light structure.
+</blockquote>
+<ol start="2">
+  <li>Open <code>Searcher.cpp</code> and write a definition of the <code>LinearSearch</code> method.
+    <ul>
+      <li>Linearly search the vector.</li>
+      <li>Compare the green channel of each object with the green parameter.</li>
+      <li>If the values match, return the index of the light.</li>
+      <li>If no match is found, return -1 which indicates that the color was not found.</li>
+    </ul>
+  </li>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_1()</code> method, find the <code>TODO</code> comment and call your <code>LinearSearch</code> method before the if block. Assign the returned index to the <code>foundIndex</code> variable.</li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/SearchResults.png" alt="Linear Search results"></p>
+
+<hr>
+
+<h2 id="-maps">💻 Maps</h2>
+
+<h3>🧩 Part B-2.1: Fill the Map</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-2.1 fill the std::map</code>. After the comment...
+    <ul>
+      <li>Loop over the <code>allLights</code> vector.
+        <ul>
+          <li>Create a temporary <code>ColorChannel</code> variable.</li>
+          <li>Check each light.</li>
+          <li>If the red channel is greater than the blue and green channels, set the <code>ColorChannel</code> variable to <code>RED</code>.</li>
+          <li>If the blue channel is greater than the red and green channels, set the <code>ColorChannel</code> variable to <code>BLUE</code>.</li>
+          <li>If the green channel is greater than the red and blue channels, set the <code>ColorChannel</code> variable to <code>GREEN</code>.</li>
+          <li>Call the <code>groupedColors</code> map's find method with the <code>ColorChannel</code> variable.
+            <ul>
+              <li>If the iterator that is returned equals the <code>groupedColors</code>' end, then the key is not in the map then...
+                <ul>
+                  <li>Create a new vector with the light.</li>
+                  <li>Add the vector to the <code>groupedColors</code> map for the <code>ColorChannel</code>.</li>
+                </ul>
+              </li>
+              <li>Else the key is already in the map. Then...
+                <ul>
+                  <li>Add the light to the vector for the key.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+<blockquote>
+  NOTE: the first on the iterator is the key (ColorChannel) and the second on the iterator is the value (vector of lights)
+</blockquote>
+
+<h3>🧩 Part B-2.2: Loop over the Map</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-2.2 loop over the std::map</code>. After the comment...</li>
+  <li>Loop over the <code>groupedColors</code> map. In the loop for each light...
+    <ul>
+      <li>If the color channel is <code>RED</code>, print "RED" and the size of its vector.</li>
+      <li>If the color channel is <code>BLUE</code>, print "BLUE" and the size of its vector.</li>
+      <li>If the color channel is <code>GREEN</code>, print "GREEN" and the size of its vector.</li>
+      <li>Call the <code>grouper.DrawLights</code> method.</li>
+    </ul>
+  </li>
+</ol>
+<p>Example:</p>
+<pre><code><span class="comment">// the vectorOfLights comes from the map</span>
+grouper.<span class="function">DrawLights</span>(screenMap, vectorOfLights, columnRange, column, row); </code></pre>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/MapResult.png" alt="Loop over the map results"></p>
+
+<h3>🧩 Part B-3: Find in Maps</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-3 call std::map's find method</code>. After the comment...</li>
+  <li>Call the <code>groupedColors</code> find method to try to find the <code>BLUE</code> ColorChannel.</li>
+  <li>If the <code>BLUE</code> channel is not found, then print to the console that the channel could not be found.</li>
+  <li>Else print to the console that the Blue channel was found and print how many lights are in its vector.</li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/FindResults.png" alt="map.find results"></p>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day04.html">Day 4</a></li>
+  <li><a href="./Day05.html">Day 5</a></li>
+  <li><a href="./Day06.html">Day 6</a></li>
+</ul>
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+
+<p>Here are the lecture quizzes...</p>
+<ul>
+  <li><a href="https://forms.office.com/r/XUQYr2qrf4">Day 4</a></li>
+  <li><a href="https://forms.office.com/r/QRNDCnA8Fw">Day 5</a></li>
+  <li><a href="https://forms.office.com/r/pi9bMm1SfR">Day 6</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

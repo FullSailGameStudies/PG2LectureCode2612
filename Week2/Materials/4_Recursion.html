@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Recursion in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-recursion">🧠 What is Recursion?</a></li>
+    <li><a href="#-why-use-recursion">🔁 Why Use Recursion?</a></li>
+    <li><a href="#-when-to-use-recursion">🧪 When to Use Recursion</a></li>
+    <li><a href="#-example-1-factorial-function">🧮 Example 1: Factorial Function</a></li>
+    <li><a href="#-example-2-fibonacci-sequence">🧬 Example 2: Fibonacci Sequence</a></li>
+    <li><a href="#-pitfalls-of-recursion">⚠️ Pitfalls of Recursion</a></li>
+    <li><a href="#-recursion">Practice it!</a></li>
+</ul>
+
+<h2 id="-what-is-recursion">🧠 What is Recursion?</h2>
+
+<p><strong>Recursion</strong> is a programming technique where <strong>a function calls itself</strong> to solve a problem. Each recursive call should bring the problem closer to a <strong>base case</strong> (also known as <strong>exit condition</strong>), which is a condition that stops the recursion.</p>
+
+<h3>Key Components:</h3>
+<ol>
+  <li><strong>Base Case</strong> – The condition under which the function stops calling itself.</li>
+  <li><strong>Recursive Case</strong> – The part where the function calls itself with a modified argument.</li>
+</ol>
+
+<hr>
+
+<h2 id="-why-use-recursion">🔁 Why Use Recursion?</h2>
+
+<p>Recursion is particularly useful for problems that can be broken down into smaller, similar subproblems, such as:</p>
+<ul>
+  <li>Factorials</li>
+  <li>Fibonacci numbers</li>
+  <li>Tree traversal</li>
+  <li>Backtracking problems (e.g., Sudoku, N-Queens)</li>
+  <li>Divide and conquer algorithms (e.g., Merge Sort, Quick Sort)</li>
+</ul>
+
+<hr>
+
+<h2 id="-when-to-use-recursion">🧪 When to Use Recursion</h2>
+
+<p>Use recursion when:</p>
+<ul>
+  <li>The problem has a natural recursive structure.</li>
+  <li>You can define a clear base case.</li>
+  <li>The depth of recursion is manageable.</li>
+</ul>
+
+<hr>
+
+<h2 id="-example-1-factorial-function">🧮 Example 1: Factorial Function</h2>
+
+<p>The factorial of a number ( n ) is defined as:</p>
+<p><code>n! = n * (n-1) * (n-2) * ... * 1</code></p>
+
+<h3>C++ Code:</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">factorial</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// Base case</span>
+    <span class="keyword">return</span> n * <span class="function">factorial</span>(n - <span class="number">1</span>); <span class="comment">// Recursive case</span>
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num = <span class="number">5</span>;
+    <span class="keyword">int</span> result = <span class="function">factorial</span>(num);
+    cout &lt;&lt; <span class="string">"Factorial of "</span> &lt;&lt; num &lt;&lt; <span class="string">" is "</span> &lt;&lt; result &lt;&lt; endl;
+}</code></pre>
+
+<h3>Output:</h3>
+<pre><code>Factorial of 5 is 120</code></pre>
+
+<hr>
+
+<h2 id="-example-2-fibonacci-sequence">🧬 Example 2: Fibonacci Sequence</h2>
+
+<p>The Fibonacci sequence is defined as:</p>
+<p><code>F(n) = F(n-1) + F(n-2), where F(0) = 0, F(1) = 1</code></p>
+
+<h3>C++ Code:</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">fibonacci</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// Base case</span>
+    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// Base case</span>
+    <span class="keyword">return</span> <span class="function">fibonacci</span>(n - <span class="number">1</span>) + <span class="function">fibonacci</span>(n - <span class="number">2</span>); <span class="comment">// Recursive case</span>
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> n = <span class="number">6</span>;
+    cout &lt;&lt; <span class="string">"Fibonacci number at position "</span> &lt;&lt; n &lt;&lt; <span class="string">" is "</span> &lt;&lt; <span class="function">fibonacci</span>(n) &lt;&lt; endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3>Output:</h3>
+<pre><code>Fibonacci number at position 6 is 8</code></pre>
+
+<hr>
+
+<h2 id="-pitfalls-of-recursion">⚠️ Pitfalls of Recursion</h2>
+
+<ul>
+  <li><strong>Stack Overflow</strong>: Too many recursive calls can exhaust the call stack.</li>
+  <li><strong>Performance</strong>: Naive recursion (like in Fibonacci) can be inefficient due to repeated calculations.</li>
+</ul>
+
+<h3>Optimization Tip:</h3>
+<p>Use <a href="https://wikipedia.org" target="_blank"><strong>memoization</strong></a> or <a href="https://wikipedia.org" target="_blank"><strong>dynamic programming</strong></a> to improve performance.</p>
+
+    
+<hr>
+
+<h2 id="-recursion">💻 Practice it! Recursion</h2>
+
+<h3>🧩 Part A-1.1: Recursion (Bats)</h3>
+<ol>
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>Above <code>Day4::PartA_1_1()</code>, write a method called <code>Bats</code>. Convert the following for loop into a recursive loop.</li>
+</ol>
+<pre><code><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">100</span>;i++)
+{
+	<span class="namespace">std</span>::cout &lt;&lt; (<span class="keyword">char</span>)<span class="number">78</span> &lt;&lt; (<span class="keyword">char</span>)<span class="number">65</span> &lt;&lt; <span class="string">' '</span>;
+}</code></pre>
+<ol start="3">
+  <li>Call your <code>Bats</code> method in <code>Day4::PartA_1_1()</code> before the char array line.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

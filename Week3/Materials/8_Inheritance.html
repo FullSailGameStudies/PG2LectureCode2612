@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding Class Inheritance in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-inheritance">🧠 What is Inheritance?</a></li>
+    <li><a href="#-basic-syntax">🧱 Basic Syntax</a></li>
+    <li><a href="#-example-basic-inheritance">🧪 Example: Basic Inheritance</a></li>
+    <li><a href="#-constructor-calls-in-inheritance">🔄 Constructor Calls in Inheritance</a></li>
+    <li><a href="#-types-of-inheritance">🧬 Types of Inheritance</a></li>
+    <li><a href="#-example-multilevel-inheritance">🧪 Example: Multilevel Inheritance</a></li>
+    <li><a href="#-summary">✅ Summary</a></li>
+    <li><a href="#-inheritance">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-is-inheritance">🧠 What is Inheritance?</h2>
+
+<p><strong>Inheritance</strong> is a fundamental concept in <strong>Object-Oriented Programming (OOP)</strong> that allows a class (called the <strong>derived class</strong> or <strong>subclass</strong>) to inherit attributes and behaviors (fields and methods) from another class (called the <strong>base class</strong> or <strong>superclass</strong>).</p>
+
+<h3>🔑 Key Benefits:</h3>
+<ul>
+  <li><strong>Code reuse</strong>: Avoids duplication by reusing existing class functionality.</li>
+  <li><strong>Extensibility</strong>: Allows new functionality to be added with minimal changes.</li>
+</ul>
+
+<hr>
+
+<h2 id="-basic-syntax">🧱 Basic Syntax</h2>
+
+<pre><code><span class="keyword">class</span> <span class="type">Base</span> {
+  <span class="comment">// base class members</span>
+};
+
+<span class="keyword">class</span> <span class="type">Derived</span> : <span class="keyword">public</span> <span class="type">Base</span> {
+  <span class="comment">// derived class members</span>
+};</code></pre>
+
+<h3>🔓 Access Modifiers in Inheritance</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modifier</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>public</code></td>
+      <td>Public and protected members of the base class retain their access levels in the derived class.</td>
+    </tr>
+    <tr>
+      <td><code>protected</code></td>
+      <td>Public and protected members of the base class become protected in the derived class.</td>
+    </tr>
+    <tr>
+      <td><code>private</code></td>
+      <td>Public and protected members of the base class become private in the derived class.</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code><span class="keyword">class</span> <span class="type">A</span> {
+<span class="keyword">public</span>: 
+    <span class="keyword">int</span> x;
+<span class="keyword">protected</span>:
+    <span class="keyword">int</span> y;
+<span class="keyword">private</span>:
+    <span class="keyword">int</span> z;
+};
+
+<span class="keyword">class</span> <span class="type">B</span> : <span class="keyword">public</span> <span class="type">A</span> {
+    <span class="comment">// x is public</span>
+    <span class="comment">// y is protected</span>
+    <span class="comment">// z is not accessible from B</span>
+};
+
+<span class="keyword">class</span> <span class="type">C</span> : <span class="keyword">protected</span> <span class="type">A</span> {
+    <span class="comment">// x is protected</span>
+    <span class="comment">// y is protected</span>
+    <span class="comment">// z is not accessible from C</span>
+};
+
+<span class="keyword">class</span> <span class="type">D</span> : <span class="keyword">private</span> <span class="type">A</span> <span class="comment">// private is the default</span> {
+    <span class="comment">// x is private</span>
+    <span class="comment">// y is private</span>
+    <span class="comment">// z is not accessible from D</span>
+};</code></pre>
+
+<hr>
+
+<h2 id="-example-basic-inheritance">🧪 Example: Basic Inheritance</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">eat</span>() {
+        cout &lt;&lt; <span class="string">"This animal eats food."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Dog</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">bark</span>() {
+        cout &lt;&lt; <span class="string">"The dog barks."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Dog</span> myDog;
+    myDog.<span class="function">eat</span>();   <span class="comment">// Inherited from Animal</span>
+    myDog.<span class="function">bark</span>();  <span class="comment">// Defined in Dog</span>
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3>🔍 Explanation:</h3>
+<ul>
+  <li><code>Dog</code> inherits from <code>Animal</code> using <code>public</code> inheritance.</li>
+  <li><code>Dog</code> can access <code>eat()</code> because it is a public member of <code>Animal</code>.</li>
+</ul>
+
+<hr>
+
+<h2 id="-constructor-calls-in-inheritance">🔄 Constructor Calls in Inheritance</h2>
+
+<h3>🔍 How Constructors Work in Inheritance</h3>
+<p>When a derived class object is created, <strong>constructors are called in the order of inheritance hierarchy</strong>:</p>
+<ol>
+  <li><strong>Base class constructor</strong> is called first.</li>
+  <li>Then the <strong>derived class constructor</strong> is executed.</li>
+</ol>
+<p>This ensures that the base part of the object is properly initialized before the derived part.</p>
+
+<h3>🧪 Example: Constructor Call Order</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="type">Animal</span>() {
+        cout &lt;&lt; <span class="string">"Animal constructor called."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Dog</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="type">Dog</span>() {
+        cout &lt;&lt; <span class="string">"Dog constructor called."</span> &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Dog</span> d;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>Animal constructor called.
+Dog constructor called.</code></pre>
+
+<hr>
+
+<h3>🧰 Using Initialization Lists in Derived Constructors</h3>
+<p>You can explicitly call a base class constructor using an <strong>initialization list</strong> in the derived class:</p>
+
+<pre><code><span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="type">Animal</span>(<span class="type">string</span> type) {
+        cout &lt;&lt; <span class="string">"Animal: "</span> &lt;&lt; type &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">class</span> <span class="type">Dog</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="type">Dog</span>() : <span class="function">Animal</span>(<span class="string">"Dog"</span>) {
+        cout &lt;&lt; <span class="string">"Dog constructor called."</span> &lt;&lt; endl;
+    }
+};</code></pre>
+
+<h3>⚠️ Notes</h3>
+<ul>
+  <li>If the base class only has a <strong>parameterized constructor</strong>, the derived class <strong>must</strong> explicitly call it.</li>
+  <li>If the base class has a <strong>default constructor</strong>, it is called automatically unless specified otherwise.</li>
+</ul>
+
+<hr>
+
+<h2 id="-types-of-inheritance">🧬 Types of Inheritance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Single</strong></td>
+      <td>One base class, one derived class</td>
+    </tr>
+    <tr>
+      <td><strong>Multiple</strong></td>
+      <td>One derived class inherits from multiple base classes</td>
+    </tr>
+    <tr>
+      <td><strong>Multilevel</strong></td>
+      <td>A class is derived from a derived class</td>
+    </tr>
+    <tr>
+      <td><strong>Hierarchical</strong></td>
+      <td>Multiple classes inherit from a single base class</td>
+    </tr>
+    <tr>
+      <td><strong>Hybrid</strong></td>
+      <td>Combination of multiple types (can lead to ambiguity)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here is an example of a multilevel inheritance structure.</p>
+<p><img src="sampleHierarchy.png" alt="Sample Hierarchy"></p>
+
+<hr>
+
+<h2 id="-example-multilevel-inheritance">🧪 Example: Multilevel Inheritance</h2>
+
+<pre><code><span class="keyword">class</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">eat</span>() { cout &lt;&lt; <span class="string">"Eating..."</span> &lt;&lt; endl; }
+};
+
+<span class="keyword">class</span> <span class="type">Mammal</span> : <span class="keyword">public</span> <span class="type">Animal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">walk</span>() { cout &lt;&lt; <span class="string">"Walking..."</span> &lt;&lt; endl; }
+};
+
+<span class="keyword">class</span> <span class="type">Human</span> : <span class="keyword">public</span> <span class="type">Mammal</span> {
+<span class="keyword">public</span>:
+    <span class="keyword">void</span> <span class="function">speak</span>() { cout &lt;&lt; <span class="string">"Speaking..."</span> &lt;&lt; endl; }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Human</span> h;
+    h.<span class="function">eat</span>();   <span class="comment">// From Animal</span>
+    h.<span class="function">walk</span>();  <span class="comment">// From Mammal</span>
+    h.<span class="function">speak</span>(); <span class="comment">// From Human</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h2 id="-summary">✅ Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Base Class</strong></td>
+      <td>The class being inherited from</td>
+    </tr>
+    <tr>
+      <td><strong>Derived Class</strong></td>
+      <td>The class that inherits</td>
+    </tr>
+    <tr>
+      <td><strong>Access Control</strong></td>
+      <td>Determines visibility of inherited members</td>
+    </tr>
+    <tr>
+      <td><strong>Code Reuse</strong></td>
+      <td>Inheritance promotes modular and reusable code</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2 id="-inheritance">💻 Practice it! Inheritance</h2>
+
+<h3>🧩 Part B-1.1 Create a BlackjackCard class (Inheritance)</h3>
+<ol>
+  <li>Right-click the Lectures project in the solution explorer and select "Add/Class..."</li>
+  <li>Enter <code>BlackjackCard</code> as the name and enter <code>Card</code> as the base class. Then press enter to create the class.</li>
+  <li>Add a <code>constructor</code> that takes 2 string parameters used to initialize the suit and face.
+    <ul>
+      <li>call the Card's constructor</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-1.2 Create a BlackjackCard object</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-1.2 Create a BlackjackCard object</code>. After the comment...</li>
+  <li>Create an instance of your BlackjackCard class. You can use any face and suit.</li>
+</ol>
+
+<h3>🧩 Part B-1.3 call GameTextures::RenderImage</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-1.3 call GameTextures::RenderImage with the BlackjackCard object</code>. After the comment...</li>
+  <li>call <code>GameTextures::RenderImage</code> method. pass the face and suit of your card object. Also pass the x, y, and scale variables.</li>
+</ol>
+    
+
+<h3>🧩 Part B-1.4 call BlackjackCard functions</h3>
+<ol>
+  <li>Open the <code>Day8.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part B-1.4 </code>. After the comment...</li>
+  <li>call the <code>Value</code> method and print the value of the card. </li>
+  <li>call the <code>Print</code> method of the card. </li>
+</ol>
+
+</main>
+
+</body>
+</html>

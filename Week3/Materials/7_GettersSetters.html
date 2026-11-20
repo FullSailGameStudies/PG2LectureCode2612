@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Getters and Setters in C++</h1>
+
+<ul>
+    <li><a href="#-what-are-they">🧠 What Are They?</a></li>
+    <li><a href="#-why-use-them">🔒 Why Use Them?</a></li>
+    <li><a href="#-syntax-and-example">🧱 Syntax and Example</a></li>
+    <li><a href="#-usage">🧪 Usage</a></li>
+    <li><a href="#-notes">🧩 Notes</a></li>
+    <li><a href="#-add-getters-setters">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-are-they">🧠 What Are They?</h2>
+
+<p>In C++, <strong>getters</strong> and <strong>setters</strong> are special member functions used to <strong>access</strong> and <strong>modify</strong> private data members of a class. They are part of the <strong>encapsulation</strong> principle in object-oriented programming, which promotes <strong>data hiding</strong> and <strong>controlled access</strong> to class members.</p>
+
+<hr>
+
+<h2 id="-why-use-them">🔒 Why Use Them?</h2>
+
+<ol>
+  <li><strong>Encapsulation</strong>: Keeps internal data safe from unintended interference.</li>
+  <li><strong>Validation</strong>: Setters can include logic to validate data before modifying a member.</li>
+  <li><strong>Read-only or Write-only Access</strong>: You can expose only a getter or a setter.</li>
+  <li><strong>Abstraction</strong>: Hides implementation details from the user.</li>
+</ol>
+
+<hr>
+
+<h2 id="-syntax-and-example">🧱 Syntax and Example</h2>
+
+<h3>Example Class: `Student`</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;string&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">class</span> <span class="type">Student</span> {
+<span class="keyword">private</span>:
+    <span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    <span class="type">Student</span>(<span class="type">string</span> n, <span class="keyword">int</span> a) {
+        name = n;
+        <span class="function">Age</span>(a); <span class="comment">// Use setter to apply validation</span>
+    }
+
+    <span class="comment">// Getter for name</span>
+    <span class="type">string</span> <span class="function">getName</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> name;
+    }
+
+    <span class="comment">// Setter for name</span>
+    <span class="keyword">void</span> <span class="function">setName</span>(<span class="keyword">const</span> <span class="type">string</span>&amp; n) {
+        name = n;
+    }
+
+    <span class="comment">//</span>
+    <span class="comment">// ALTERNATIVE naming: do NOT use the 'get' or 'set' prefix</span>
+    <span class="comment">//</span>
+    <span class="comment">// Getter for age</span>
+    <span class="keyword">int</span> <span class="function">Age</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> age;
+    }
+
+    <span class="comment">// Setter for age with validation</span>
+    <span class="keyword">void</span> <span class="function">Age</span>(<span class="keyword">int</span> a) {
+        <span class="keyword">if</span> (a &gt; <span class="number">0</span> &amp;&amp; a &lt; <span class="number">150</span>) {
+            age = a;
+        } <span class="keyword">else</span> {
+            cout &lt;&lt; <span class="string">"Invalid age. Setting to default (18)."</span> &lt;&lt; endl;
+            age = <span class="number">18</span>;
+        }
+    }
+};</code></pre>
+
+<hr>
+
+<h2 id="-usage">🧪 Usage</h2>
+
+<pre><code><span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Student</span> s(<span class="string">"Alice"</span>, <span class="number">20</span>);
+
+    <span class="comment">// Accessing data using getters</span>
+    cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; s.<span class="function">getName</span>() &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Age: "</span> &lt;&lt; s.<span class="function">Age</span>() &lt;&lt; endl;
+
+    <span class="comment">// Modifying data using setters</span>
+    s.<span class="function">setName</span>(<span class="string">"Bob"</span>);
+    s.<span class="function">Age</span>(<span class="number">200</span>); <span class="comment">// Invalid, triggers validation</span>
+
+    cout &lt;&lt; <span class="string">"Updated Name: "</span> &lt;&lt; s.<span class="function">getName</span>() &lt;&lt; endl;
+    cout &lt;&lt; <span class="string">"Updated Age: "</span> &lt;&lt; s.<span class="function">Age</span>() &lt;&lt; endl;
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-notes">🧩 Notes</h2>
+
+<ul>
+  <li><strong>Const correctness</strong>: Getters are often marked <code>const</code> because they don’t modify the object.</li>
+  <li><strong>Inline functions</strong>: Getters and setters can be defined inline for simplicity.</li>
+  <li><strong>Performance</strong>: Modern compilers optimize simple getters/setters well, so there's usually no performance penalty.</li>
+</ul>
+
+  
+
+<h2 id="-add-getters-setters">💻 Practice it! Add Getters and Setters</h2>
+
+<h3>🧩 Part A-1.2 Getters and Setters</h3>
+<ol>
+    <li>
+        Add <code>getters</code> and <code>setters</code> for the fields to the Card class
+    </li>
+</ol>
+
+</main>
+
+</body>
+</html>

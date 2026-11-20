@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Understanding Sorting and MergeSort</h1>
+
+<ul>
+    <li><a href="#-what-is-sorting">🔢 What is Sorting?</a></li>
+    <li><a href="#-why-sorting-matters">🧠 Why Sorting Matters</a></li>
+    <li><a href="#-types-of-sorting-algorithms">🧮 Types of Sorting Algorithms</a></li>
+    <li><a href="#-mergesort-a-divide-and-conquer-algorithm">🔀 MergeSort: A Divide and Conquer Algorithm</a></li>
+    <li><a href="#-step-by-step-breakdown">🔍 Step-by-Step Breakdown</a></li>
+    <li><a href="#%EF%B8%8F-time-and-space-complexity">⏱️ Time and Space Complexity</a></li>
+    <li><a href="#-advantages-of-mergesort">✅ Advantages of MergeSort</a></li>
+    <li><a href="#%EF%B8%8F-disadvantages">⚠️ Disadvantages</a></li>
+    <li><a href="#mergesort-algorithm-pseudocode">MergeSort Algorithm Pseudocode</a></li>
+</ul>
+
+<p><strong>Sorting</strong> is the process of arranging elements in a specific order—typically <strong>ascending</strong> or <strong>descending</strong>. It is a fundamental operation in computer science, used in searching, data analysis, and optimization problems.</p>
+
+<hr>
+
+<h2 id="-what-is-sorting">🔢 What is Sorting?</h2>
+
+<h3>Common Sorting Criteria:</h3>
+<ul>
+  <li><strong>Numerical order</strong> (e.g., 1, 2, 3…)</li>
+  <li><strong>Lexicographical order</strong> (e.g., "apple", "banana", "cherry")</li>
+  <li><strong>Custom orderings</strong> (e.g., by date, priority, etc.)</li>
+</ul>
+
+<hr>
+
+<h2 id="-why-sorting-matters">🧠 Why Sorting Matters</h2>
+
+<p>Efficient sorting:</p>
+<ul>
+  <li>Improves <strong>search performance</strong> (e.g., enables binary search)</li>
+  <li>Helps in <strong>data normalization</strong></li>
+  <li>Is often a <strong>preprocessing step</strong> in complex algorithms (e.g., graph algorithms, database queries)</li>
+</ul>
+
+<hr>
+
+<h2 id="-types-of-sorting-algorithms">🧮 Types of Sorting Algorithms</h2>
+
+<p>Sorting algorithms are generally categorized by:</p>
+<ul>
+  <li><strong>Time complexity</strong> e.g., O(n^2), O(n log n)</li>
+  <li><strong>Space complexity</strong></li>
+  <li><strong>Stability</strong> (whether equal elements retain their original order)</li>
+  <li><strong>In-place vs out-of-place</strong> (whether extra memory is used)</li>
+</ul>
+
+<h3>Examples:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Time Complexity</th>
+      <th>Stable</th>
+      <th>In-Place</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bubble Sort</td>
+      <td>O(n^2)</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Insertion Sort</td>
+      <td>O(n^2)</td>
+      <td>Yes</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>MergeSort</td>
+      <td>O(n log n)</td>
+      <td>Yes</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>QuickSort</td>
+      <td>O(n log n)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>HeapSort</td>
+      <td>O(n log n)</td>
+      <td>No</td>
+      <td>Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-mergesort-a-divide-and-conquer-algorithm">🔀 MergeSort: A Divide and Conquer Algorithm</h2>
+
+<h3>🧩 Concept</h3>
+
+<p><strong>MergeSort</strong> is a classic example of the <strong>divide and conquer</strong> paradigm. It works by:</p>
+<ol>
+  <li><strong>Dividing</strong> the array into two halves.</li>
+  <li><strong>Recursively sorting</strong> each half.</li>
+  <li><strong>Merging</strong> the two sorted halves into a single sorted array.</li>
+</ol>
+
+<h3>🧠 Key Idea</h3>
+
+<p>Instead of sorting the entire array at once, MergeSort breaks the problem into smaller subproblems, solves them independently, and then combines the results.</p>
+
+<hr>
+
+<h2 id="-step-by-step-breakdown">🔍 Step-by-Step Breakdown</h2>
+
+<p>Imagine sorting the array: <code>[38, 27, 43, 3, 9, 82, 10]</code></p>
+
+<ol>
+  <li><strong>Divide</strong>: Split into halves until each subarray has one element:
+    <ul>
+      <li><code>[38, 27, 43]</code> and <code>[3, 9, 82, 10]</code></li>
+      <li>Further split until: <code>[38]</code>, <code>[27]</code>, <code>[43]</code>, <code>[3]</code>, <code>[9]</code>, <code>[82]</code>, <code>[10]</code></li>
+    </ul>
+  </li>
+  <li><strong>Conquer</strong>: Recursively sort each half (trivial for single-element arrays)</li>
+  <li><strong>Merge</strong>: Combine sorted arrays:
+    <ul>
+      <li>Merge <code>[38]</code> and <code>[27]</code> → <code>[27, 38]</code></li>
+      <li>Merge <code>[27, 38]</code> and <code>[43]</code> → <code>[27, 38, 43]</code></li>
+      <li>Merge <code>[3]</code> and <code>[9]</code> → <code>[3, 9]</code>, then merge with <code>[82]</code> → <code>[3, 9, 82]</code>, and so on</li>
+    </ul>
+  </li>
+  <li>Final merge gives the fully sorted array: <code>[3, 9, 10, 27, 38, 43, 82]</code></li>
+</ol>
+
+<hr>
+
+<h2 id="%EF%B8%8F-time-and-space-complexity">⏱️ Time and Space Complexity</h2>
+
+<ul>
+  <li><strong>Time Complexity</strong>:
+    <ul>
+      <li>Best, Average, Worst: O(n log n)</li>
+      <li>Because the array is split log n times and merging takes O(n)</li>
+    </ul>
+  </li>
+  <li><strong>Space Complexity</strong>:
+    <ul>
+      <li>O(n) due to the temporary arrays used during merging</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2 id="-advantages-of-mergesort">✅ Advantages of MergeSort</h2>
+
+<ul>
+  <li><strong>Stable</strong>: Maintains the relative order of equal elements</li>
+  <li><strong>Predictable performance</strong>: Always O(n log n)</li>
+  <li><strong>Good for linked lists</strong> and external sorting (e.g., sorting data on disk)</li>
+</ul>
+
+<hr>
+
+<h2 id="%EF%B8%8F-disadvantages">⚠️ Disadvantages</h2>
+
+<ul>
+  <li><strong>Not in-place</strong>: Requires additional memory</li>
+  <li><strong>Slower for small datasets</strong> compared to simpler algorithms like Insertion Sort</li>
+</ul>
+
+<hr>
+
+<h2 id="mergesort-algorithm-pseudocode">MergeSort Algorithm Pseudocode</h2>
+<p>Below are the pseudocodes for the Merge and MergeSort methods that make up the algorithm.</p>
+
+<h3>Merge Pseudocode</h3>
+<pre><code><span class="keyword">function</span> <span class="function">Merge</span>(left, right) <span class="keyword">is</span>
+    <span class="keyword">var</span> result := empty vector
+    <span class="keyword">while</span> left <span class="keyword">is not</span> empty <span class="keyword">and</span> right <span class="keyword">is not</span> empty <span class="keyword">do</span>
+    {
+         <span class="keyword">if</span> first(left) ≤ first(right) <span class="keyword">then</span>
+             add first(left) <span class="keyword">to</span> result
+             remove first <span class="keyword">from</span> left
+         <span class="keyword">else</span>
+             add first(right) <span class="keyword">to</span> result
+             remove first <span class="keyword">from</span> right
+    }
+ 
+    <span class="comment">// Either left or right may have elements left; consume them.</span>
+    <span class="comment">// (Only one of the following loops will actually be entered.)</span>
+    <span class="keyword">while</span> left <span class="keyword">is not</span> empty <span class="keyword">do</span>
+    {
+        add first(left) <span class="keyword">to</span> result
+        remove first <span class="keyword">from</span> left 
+    }
+    <span class="keyword">while</span> right <span class="keyword">is not</span> empty <span class="keyword">do</span>
+    {
+        add first(right) <span class="keyword">to</span> result
+        remove first <span class="keyword">from</span> right
+    }
+    <span class="keyword">return</span> result</code></pre>
+
+<h3>MergeSort Pseudocode</h3>
+<pre><code><span class="keyword">function</span> <span class="function">MergeSort</span>(vector m) <span class="keyword">is</span>
+    <span class="comment">// Base case. A vector of zero or one elements is sorted, by definition.</span>
+    <span class="keyword">if</span> length of m &lt;= <span class="number">1</span> <span class="keyword">then</span>
+        <span class="keyword">return</span> m
+
+    <span class="comment">// Recursive case. First, divide the vector into equal-sized subvectors</span>
+    <span class="comment">// consisting of the first half and second half of the vector.</span>
+    <span class="comment">// This assumes vectors start at index 0.</span>
+    <span class="keyword">var</span> left := empty vector
+    <span class="keyword">var</span> right := empty vector
+    <span class="keyword">for</span> i = <span class="number">0</span> <span class="keyword">to</span> length(m) <span class="keyword">do</span>
+        <span class="keyword">if</span> i &lt; (length of m)/<span class="number">2</span> <span class="keyword">then</span>
+            add m[i] <span class="keyword">to</span> left
+        <span class="keyword">else</span>
+            add m[i] <span class="keyword">to</span> right
+
+    <span class="comment">// Recursively sort both subvectors.</span>
+    left := <span class="function">MergeSort</span>(left)
+    right := <span class="function">MergeSort</span>(right)
+
+    <span class="comment">// Then Merge the now-sorted subvectors.</span>
+    <span class="keyword">return</span> <span class="function">Merge</span>(left, right)</code></pre>
+
+
+</main>
+
+</body>
+</html>

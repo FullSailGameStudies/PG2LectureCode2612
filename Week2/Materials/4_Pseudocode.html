@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding Pseudocode and Translating It to C++</h1>
+
+<ul>
+    <li><a href="#-what-is-pseudocode">🧠 What is Pseudocode?</a></li>
+    <li><a href="#-structure-of-pseudocode">🧱 Structure of Pseudocode</a></li>
+    <li><a href="#-translating-pseudocode-to-c">🔁 Translating Pseudocode to C++</a></li>
+    <li><a href="#-example-translating-factorial">🧮 Example: Translating Factorial</a></li>
+    <li><a href="#-practice-example">🧪 Practice Example</a></li>
+    <li><a href="#-translating-tips">🧠 Translating Tips</a></li>
+    <li><a href="#-summary">✅ Summary</a></li>
+    <li><a href="#-sorting">Practice it!</a></li>
+</ul>
+
+<p><strong>Pseudocode</strong> is a high-level, informal way of describing an algorithm using plain language and programming-like structure. It is not bound by the syntax rules of any specific programming language, making it ideal for planning and communicating logic before implementation.</p>
+
+<hr>
+
+<h2 id="-what-is-pseudocode">🧠 What is Pseudocode?</h2>
+
+<h3>🔍 Key Characteristics:</h3>
+<ul>
+  <li>Language-agnostic</li>
+  <li>Focuses on logic, not syntax</li>
+  <li>Easy to read and write</li>
+  <li>Often used in algorithm design and documentation</li>
+</ul>
+
+<hr>
+
+<h2 id="-structure-of-pseudocode">🧱 Structure of Pseudocode</h2>
+
+<p>Pseudocode typically includes:</p>
+<ul>
+  <li><strong>Control structures</strong>: <code>IF</code>, <code>ELSE</code>, <code>WHILE</code>, <code>FOR</code></li>
+  <li><strong>Function definitions</strong>: <code>PROCEDURE</code>, <code>FUNCTION</code></li>
+  <li><strong>Input/Output</strong>: <code>READ</code>, <code>PRINT</code></li>
+  <li><strong>Comments</strong>: Often written with <code>//</code> or <code>#</code></li>
+</ul>
+
+<h3>Example:</h3>
+<pre><code>FUNCTION Factorial(n)
+    IF n == 0 THEN
+        RETURN 1
+    ELSE
+        RETURN n * Factorial(n - 1)
+    ENDIF
+END FUNCTION</code></pre>
+
+<hr>
+
+<h2 id="-translating-pseudocode-to-c">🔁 Translating Pseudocode to C++</h2>
+
+<p>To convert pseudocode into C++, follow these steps:</p>
+
+<h3>1. <strong>Identify the structure</strong></h3>
+<ul>
+  <li>Functions → <code>returnType functionName(parameters)</code></li>
+  <li>Conditionals → <code>if</code>, <code>else</code></li>
+  <li>Loops → <code>for</code>, <code>while</code></li>
+  <li>I/O → <code>cin</code>, <code>cout</code></li>
+</ul>
+
+<h3>2. <strong>Add C++ syntax</strong></h3>
+<ul>
+  <li>Use semicolons, braces <code>{}</code>, and proper types (<code>int</code>, <code>double</code>, etc.)</li>
+  <li>Include headers like <code>#include &lt;iostream&gt;</code></li>
+</ul>
+
+<hr>
+
+<h2 id="-example-translating-factorial">🧮 Example: Translating Factorial</h2>
+
+<h3>🔤 Pseudocode:</h3>
+<pre><code>FUNCTION Factorial(n)
+    IF n == 0 THEN
+        RETURN 1
+    ELSE
+        RETURN n * Factorial(n - 1)
+    ENDIF
+END FUNCTION</code></pre>
+
+<h3>💻 C++ Code:</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">Factorial</span>(<span class="keyword">int</span> n) {
+    <span class="keyword">if</span> (n == <span class="number">0</span>)
+        <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="keyword">else</span>
+        <span class="keyword">return</span> n * <span class="function">Factorial</span>(n - <span class="number">1</span>);
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> num = <span class="number">5</span>;
+    cout &lt;&lt; <span class="string">"Factorial of "</span> &lt;&lt; num &lt;&lt; <span class="string">" is "</span> &lt;&lt; <span class="function">Factorial</span>(num) &lt;&lt; endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-practice-example">🧪 Practice Example</h2>
+
+<h3>🔤 Pseudocode:</h3>
+<pre><code>READ n
+sum ← 0
+FOR i ← 1 TO n DO
+    sum ← sum + i
+ENDFOR
+PRINT sum</code></pre>
+
+<h3>💻 C++ Code:</h3>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> n, sum = <span class="number">0</span>;
+    cin &gt;&gt; n;
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) {
+        sum += i;
+    }
+    cout &lt;&lt; <span class="string">"Sum is "</span> &lt;&lt; sum &lt;&lt; endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-translating-tips">🧠 Translating Tips</h2>
+
+<ul>
+  <li>Go line-by-line. Don't get overwhelmed by the whole method.</li>
+  <li>Don't change variable names until you have a working version.</li>
+  <li>Often times, you'll have to add to it to make it fit in your application.</li>
+  <li><code>:=</code> means assignment.</li>
+  <li>Don't change the logic of the pseudocode.</li>
+  <li>Indentation means blocks and indicates what block the code belongs to.</li>
+  <li>It's ok to skip something and come back to it later.</li>
+  <li><code>end if</code>, <code>end for</code>, <code>end procedure</code> means <code>}</code> in C++</li>
+  <li>If it doesn't work after translating, go back and compare your code line-by-line (sometimes character by character) with the pseudocode. Sometimes the problem is a simple translation mistake.</li>
+</ul>
+
+<hr>
+
+<h2 id="-summary">✅ Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pseudocode Element</th>
+      <th>C++ Equivalent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>READ x</code></td>
+      <td><code>cin &gt;&gt; x;</code></td>
+    </tr>
+    <tr>
+      <td><code>PRINT x</code></td>
+      <td><code>cout &lt;&lt; x;</code></td>
+    </tr>
+    <tr>
+      <td><code>IF</code>, <code>ELSE</code></td>
+      <td><code>if</code>, <code>else</code></td>
+    </tr>
+    <tr>
+      <td><code>FOR</code>, <code>WHILE</code></td>
+      <td><code>for</code>, <code>while</code></td>
+    </tr>
+    <tr>
+      <td><code>EndIF</code>, <code>EndFor</code></td>
+      <td><code>}</code></td>
+    </tr>
+    <tr>
+      <td><code>EndWhile</code></td>
+      <td><code>}</code></td>
+    </tr>
+    <tr>
+      <td><code>EndProcedure</code></td>
+      <td><code>}</code></td>
+    </tr>
+    <tr>
+      <td><code>FUNCTION</code></td>
+      <td><code>returnType functionName()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+    
+<h2 id="-sorting">💻 Practice it! Sorting</h2>
+
+<h3>🧩 Part A-2: Sorting</h3>
+<ol>
+  <li>Open <code>Sorter.h</code> and add a method declaration called <code>BubbleSort</code>. The method should sort a vector of <code>Light</code> objects.</li>
+</ol>
+<blockquote>
+  NOTE: open the Light.h file to see the declaration of the Light structure.
+</blockquote>
+<ol start="2">
+  <li>Open <code>Sorter.cpp</code> and write a definition of the <code>BubbleSort</code> method. Translate the following pseudocode to sort the vector.</li>
+</ol>
+<pre><code>procedure bubbleSort(A : list of sortable items)
+  n := length(A)
+  repeat
+	  swapped := false
+	  for i := 1 to n - 1 inclusive do
+		  if A[i - 1] > A[i] then
+			  swap(A, i - 1, i)
+			  swapped = true
+		  end if
+	  end for
+	  n := n - 1
+  while swapped
+end procedure</code></pre>
+<ol start="3">
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>In the <code>Day4::PartA_2()</code> method, find <code>case SDLK_2:</code> and call your <code>BubbleSort</code> method after the <code>TODO</code> comment.</li>
+</ol>
+
+<h4>🎯 Result:</h4>
+<p><img src="../Lectures/SortingResult.png" alt="BubbleSort Result"></p>
+
+
+</main>
+
+</body>
+</html>

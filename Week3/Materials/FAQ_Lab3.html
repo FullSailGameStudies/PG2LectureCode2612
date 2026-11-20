@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Lab 3: Frequently Asked Questions</h1>
+
+<ul>
+  <li><a href="#-q-do-you-have-any-tips-for-lab-3">❓ Q: Do you have any tips for lab 3?</a></li>
+  <li><a href="#-q-i-get-a-build-error-saying-access-is-denied-to-my-graphics.exe-file.-what-do-i-do">❓ Q: I get a build error saying access is denied to my graphics.exe file. What do I do?</a></li>
+  <li><a href="#-q-im-getting-errors-for-the-variable-names-i-used-in-the-.h-file.-visual-studio-says-its-not-a-non-static-data-member-or-base-class-of-class-pixel.-whats-wrong">❓ Q: Variable name errors in the .h file?</a></li>
+  <li><a href="#-q-how-do-i-make-a-rectangle-with-a-point-and-width-and-height">❓ Q: How do I make a rectangle with a point, width, and height?</a></li>
+  <li><a href="#-q-how-do-i-get-my-rectangle-to-fit-within-the-window">❓ Q: How do I get my rectangle to fit within the window?</a></li>
+  <li><a href="#-q-how-do-i-make-my-circle-fit-within-the-window">❓ Q: How do I make my circle fit within the window?</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-q-do-you-have-any-tips-for-lab-3">❓ Q: Do you have any tips for lab 3?</h2>
+
+<h3>💡 A: Of course! Here they are...</h3>
+
+<h4>📄 Pseudocode STILL Matters!</h4>
+<ul>
+  <li>Most issues with your line/circle are from not following the pseudocode.</li>
+  <li>Only exception: you didn’t switch from terminal to console window.</li>
+  <li><code>endif</code> just ends the if statement in pseudocode.</li>
+  <li><code>while(true)</code> is totally valid.</li>
+  <li><code>if (condition) break;</code> means the break is the body.
+    <ul>
+      <li>You can rewrite it as <code>if (condition) { break; }</code> for clarity.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>Rules of Scoping (public/private/protected)</h4>
+<ul>
+  <li>Use them intentionally!</li>
+  <li>Ask yourself: “Should other files see this?”
+    <ul>
+      <li>These are <strong>core Programming concepts</strong> — don’t ignore them.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>🏗️ Constructors &amp; Initialization</h4>
+<p>Use member initialization lists! Example:</p>
+<pre><code><span class="type">MyClass</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) : m_a(a), m_b(b) {}</code></pre>
+
+<h4>❌ Don’t Include Your `.cpp` Files</h4>
+<ul>
+  <li>Including <code>.cpp</code> files = 50+ errors (circular inclusion nightmares).</li>
+  <li>Only include <code>.h</code> files — when needed.</li>
+  <li><strong>Tip:</strong> If A.h includes B.h, and you include A.h in your file, you don’t need to include B.h again — it’s already included!</li>
+</ul>
+
+<h4>🎨 Random Number in a Range</h4>
+<p>Use this pseudocode template to generate values within a target span:</p>
+<pre><code><span class="keyword">int</span> num = rand() % max + min;</code></pre>
+
+<hr>
+
+<h2 id="-q-i-get-a-build-error-saying-access-is-denied-to-my-graphics.exe-file.-what-do-i-do">❓ Q: I get a build error saying access is denied to my graphics.exe file. What do I do?</h2>
+
+<h3>💡 A: There can be a few causes...</h3>
+<p>This is usually triggered when one of the following occurs:</p>
+<ul>
+  <li>Visual Studio has the file locked.</li>
+  <li>The debugger was unlinked from the graphics.exe program.</li>
+  <li>Virus protection has locked the folder.</li>
+</ul>
+
+<p>Here are several ways to fix the problem:</p>
+<ul>
+  <li>Open the task manager, find <code>graphics.exe</code>, and select <strong>End Task</strong>.</li>
+  <li>Restart Visual Studio.</li>
+  <li>Restart your computer.</li>
+</ul>
+
+<p><img src="./lockedGraphicsExe.png" alt="Locked Error"></p>
+
+<hr>
+
+<h2 id="-q-im-getting-errors-for-the-variable-names-i-used-in-the-.h-file.-visual-studio-says-its-not-a-non-static-data-member-or-base-class-of-class-pixel.-whats-wrong">❓ Q: I'm getting errors for the variable names I used in the .h file. Visual Studio says it's not a non-static data member or base class of class Pixel. What's wrong?</h2>
+
+<h3>💡 A: Do not name the getters/setters with the same name as your fields.</h3>
+<p>Giving accessor functions the exact same name as your private variables confuses the compiler.</p>
+
+<h4>❌ Example of the problem:</h4>
+<pre><code><span class="keyword">class</span> <span class="type">BFG</span> {
+<span class="keyword">private</span>:
+   <span class="keyword">int</span> roundsPerSecond;
+<span class="keyword">public</span>:
+   <span class="keyword">int</span> <span class="function">roundsPerSecond</span>() { <span class="keyword">return</span> roundsPerSecond; }  
+   <span class="type">BFG</span>(<span class="keyword">int</span> rounds);
+};
+
+<span class="comment">// In the cpp file...</span>
+<span class="comment">// ERROR! The compiler won't know which symbol to use here</span>
+<span class="namespace">BFG</span>::<span class="type">BFG</span>(<span class="keyword">int</span> rounds) : <span class="function">roundsPerSecond</span>(rounds) {}</code></pre>
+
+<h4>✅ How to fix the example:</h4>
+<p>Use a clear naming convention for your member variables to distinguish them from methods (e.g., trailing underscores, prefixes):</p>
+<pre><code><span class="keyword">class</span> <span class="type">BFG</span> {
+<span class="keyword">private</span>:
+   <span class="keyword">int</span> roundsPerSecond_; <span class="comment">// Trailing underscore fixes the conflict</span>
+<span class="keyword">public</span>:
+   <span class="keyword">int</span> <span class="function">roundsPerSecond</span>() <span class="keyword">const</span> { <span class="keyword">return</span> roundsPerSecond_; }  
+   <span class="type">BFG</span>(<span class="keyword">int</span> rounds);
+};</code></pre>
+
+<hr>
+
+<h2 id="-q-how-do-i-make-a-rectangle-with-a-point-and-width-and-height">❓ Q: How do I make a rectangle with a point and width and height?</h2>
+
+<h3>💡 A: Combine the width and height with the start point</h3>
+<p>A rectangle is defined by a <code>Point2D</code> (representing the top-left corner), a width, and a height. You combine these parameters to generate the 4 lines. An easy approach is calculating the remaining 3 coordinate points (top-right, bottom-left, and bottom-right):</p>
+
+<ul>
+  <li>If your top-left corner is at <strong>(75, 35)</strong>, width is <strong>10</strong>, and height is <strong>15</strong>:
+    <ul>
+      <li><strong>Top-Right:</strong> (75 + 10), 35 &rarr; <strong>(85, 35)</strong></li>
+      <li><strong>Bottom-Left:</strong> 75, (35 + 15) &rarr; <strong>(75, 50)</strong></li>
+      <li><strong>Bottom-Right:</strong> (75 + 10), (35 + 15) &rarr; <strong>(85, 50)</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  NOTE: The coordinate origin (0,0) resides at the top-left corner of the window. X values increase from left to right, while Y values increase from top to bottom.
+</blockquote>
+
+<p><img src="./Lab3_WindowHelp.png" alt="Window Help"></p>
+
+<hr>
+
+<h2 id="-q-how-do-i-get-my-rectangle-to-fit-within-the-window">❓ Q: How do I get my rectangle to fit within the window?</h2>
+
+<h3>💡 A: The rectangle is constrained by the window's size</h3>
+<p>To ensure your shape doesn't get clipped, your starting top-left coordinates plus the shape dimensions must remain within the window's max boundaries.</p>
+
+<ul>
+  <li>If your window size is <strong>(100, 80)</strong> and your top-left choice lands at <strong>(75, 35)</strong>:
+    <ul>
+      <li>The max allowable width is <code>100 - 75 = 25</code></li>
+      <li>The max allowable height is <code>80 - 35 = 45</code></li>
+    </ul>
+  </li>
+  <li>Pass those calculated maximum boundaries into your random distribution loops to guarantee the shape stays completely visible.</li>
+</ul>
+
+<hr>
+
+<h2 id="-q-how-do-i-make-my-circle-fit-within-the-window">❓ Q: How do I make my circle fit within the window?</h2>
+
+<h3>💡 A: The center point + radius cannot exceed the bounds of the window</h3>
+<p>Your radius selection must be dynamically throttled based on where the center point is positioned. For example:</p>
+
+<ul>
+  <li>If your total screen size is <strong>(100, 80)</strong> and the chosen center point lands at <strong>(5, 77)</strong>:
+    <ul>
+      <li>The distance to the bottom boundary is <code>80 - 77 = 3</code></li>
+      <li>The distance to the left boundary is <code>5 - 0 = 5</code></li>
+    </ul>
+  </li>
+  <li>To keep the circle fully on screen, the <strong>absolute maximum radius</strong> is bounded by the smallest edge margin, which is <strong>3</strong>.</li>
+</ul>
+
+<ol>
+  <li>Determine your center point coordinates.</li>
+  <li>Find the distance from that center point to all four window borders to isolate the smallest margin gap.</li>
+  <li>Use that smallest distance as your maximum ceiling limit when generating a random radius.</li>
+</ol>
+
+
+</main>
+
+</body>
+</html>

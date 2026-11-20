@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Understanding Class Instances in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-class-instance">🧠 What is a Class Instance?</a></li>
+    <li><a href="#-declaring-and-creating-instances">🧱 Declaring and Creating Instances</a></li>
+    <li><a href="#-instances-with-constructors">🧬 Instances with Constructors</a></li>
+    <li><a href="#-summary">✅ Summary</a></li>
+    <li><a href="#-instances">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-is-class-instance">🧠 What is a Class Instance?</h2>
+
+<p>A <strong>class instance</strong> (also called an <strong>object</strong>) is a concrete realization of a class. While a class defines the <strong>structure</strong> and <strong>behavior</strong> (via fields and methods), an instance represents a <strong>specific entity</strong> with its own <strong>state</strong>.</p>
+
+<h3>🔑 Key Concepts:</h3>
+<ul>
+  <li>A class is like a <strong>blueprint</strong>.</li>
+  <li>An instance is like a <strong>house built from that blueprint</strong>.</li>
+  <li>Each instance has its own <strong>copy of the class's fields</strong>.</li>
+</ul>
+
+<hr>
+
+<h2 id="-declaring-and-creating-instances">🧱 Declaring and Creating Instances</h2>
+
+<h3>🔹 Syntax</h3>
+
+<pre><code><span class="type">ClassName</span> objectName;               <span class="comment">// Default constructor</span>
+<span class="type">ClassName</span> objectName(args);        <span class="comment">// Parameterized constructor</span></code></pre>
+
+<h3>🧪 Example</h3>
+
+<pre><code><span class="keyword">class</span> <span class="type">Car</span> {
+  <span class="keyword">public</span>:
+    <span class="type">string</span> brand;
+    <span class="keyword">int</span> year;
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+        cout &lt;&lt; <span class="string">"Brand: "</span> &lt;&lt; brand &lt;&lt; <span class="string">", Year: "</span> &lt;&lt; year &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Car</span> car1;               <span class="comment">// Instance of Car</span>
+    car1.brand = <span class="string">"Toyota"</span>;
+    car1.year = <span class="number">2020</span>;
+
+    car1.<span class="function">display</span>();         <span class="comment">// Output: Brand: Toyota, Year: 2020</span>
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-instances-with-constructors">🧬 Instances with Constructors</h2>
+
+<pre><code><span class="keyword">class</span> <span class="type">Student</span> {
+  <span class="keyword">private</span>:
+    <span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+
+  <span class="keyword">public</span>:
+    <span class="type">Student</span>(<span class="type">string</span> n, <span class="keyword">int</span> a) : <span class="function">name</span>(n), <span class="function">age</span>(a) {}
+
+    <span class="keyword">void</span> <span class="function">display</span>() {
+        cout &lt;&lt; <span class="string">"Name: "</span> &lt;&lt; name &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; age &lt;&lt; endl;
+    }
+};
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">Student</span> s1(<span class="string">"Alice"</span>, <span class="number">20</span>);   <span class="comment">// Instance with parameterized constructor</span>
+    <span class="type">Student</span> s2(<span class="string">"Bob"</span>, <span class="number">22</span>);
+
+    s1.<span class="function">display</span>();              <span class="comment">// Output: Name: Alice, Age: 20</span>
+    s2.<span class="function">display</span>();              <span class="comment">// Output: Name: Bob, Age: 22</span>
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-summary">✅ Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Class</strong></td>
+      <td>Blueprint for objects</td>
+    </tr>
+    <tr>
+      <td><strong>Instance</strong></td>
+      <td>A specific object created from a class</td>
+    </tr>
+    <tr>
+      <td><strong>Constructor</strong></td>
+      <td>Initializes an instance</td>
+    </tr>
+  </tbody>
+</table>
+
+    
+    
+<h2 id="-instances">💻 Practice it! Create an instance</h2>
+
+<h3>🧩 Part A-1.5 Create a Card object</h3>
+<ol>
+  <li>Open the <code>Day7.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part A-1.5 Create a Card object</code>. After the comment...</li>
+  <li>Create an instance of your Card class. You can use any face and suit.</li>
+</ol>
+
+<h3>🧩 Part A-1.6 call GameTextures::RenderImage</h3>
+<ol>
+  <li>Open the <code>Day7.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part A-1.6 call GameTextures::RenderImage with the Card object</code>. After the comment...</li>
+  <li>call <code>GameTextures::RenderImage</code> method. pass the face and suit of your card object. Also pass the x, y, and scale variables.</li>
+</ol>
+
+<h3>🧩 Part A-1.7 call Card functions</h3>
+<ol>
+  <li>Open the <code>Day7.cpp</code></li>
+  <li>Find the comment labeled <code>TODO: Part A-1.7 call the methods</code>. After the comment...</li>
+  <li>call <code>Value</code> method and print the value of the card. </li>
+  <li>call <code>Print</code> method of the card. </li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/CardResults.png" alt="Card Results"></p>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Linear Search vs Binary Search</h1>
+
+<ul>
+    <li>
+        <a href="#-1-conceptual-overview">🧠 1. Conceptual Overview</a>
+        <ul>
+            <li><a href="#linear-search-sequential-search">Linear Search (Sequential Search)</a></li>
+            <li><a href="#binary-search">Binary Search</a></li>
+        </ul>
+    </li>
+    <li><a href="#%EF%B8%8F-2-time-complexity">⏱️ 2. Time Complexity</a></li>
+    <li><a href="#-3-use-cases">🧰 3. Use Cases</a></li>
+    <li><a href="#-4-example-scenario">🧪 4. Example Scenario</a></li>
+    <li><a href="#-5-summary-table">✅ 5. Summary Table</a></li>
+    <li><a href="#-search">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-1-conceptual-overview">🧠 1. Conceptual Overview</h2>
+
+<h3 id="linear-search-sequential-search"><strong>Linear Search (Sequential Search)</strong></h3>
+
+<p>Linear search is the simplest searching algorithm. It checks each element in a list <strong>one by one</strong> until it finds the target value or reaches the end of the list.</p>
+
+<ul>
+  <li><strong>No assumptions</strong> about the order of elements.</li>
+  <li>Works on <strong>unsorted or sorted</strong> data.</li>
+  <li>Easy to implement and understand.</li>
+</ul>
+
+<pre><code><span class="comment">//-1 means not found because it is an invalid index</span>
+<span class="keyword">const int</span> NOT_FOUND = -<span class="number">1</span>;
+
+<span class="keyword">int</span> <span class="function">LinearSearch</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; numbers, <span class="keyword">int</span> numberToFind)
+{
+	<span class="keyword">int</span> index = NOT_FOUND;
+	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numbers.<span class="function">size</span>(); i++)
+	{
+		<span class="keyword">if</span> (numberToFind == numbers[i])
+		{
+			index = i;
+			<span class="keyword">break</span>;
+		}
+	}
+	return index;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() 
+{
+	<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; nums = { <span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span> };
+	<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; searchNumbers = { <span class="number">0</span>,<span class="number">9</span>,<span class="number">15</span>,<span class="number">5</span> };
+	<span class="keyword">for</span> (<span class="keyword">auto</span>&amp; searchNumber : searchNumbers)
+	{
+		<span class="keyword">int</span> index = <span class="function">LinearSearch</span>(nums, searchNumber);
+		<span class="keyword">if</span> (index == NOT_FOUND)
+			<span class="namespace">std</span>::cout &lt;&lt; searchNumber &lt;&lt; <span class="string">" was not found.\n"</span>;
+		<span class="keyword">else</span>
+			<span class="namespace">std</span>::cout &lt;&lt; searchNumber &lt;&lt; <span class="string">" was found at index "</span> &lt;&lt; index &lt;&lt; <span class="string">".\n"</span>;
+	}
+}</code></pre>
+
+<h3>Output:</h3>
+<pre><code>0 was found at index 0.
+9 was found at index 9.
+15 was not found.
+5 was found at index 5.</code></pre>
+
+<h3 id="binary-search"><strong>Binary Search</strong></h3>
+
+<p>Binary search is a more efficient algorithm that repeatedly divides a <strong>sorted</strong> list in half to locate a target value.</p>
+
+<ul>
+  <li>Requires the list to be <strong>sorted</strong> in advance.</li>
+  <li>Elimates half of the remaining elements in each step.</li>
+  <li>Much faster for large datasets.</li>
+</ul>
+
+<h4>Binary Search pseudocode</h4>
+<pre><code><span class="comment">// initially called with low = 0, high = N-1</span>
+<span class="function">BinarySearch</span>(A[0..N-1], searchTerm, low, high) 
+{
+      <span class="keyword">if</span> (high &lt; low)
+            <span class="keyword">return</span> -<span class="number">1</span> <span class="comment">// -1 means not found</span>
+      mid = (low + high) / <span class="number">2</span>
+      <span class="keyword">if</span> (searchTerm &lt; A[mid])
+          <span class="keyword">return</span> <span class="function">BinarySearch</span>(A, searchTerm, low, mid-<span class="number">1</span>)
+      <span class="keyword">else if</span> (searchTerm &gt; A[mid])
+          <span class="keyword">return</span> <span class="function">BinarySearch</span>(A, searchTerm, mid+<span class="number">1</span>, high)
+      <span class="keyword">else</span>
+          <span class="keyword">return</span> mid <span class="comment">//the searchTerm was found so return its index</span>
+}</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-2-time-complexity">⏱️ 2. Time Complexity</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Algorithm</th>
+      <th>Best Case</th>
+      <th>Average Case</th>
+      <th>Worst Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Linear Search</strong></td>
+      <td>O(1)</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+    </tr>
+    <tr>
+      <td><strong>Binary Search</strong></td>
+      <td>O(1)</td>
+      <td>O(log n)</td>
+      <td>O(log n)</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><strong>Linear Search</strong>: Best case is when the target is the first element; worst case is when it's the last or not present.</li>
+  <li><strong>Binary Search</strong>: Best case is when the target is the middle element; otherwise, it logarithmically narrows the search space.</li>
+</ul>
+
+<hr>
+
+<h2 id="-3-use-cases">🧰 3. Use Cases</h2>
+
+<h3>Use <strong>Linear Search</strong> when:</h3>
+<ul>
+  <li>The dataset is <strong>unsorted</strong>.</li>
+  <li>The list is <strong>small</strong>, and performance is not critical.</li>
+  <li>You want a <strong>simple and quick</strong> implementation.</li>
+</ul>
+
+<h3>Use <strong>Binary Search</strong> when:</h3>
+<ul>
+  <li>The dataset is <strong>sorted</strong>.</li>
+  <li>You need <strong>fast lookups</strong> in large datasets.</li>
+  <li>You can afford the <strong>preprocessing cost</strong> of sorting (if not already sorted).</li>
+</ul>
+
+<hr>
+
+<h2 id="-4-example-scenario">🧪 4. Example Scenario</h2>
+
+<p>Imagine searching for a student's ID in a list of 1,000 names:</p>
+<ul>
+  <li>If the list is <strong>unsorted</strong>, linear search is your only option.</li>
+  <li>If the list is <strong>sorted alphabetically</strong>, binary search can find the ID in about <strong>10 comparisons</strong> (since \( \log_2(1000) \approx 10 \)).</li>
+</ul>
+
+<hr>
+
+<h2 id="-5-summary-table">✅ 5. Summary Table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Linear Search</th>
+      <th>Binary Search</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Requires Sorted Data</td>
+      <td>❌ No</td>
+      <td>✅ Yes</td>
+    </tr>
+    <tr>
+      <td>Time Complexity</td>
+      <td>O(n)</td>
+      <td>O(log n)</td>
+    </tr>
+    <tr>
+      <td>Implementation</td>
+      <td>✅ Simple</td>
+      <td>⚠️ Slightly complex</td>
+    </tr>
+    <tr>
+      <td>Flexibility</td>
+      <td>✅ Any data</td>
+      <td>❌ Sorted only</td>
+    </tr>
+    <tr>
+      <td>Performance (Large n)</td>
+      <td>❌ Slower</td>
+      <td>✅ Much faster</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2 id="-search">💻 Practice it! Search</h2>
+
+<h3>🧩 Part B-1: Linear Search</h3>
+<ol>
+  <li>Open <code>Searcher.h</code> and add a method declaration called <code>LinearSearch</code>. The method should search a vector of <code>Light</code> objects for a specific value of the green channel.</li>
+</ol>
+<blockquote>
+  NOTE: open the Light.h file to see the declaration of the Light structure.
+</blockquote>
+<ol start="2">
+  <li>Open <code>Searcher.cpp</code> and write a definition of the <code>LinearSearch</code> method.
+    <ul>
+      <li>Linearly search the vector.</li>
+      <li>Compare the green channel of each object with the green parameter.</li>
+      <li>If the values match, return the index of the light.</li>
+      <li>If no match is found, return -1 which indicates that the color was not found.</li>
+    </ul>
+  </li>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_1()</code> method, find the <code>TODO</code> comment and call your <code>LinearSearch</code> method before the if block. Assign the returned index to the <code>foundIndex</code> variable.</li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/SearchResults.png" alt="Linear Search results"></p>
+
+
+</main>
+
+</body>
+</html>

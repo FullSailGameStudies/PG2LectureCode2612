@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 `std::map` in C++</h1>
+
+<ul>
+    <li><a href="#-what-is-stdmap">🧠 What is `std::map`?</a></li>
+    <li><a href="#-key-characteristics">🧱 Key Characteristics</a></li>
+    <li><a href="#-syntax">🧾 Syntax</a></li>
+    <li>
+        <a href="#-basic-operations">🧪 Basic Operations</a>
+        <ul>
+            <li><a href="#1-insertion">1. Insertion</a></li>
+            <li><a href="#2-accessing-elements">2. Accessing Elements</a></li>
+            <li><a href="#3-iterating">3. Iterating</a></li>
+            <li><a href="#4-finding-elements">4. Finding Elements</a></li>
+        </ul>
+    </li>
+    <li><a href="#-when-to-use-stdmap">✅ When to Use `std::map`</a></li>
+    <li><a href="#-maps">Practice it!</a></li>
+</ul>
+
+<p><code>std::map</code> is a <strong>sorted associative container</strong> in the C++ Standard Template Library (STL) that stores elements as <strong>key-value pairs</strong>. Each key is <strong>unique</strong>, and the map automatically sorts the elements by key using the <strong>less-than operator (<code>&lt;</code>)</strong> by default.</p>
+
+<hr>
+
+<h2 id="-what-is-stdmap">🧠 What is `std::map`?</h2>
+
+<h2 id="-key-characteristics">🧱 Key Characteristics</h2>
+<ul>
+  <li><strong>Ordered</strong>: Elements are stored in sorted order based on the key.</li>
+  <li><strong>Unique keys</strong>: No duplicate keys are allowed.</li>
+  <li><strong>Logarithmic time complexity</strong>: Insertion, deletion, and lookup operations take O(log n) time.</li>
+  <li><strong>Implemented as</strong>: A self-balancing binary search tree (typically a Red-Black Tree).</li>
+</ul>
+
+<hr>
+
+<h2 id="-syntax">🧾 Syntax</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;map&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="type">map</span>&lt;<span class="type">KeyType</span>, <span class="type">ValueType</span>&gt; mapName;</code></pre>
+
+<p>Example:</p>
+<pre><code><span class="type">map</span>&lt;<span class="type">string</span>, <span class="keyword">int</span>&gt; studentGrades;</code></pre>
+
+<hr>
+
+<h2 id="-basic-operations">🧪 Basic Operations</h2>
+
+<h3 id="1-insertion">1. Insertion</h3>
+<pre><code>studentGrades[<span class="string">"Alice"</span>] = <span class="number">90</span>;
+<span class="keyword">auto</span> result = studentGrades.<span class="function">insert</span>({<span class="string">"Bob"</span>, <span class="number">85</span>});</code></pre>
+
+<p><code>insert</code> will return a key-value pair. The first of the pair is the iterator to the item in the map. The second of the pair is a bool. If it is true, then the item was inserted into the map otherwise it was not.</p>
+
+<p><strong>NOTES:</strong></p>
+<ul>
+  <li><code>map[key]</code> will <strong>overwrite</strong> any existing value</li>
+  <li><code>insert</code> will NOT overwrite</li>
+</ul>
+
+<h4>Insert return value</h4>
+<p>The insert method will return a pair object.</p>
+<ul>
+  <li>The first part of the pair is the iterator to the key-value pair object in the map.</li>
+</ul>
+<pre><code><span class="keyword">auto</span> result = studentGrades.<span class="function">insert</span>({<span class="string">"Bob"</span>, <span class="number">85</span>});
+<span class="type">map</span>&lt;<span class="type">string</span>, <span class="keyword">int</span>&gt;::iterator keyValuePair = result.first;
+<span class="comment">//this is the key-value pair that is in the map</span></code></pre>
+
+<ul>
+  <li>The second part of the pair is a bool.
+    <ul>
+      <li>If the value is <strong>false</strong>, then the key-value pair was NOT inserted.</li>
+      <li>If the value is <strong>true</strong>, then the key-value pair was inserted.</li>
+    </ul>
+  </li>
+</ul>
+<pre><code><span class="keyword">auto</span> result = studentGrades.<span class="function">insert</span>({<span class="string">"Bob"</span>, <span class="number">85</span>});
+<span class="keyword">bool</span> wasInserted = result.second;
+<span class="comment">//this is the bool that indicates if the key-value pair was inserted</span></code></pre>
+
+<h3 id="2-accessing-elements">2. Accessing Elements</h3>
+<pre><code>cout &lt;&lt; studentGrades[<span class="string">"Alice"</span>]; <span class="comment">// Outputs: 90</span></code></pre>
+<blockquote>
+  Using <code>map[key]</code> to access a value will ADD the key if it is not in the map. Use <code>find</code> instead if you do not want this side-effect.
+</blockquote>
+
+<h3 id="3-iterating">3. Iterating</h3>
+
+<h4>Traditional Iteration (Pre-C++17)</h4>
+<pre><code><span class="keyword">for</span> (<span class="keyword">auto</span> it = myMap.<span class="function">begin</span>(); it != myMap.<span class="function">end</span>(); ++it) {
+    cout &lt;&lt; it-&gt;first &lt;&lt; <span class="string">: "</span> &lt;&lt; it-&gt;second &lt;&lt; endl;
+}</code></pre>
+
+<h4>Range-Based For Loop (C++11 and later)</h4>
+<pre><code><span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; pair : myMap) {
+    cout &lt;&lt; pair.first &lt;&lt; <span class="string">": "</span> &lt;&lt; pair.second &lt;&lt; endl;
+}</code></pre>
+
+<h4>Structured Bindings (C++17)</h4>
+<pre><code><span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; [key, value] : myMap) {
+    cout &lt;&lt; key &lt;&lt; <span class="string">": "</span> &lt;&lt; value &lt;&lt; endl;
+}</code></pre>
+
+<p><strong>Explanation:</strong></p>
+<ul>
+  <li><code>auto&amp; [key, value]</code> unpacks the <code>std::pair&lt;const Key, Value&gt;</code> into named variables.</li>
+  <li>This improves readability and avoids accessing <code>.first</code> and <code>.second</code> explicitly.</li>
+</ul>
+
+<h3 id="4-finding-elements">4. Finding Elements</h3>
+<p>The <code>find()</code> method is used to <strong>search for a key</strong> in a <code>std::map</code>. It returns an <strong>iterator</strong> to the element if found, or <code>map.end()</code> if not.</p>
+
+<h4>Syntax</h4>
+<pre><code><span class="keyword">auto</span> it = myMap.<span class="function">find</span>(key);
+<span class="keyword">if</span> (it != myMap.<span class="function">end</span>()) {
+    <span class="comment">// Access key and value</span>
+    cout &lt;&lt; <span class="string">"Key: "</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">", Value: "</span> &lt;&lt; it-&gt;second &lt;&lt; endl;
+}</code></pre>
+
+<h4>With Structured Bindings (C++17)</h4>
+<p>You can also use structured bindings with the iterator:</p>
+<pre><code><span class="keyword">auto</span> it = myMap.<span class="function">find</span>(<span class="string">"Alice"</span>); 
+<span class="keyword">if</span> (it != myMap.<span class="function">end</span>()) {
+    <span class="keyword">const auto</span>&amp; [key, value] = *it; <span class="comment">//bind the first and second to the key,value variables.</span>
+    cout &lt;&lt; <span class="string">"Found "</span> &lt;&lt; key &lt;&lt; <span class="string">" with value "</span> &lt;&lt; value &lt;&lt; endl;
+}</code></pre>
+
+<p><strong>Explanation:</strong></p>
+<ul>
+  <li><code>myMap.find("Alice")</code> returns an iterator to the pair.</li>
+  <li><code>*it</code> dereferences the iterator to get the <code>std::pair</code>.</li>
+  <li>Structured binding unpacks the pair into <code>key</code> and <code>value</code> variables.</li>
+</ul>
+
+<h4>🧪 find Example</h4>
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;map&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="type">map</span>&lt;<span class="type">string</span>, <span class="keyword">int</span>&gt; scores = {{<span class="string">"Alice"</span>, <span class="number">90</span>}, {<span class="string">"Bob"</span>, <span class="number">85</span>}, {<span class="string">"Charlie"</span>, <span class="number">92</span>}};
+
+    <span class="comment">// Iteration using structured bindings</span>
+    <span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; [name, score] : scores) {
+        cout &lt;&lt; name &lt;&lt; <span class="string">": "</span> &lt;&lt; score &lt;&lt; endl;
+    }
+
+    <span class="comment">// Using find to access a specific key</span>
+    <span class="keyword">auto</span> it = scores.<span class="function">find</span>(<span class="string">"Bob"</span>); 
+    <span class="keyword">if</span> (it != scores.<span class="function">end</span>()) {
+        <span class="keyword">const auto</span>&amp; [name, score] = *it;
+        cout &lt;&lt; <span class="string">"Found "</span> &lt;&lt; name &lt;&lt; <span class="string">" with score "</span> &lt;&lt; score &lt;&lt; endl;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h4>Output:</h4>
+<pre><code>Alice: 90
+Bob: 85
+Charlie: 92
+Found Bob with score 85</code></pre>
+
+
+<h2 id="-when-to-use-stdmap">✅ When to Use `std::map`</h2>
+<p>Use <code>std::map</code> when:</p>
+<ul>
+    <li>You need <strong>sorted</strong> key-value pairs.</li>
+    <li>You require <strong>fast lookups</strong> by key.</li>
+    <li>You want to <strong>avoid duplicate keys</strong>.</li>
+</ul>
+
+
+<h2 id="-maps">💻 Practice it! Maps</h2>
+
+<h3>🧩 Part B-2.1: Fill the Map</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-2.1 fill the std::map</code>. After the comment...
+    <ul>
+      <li>Loop over the <code>allLights</code> vector.
+        <ul>
+          <li>Create a temporary <code>ColorChannel</code> variable.</li>
+          <li>Check each light.</li>
+          <li>If the red channel is greater than the blue and green channels, set the <code>ColorChannel</code> variable to <code>RED</code>.</li>
+          <li>If the blue channel is greater than the red and green channels, set the <code>ColorChannel</code> variable to <code>BLUE</code>.</li>
+          <li>If the green channel is greater than the red and blue channels, set the <code>ColorChannel</code> variable to <code>GREEN</code>.</li>
+          <li>Call the <code>groupedColors</code> map's find method with the <code>ColorChannel</code> variable.
+            <ul>
+              <li>If the iterator that is returned equals the <code>groupedColors</code>' end, then the key is not in the map then...
+                <ul>
+                  <li>Create a new vector with the light.</li>
+                  <li>Add the vector to the <code>groupedColors</code> map for the <code>ColorChannel</code>.</li>
+                </ul>
+              </li>
+              <li>Else the key is already in the map. Then...
+                <ul>
+                  <li>Add the light to the vector for the key.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ol>
+<blockquote>
+  NOTE: the first on the iterator is the key (ColorChannel) and the second on the iterator is the value (vector of lights)
+</blockquote>
+
+<h3>🧩 Part B-2.2: Loop over the Map</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-2.2 loop over the std::map</code>. After the comment...</li>
+  <li>Loop over the <code>groupedColors</code> map. In the loop for each light...
+    <ul>
+      <li>If the color channel is <code>RED</code>, print "RED" and the size of its vector.</li>
+      <li>If the color channel is <code>BLUE</code>, print "BLUE" and the size of its vector.</li>
+      <li>If the color channel is <code>GREEN</code>, print "GREEN" and the size of its vector.</li>
+      <li>Call the <code>grouper.DrawLights</code> method.</li>
+    </ul>
+  </li>
+</ol>
+<p>Example:</p>
+<pre><code><span class="comment">// the vectorOfLights comes from the map</span>
+grouper.<span class="function">DrawLights</span>(screenMap, vectorOfLights, columnRange, column, row); </code></pre>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/MapResult.png" alt="Loop over the map results"></p>
+
+<h3>🧩 Part B-3: Find in Maps</h3>
+<ol>
+  <li>Open <code>Day5.cpp</code>.</li>
+  <li>In the <code>Day5::PartB_2</code> method, find the comment <code>TODO: Part B-3 call std::map's find method</code>. After the comment...</li>
+  <li>Call the <code>groupedColors</code> find method to try to find the <code>BLUE</code> ColorChannel.</li>
+  <li>If the <code>BLUE</code> channel is not found, then print to the console that the channel could not be found.</li>
+  <li>Else print to the console that the Blue channel was found and print how many lights are in its vector.</li>
+</ol>
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/FindResults.png" alt="map.find results"></p>
+
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Understanding `std::vector` in C++</h1>
+
+<ul>
+    <li><a href="#-1-indexing">Indexing</a></li>
+    <li><a href="#-2-adding-items">Adding Items</a></li>
+    <li><a href="#-3-erasing-items">Erasing Items</a></li>
+    <li><a href="#-4-iterating-over-a-vector">Iterating Over a Vector</a></li>
+    <li><a href="#-5-size">Size</a></li>
+    <li><a href="#-6-capacity">Capacity</a></li>
+    <li><a href="#-7-copying">Copying</a></li>
+    <li><a href="#-summary">Summary</a></li>
+    <li><a href="#-copying-vectors-coding-practice">Practice it!</a></li>
+</ul>
+
+<p><code>std::vector</code> is a <strong>sequence container</strong> in the C++ Standard Template Library (STL) that provides <strong>dynamic array</strong> functionality. It manages memory automatically and allows random access to elements.</p>
+<blockquote>
+    The elements in the vector are stored <strong>contiguously</strong>, meaning that the elements are ordered in memory right next to each other.
+</blockquote>
+
+<hr>
+
+<h2 id="-1-indexing">🔹 1. Indexing</h2>
+
+<p>Vectors support <strong>random access</strong> via the subscript operator <code>[]</code> and the <code>.at()</code> method.</p>
+
+<pre><code><span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; v = {<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>};
+<span class="keyword">int</span> x = v[<span class="number">1</span>];       <span class="comment">// x = 20</span>
+<span class="keyword">int</span> y = v.<span class="function">at</span>(<span class="number">2</span>);    <span class="comment">// y = 30</span></code></pre>
+
+<ul>
+  <li><code>v[i]</code> is fast but <strong>not bounds-checked</strong>.</li>
+  <li><code>v.at(i)</code> is <strong>bounds-checked</strong> and throws <code>std::out_of_range</code> if <code>i</code> is invalid.</li>
+</ul>
+
+<hr>
+
+<h2 id="-2-adding-items">🔹 2. Adding Items</h2>
+
+<h3><code>push_back()</code></h3>
+<p>Adds an element to the <strong>end</strong> of the vector.</p>
+
+<pre><code>v.<span class="function">push_back</span>(<span class="number">40</span>);  <span class="comment">// v = {10, 20, 30, 40}</span></code></pre>
+
+<h3><code>insert()</code></h3>
+<p>Inserts an element at a <strong>specific position</strong>.</p>
+
+<pre><code>v.<span class="function">insert</span>(v.<span class="function">begin</span>() + <span class="number">1</span>, <span class="number">15</span>);  <span class="comment">// v = {10, 15, 20, 30, 40}</span></code></pre>
+
+<hr>
+
+<h2 id="-3-erasing-items">🔹 3. Erasing Items</h2>
+
+<h3><code>clear()</code></h3>
+<p>Removes all of the items in a vector.</p>
+
+<pre><code>v.<span class="function">clear</span>();</code></pre>
+
+<h3><code>pop_back()</code></h3>
+<p>Removes the <strong>last</strong> element.</p>
+
+<pre><code>v.<span class="function">pop_back</span>();  <span class="comment">// v = {10, 15, 20, 30}</span></code></pre>
+
+<h3><code>erase()</code></h3>
+<p>Removes an element or a range.</p>
+
+<pre><code>v.<span class="function">erase</span>(v.<span class="function">begin</span>() + <span class="number">1</span>);  <span class="comment">// removes 15 → v = {10, 20, 30}</span>
+v.<span class="function">erase</span>(v.<span class="function">begin</span>(), v.<span class="function">begin</span>() + <span class="number">2</span>);  <span class="comment">// removes 10 and 20 → v = {30}</span></code></pre>
+
+<hr>
+
+<h2 id="-4-iterating-over-a-vector">🔹 4. Iterating Over a Vector</h2>
+
+<h3>for loops</h3>
+<pre><code><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vec.<span class="function">size</span>();i++)
+{
+   <span class="namespace">std</span>::cout &lt;&lt; vec[i] &lt;&lt; <span class="string">"\n"</span>; <span class="comment">//or use vec.at(i)</span>
+}</code></pre>
+
+<h3>Using Iterators</h3>
+<pre><code><span class="keyword">for</span> (<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it = v.<span class="function">begin</span>(); it != v.<span class="function">end</span>(); ++it) {
+    <span class="namespace">std</span>::cout &lt;&lt; *it &lt;&lt; <span class="string">" "</span>;
+}</code></pre>
+
+<h3>Range-Based For Loop</h3>
+<pre><code><span class="keyword">for</span> (<span class="keyword">int</span> val : v) {
+    <span class="namespace">std</span>::cout &lt;&lt; val &lt;&lt; <span class="string">" "</span>;
+}</code></pre>
+
+<h3><code>auto</code></h3>
+<pre><code><span class="keyword">for</span> (<span class="keyword">auto</span> it = v.<span class="function">begin</span>(); it != v.<span class="function">end</span>(); ++it) {
+    <span class="namespace">std</span>::cout &lt;&lt; *it &lt;&lt; <span class="string">" "</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="-5-size">🔹 5. Size</h2>
+
+<h3><code>size()</code></h3>
+<p>Returns the <strong>number of elements</strong> in the vector.</p>
+
+<pre><code><span class="namespace">std</span>::cout &lt;&lt; v.<span class="function">size</span>();  <span class="comment">// e.g., 3</span></code></pre>
+
+<hr>
+
+<h2 id="-6-capacity">🔹 6. Capacity</h2>
+
+<h3><code>capacity()</code></h3>
+<p>Returns the <strong>allocated storage</strong> length (how big the internal array is). size() is ALWAYS &lt;= capacity().</p>
+<p>Think of it like the fuel tank in your car. capacity() is how big the fuel tank is. size() is how much gas is in the fuel tank.</p>
+
+<pre><code><span class="namespace">std</span>::cout &lt;&lt; v.<span class="function">capacity</span>();</code></pre>
+
+<h3><code>reserve(n)</code></h3>
+<p>Pre-allocates memory for at least <code>n</code> elements to avoid frequent reallocations.</p>
+
+<pre><code>v.<span class="function">reserve</span>(<span class="number">100</span>);  <span class="comment">// improves performance if you know the size in advance</span></code></pre>
+
+<h3><code>shrink_to_fit()</code></h3>
+<p>Requests the container to reduce capacity to fit its size.</p>
+
+<hr>
+
+<h2 id="-7-copying">🔹 7. Copying</h2>
+<p>There are three ways to copy one vector to another.</p>
+
+<h3>Copy each element manually</h3>
+<pre><code><span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores = { <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> };
+<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores2;
+scores2.<span class="function">reserve</span>(scores.<span class="function">size</span>()); <span class="comment">// reserve the space needed</span>
+<span class="keyword">for</span> (<span class="keyword">size_t i</span> = <span class="number">0</span>; i &lt; scores.<span class="function">size</span>(); i++)
+    scores2.<span class="function">push_back</span>(scores[i]);</code></pre>
+
+<h3>use the assignment `=` operator</h3>
+<pre><code><span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores = { <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> };
+<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores3 = scores;</code></pre>
+
+<h3>passing a vector to the constructor of the new vector</h3>
+<pre><code><span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores = { <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span> };
+<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; scores4(scores);</code></pre>
+
+<hr>
+
+<h2 id="-summary">✅ Summary</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operation</th>
+      <th>Method</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Indexing</strong></td>
+      <td><code>[]</code>, <code>.at()</code></td>
+      <td><code>.at()</code> is bounds-checked</td>
+    </tr>
+    <tr>
+      <td><strong>Add</strong></td>
+      <td><code>push_back()</code>, <code>insert()</code></td>
+      <td>Adds at end or specific position</td>
+    </tr>
+    <tr>
+      <td><strong>Remove</strong></td>
+      <td><code>pop_back()</code>, <code>erase()</code></td>
+      <td>Removes last or specific elements</td>
+    </tr>
+    <tr>
+      <td><strong>Iterate</strong></td>
+      <td><code>iterator</code>, <code>range-for</code></td>
+      <td>Multiple styles supported</td>
+    </tr>
+    <tr>
+      <td><strong>Size</strong></td>
+      <td><code>size()</code></td>
+      <td>Number of elements</td>
+    </tr>
+    <tr>
+      <td><strong>Capacity</strong></td>
+      <td><code>capacity()</code>, <code>reserve()</code></td>
+      <td>Memory management tools</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2 id="-copying-vectors-coding-practice">💻 Practice it! Copying Vectors Coding Practice</h2>
+
+<h3>🧩 Part C-2.1: copy the vector</h3>
+<ol>
+  <li>Open <code>Day3.cpp</code> and find the comment <code>Part C-2.1</code> in the <code>PartC_2()</code> method.</li>
+  <li>Copy the ‘lights’ vector to the other vector variables after the call to <code>MakeLights</code>.</li>
+  <li>Call <code>RemoveLights</code> for each of the 'no' vectors. EX: call <code>RemoveLights</code> on <code>noGreens</code>.
+    <ul>
+      <li>Make sure the second parameter uses the color you want to remove.</li>
+    </ul>
+  </li>
+</ol>
+   
+<h3>🧩 Part C-2.2: copy the vector</h3>
+<ol>
+  <li>Open <code>Day3.cpp</code> and find the comment <code>Part C-2.2</code> in the <code>PartC_2()</code> method.</li>
+  <li>Add code to each of the switch cases to copy the correct vector to the <code>current</code> variable.</li>
+</ol>
+
+</main>
+
+</body>
+</html>

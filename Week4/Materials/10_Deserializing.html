@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Deserializing C++ Classes from a CSV File</h1>
+
+<ul>
+    <li><a href="#-what-is-deserialization">🧾 What is Deserialization?</a></li>
+    <li><a href="#-csv-format-overview">📄 CSV Format Overview</a></li>
+    <li><a href="#-deserializing-into-a-class">🧱 Deserializing into a Class</a></li>
+    <li><a href="#%EF%B8%8F-notes-and-best-practices">🛠️ Notes and Best Practices</a></li>
+    <li><a href="#-deserializing-classes">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-what-is-deserialization">🧾 What is Deserialization?</h2>
+
+<p><strong>Deserialization</strong> is the process of converting data from a storage format (like a CSV file) back into an in-memory object. In C++, this typically involves reading the file line-by-line, parsing the data, and populating class instances.</p>
+
+<hr>
+
+<h2 id="-csv-format-overview">📄 CSV Format Overview</h2>
+
+<p>A <strong>CSV (Comma-Separated Values)</strong> file stores tabular data in plain text. Each line represents a record, and each field is separated by a comma:</p>
+
+<pre><code>id,name,age
+1,Alice,22
+2,Bob,25</code></pre>
+
+<hr>
+
+<h2 id="-deserializing-into-a-class">🧱 Deserializing into a Class</h2>
+
+<h3>1. Define the Class</h3>
+
+<pre><code><span class="comment">#include &lt;string&gt;</span>
+<span class="comment">#include &lt;sstream&gt;</span>
+
+<span class="keyword">class</span> <span class="type">Person</span> {
+    <span class="keyword">int</span> id;
+    <span class="namespace">std</span>::<span class="type">string</span> name;
+    <span class="keyword">int</span> age;
+<span class="keyword">public</span>:
+
+    <span class="type">Person</span>(<span class="keyword">int</span> i, <span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; n, <span class="keyword">int</span> a) : id(i), name(n), age(a) {}
+    <span class="type">Person</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; csvData, <span class="keyword">char</span> delimiter)
+    {
+        <span class="function">DeserializeCSV</span>(csvData, delimiter);
+    }
+
+    <span class="keyword">void</span> <span class="function">DeserializeCSV</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; csvData, <span class="keyword">char</span> delimiter);
+};
+
+<span class="keyword">void</span> <span class="namespace">Person</span>::<span class="function">DeserializeCSV</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; csvData, <span class="keyword">char</span> delimiter)
+{    
+    <span class="namespace">std</span>::<span class="type">stringstream</span> ss(csvData);
+    <span class="namespace">std</span>::<span class="type">string</span> token;
+
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, token, delimiter);
+    id = <span class="namespace">std</span>::<span class="function">stoi</span>(token);
+
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, name, delimiter);
+
+    <span class="namespace">std</span>::<span class="function">getline</span>(ss, token, delimiter);
+    age = <span class="namespace">std</span>::<span class="function">stoi</span>(token);
+}</code></pre>
+
+<hr>
+
+<h3>2. Read and Parse the CSV File</h3>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="comment">#include &lt;fstream&gt;</span>
+<span class="comment">#include &lt;sstream&gt;</span>
+<span class="comment">#include &lt;vector&gt;</span>
+
+<span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="type">Person</span>&gt; <span class="function">deserializeCSV</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">string</span>&amp; filename) {
+    <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="type">Person</span>&gt; people;
+    <span class="namespace">std</span>::<span class="type">ifstream</span> file(filename);
+    <span class="keyword">if</span>(file.<span class="function">is_open</span>())
+    {
+        <span class="namespace">std</span>::<span class="type">string</span> line;
+
+        <span class="comment">// Skip header</span>
+        <span class="namespace">std</span>::<span class="function">getline</span>(file, line);
+
+        <span class="keyword">while</span> (<span class="namespace">std</span>::<span class="function">getline</span>(file, line)) {
+            <span class="type">Person</span> <span class="function">nextPerson</span>(line, <span class="string">','</span>);
+            people.<span class="function">push_back</span>(nextPerson);
+        }
+    }
+    <span class="keyword">else</span> 
+        <span class="namespace">std</span>::cout &lt;&lt; filename &lt;&lt; <span class="string">" could not be opened.\n"</span>;
+
+    file.<span class="function">close</span>();
+
+    <span class="keyword">return</span> people;
+}</code></pre>
+
+<hr>
+
+<h3>3. Use the Deserialized Data</h3>
+
+<pre><code><span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="type">Person</span>&gt; people = <span class="function">deserializeCSV</span>(<span class="string">"people.csv"</span>);
+
+    <span class="keyword">for</span> (<span class="keyword">const auto</span>&amp; person : people) {
+        <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"ID: "</span> &lt;&lt; person.id
+                  &lt;&lt; <span class="string">", Name: "</span> &lt;&lt; person.name
+                  &lt;&lt; <span class="string">", Age: "</span> &lt;&lt; person.age &lt;&lt; <span class="namespace">std</span>::endl;
+    }
+
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-notes-and-best-practices">🛠️ Notes and Best Practices</h2>
+<ul>
+  <li><strong>Error Handling</strong>: Always check if the file opened successfully before attempting extraction sequences.</li>
+</ul>
+
+
+<h2 id="-deserializing-classes">💻 Practice it! Deserializing Classes</h2>
+
+<h3>🧩 Part B-2.1: DeserializeCSV declaration</h3>
+<ol>
+  <li>Open the <code>Player.h</code> file.</li>
+  <li>Add a declaration for a <code>DeserializeCSV</code> method to the Player class.
+    <ul>
+      <li>Parameters: csvLine for the line of data, char for the delimiter.</li>
+    </ul>
+    <blockquote>Remember to consider how parameters should be passed and whether the parameters and method should be const.</blockquote>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.2: DeserializeCSV definition</h3>
+<ol>
+  <li>Open the <code>Player.cpp</code> file.</li>
+  <li>Add a definition for a <code>DeserializeCSV</code> method to the Player class.
+    <ul>
+      <li>Use <code>getline</code> to parse the csv line parameter.</li>
+      <li>The first value on the line is the <code>worldX</code>.</li>
+      <li>The second value on the line is the <code>worldY</code>.</li>
+      <li>Be sure to parse using the delimiter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.3: Player Constructor</h3>
+<ol>
+  <li>Open the <code>Player.h</code> file.</li>
+  <li>Add a Player <code>constructor</code> that calls the <code>DeserializeCSV</code> method.</li>
+</ol>
+
+<h3>🧩 Part B-2.4: LoadPosition method</h3>
+<ol>
+  <li>Open the <code>Day11.cpp</code> file.</li>
+  <li>Add code to the <code>LoadPosition</code> method.
+    <ul>
+      <li>Open the file for input.</li>
+      <li>If the file is open...
+        <ul>
+          <li>Read the line from the file.</li>
+          <li>Call the <code>DeserializeCSV</code> method of the player object.</li>
+          <li>Print to the console "LOADED POSITION".</li>
+        </ul>
+      </li>
+      <li>Else print an error message.</li>
+      <li>Close the file.</li>
+    </ul>
+  </li>
+    <li></li>
+</ol>
+
+<h3>🧩 Part B-2.4: Test it!</h3>
+Run menu option <code>4. Serialize/Deserialize objects</code> to test your code. When the robot loads, press <code>2</code> to load the robot's saved position.
+
+
+<h4>🎯 Result</h4>
+<p><img src="../Lectures/Part_B_DeserializationResults.png" alt="read csv results"></p>
+
+</main>
+
+</body>
+</html>

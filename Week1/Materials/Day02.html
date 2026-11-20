@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Day 02 Lecture Practices</h1>
+
+<ul>
+  <li><a href="#-pass-by-reference-coding-practice">💻 Pass by Reference Coding Practice</a></li>
+  <li><a href="#-const-coding-practice">💻 Const Coding Practice</a></li>
+  <li><a href="#-erasing-in-a-loop-coding-practice">💻 Erasing in a Loop Coding Practice</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-pass-by-reference-coding-practice">💻 Pass by Reference Coding Practice</h2>
+
+<h3>🧩 Part B-1.1: Add a method *declaration*</h3>
+<ol>
+  <li>Open <code>Day2.h</code></li>
+  <li>Add a declaration for a method called <code>SpawnZombies</code> to the <code>Day2.h</code> file.
+    <ul>
+      <li>It should not return anything.</li>
+      <li>It should have 3 parameters: a <code>PG2Graphics</code> parameter, a vector of <code>Zombie</code> parameter, and a <code>Player</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-1.2: Add a method *definition*</h3>
+<ol>
+  <li>Open the <code>Day2.cpp</code> file.</li>
+  <li>Add the <code>SpawnZombies</code> definition to the <code>Day2.cpp</code> file.
+    <ul>
+      <li>Fill the vector with 5 <code>Zombie</code> objects.</li>
+      <li>Randomize the x and y position of each zombie. (HINT: use <code>rand() % 10</code> where 10 is the size of the map)</li>
+      <li>Make sure the zombie position does NOT match the player's position. (HINT: get the player's position using the <code>GetXPosition</code> and <code>GetYPosition</code> methods of the player)</li>
+    </ul>
+  </li>
+</ol>
+<p>Example of how to create a Zombie object:</p>
+<pre><code><span class="type">Zombie</span> zomb(&amp;engine, <span class="number">0.5f</span>, x, y); <span class="comment">// NOTE: 0.5f is the scale</span></code></pre>
+
+<h3>🧩 Part B-1.3: call the method</h3>
+<ol>
+  <li>Open the <code>Day2.cpp</code> file.</li>
+  <li>In the <code>PartB()</code> method, call the <code>SpawnZombies</code> method passing the <code>engine</code>, <code>mobs</code>, and <code>player</code> variables.</li>
+  <li>Debug the <code>PartB</code> method and check that the <code>mobs</code> variable has 5 zombies in it after calling <code>SpawnZombies</code>.</li>
+</ol>
+
+<hr>
+
+<h2 id="-const-coding-practice">💻 Const Coding Practice</h2>
+
+<h3>🧩 Part B-2.1: create a *declaration*</h3>
+<ol>
+  <li>Open <code>Day2.h</code>.</li>
+  <li>Add a method declaration for a method called <code>RenderZombies</code>.
+    <ul>
+      <li>It should not return anything.</li>
+      <li>It should have 1 parameter: a vector of <code>Zombie</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.2: create a *definition*</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>Add a method definition for <code>RenderZombies</code>.
+    <ul>
+      <li>In the method definition, call <code>Render</code> for each <code>Zombie</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-2.3: call the method</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>In the <code>PartB()</code> method, find the comment <code>Part B-2.3 call RenderZombies</code> and call the <code>RenderZombies</code> method.</li>
+</ol>
+
+<hr>
+
+<h2 id="-erasing-in-a-loop-coding-practice">💻 Erasing in a Loop Coding Practice</h2>
+
+<h3>🧩 Part B-3.1: create a declaration</h3>
+<ol>
+  <li>Open <code>Day2.h</code>.</li>
+  <li>Add a method declaration for a method called <code>KillZombies</code>.
+    <ul>
+      <li>It should return an int representing the number of zombies that were killed.</li>
+      <li>It should have 2 parameters: a vector of <code>Zombie</code> parameter and a <code>Player</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-3.2: create a definition</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>Add a method definition for <code>KillZombies</code>.
+    <ul>
+      <li>Inside the method, erase any zombie from the vector whose distance to the player is &lt; 4. (HINT: to calculate the distance between 2 points... <code>distance = sqrt( (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) )</code>)</li>
+      <li>Return the number of zombies that were erased from the vector.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-3.3: call a method</h3>
+<ol>
+  <li>Open <code>Day2.cpp</code>.</li>
+  <li>In the <code>PartB()</code> method, find the comment <code>Part B-3.3 Call KillZombies</code> and call the <code>KillZombies</code> method.</li>
+  <li>After calling the method, print how many zombies were killed.</li>
+</ol>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day01.html">Day 1</a></li>
+  <li><a href="./Day02.html">Day 2</a></li>
+  <li><a href="./Day03.html">Day 3</a></li>
+</ul>
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+
+<p>Here are the lecture quizzes...</p>
+<ul>
+    <li><a href="https://forms.office.com/r/CSJQvCM0fD">Day 1</a></li>
+    <li><a href="https://forms.office.com/r/SmyXe3ufa3">Day 2</a></li>
+    <li><a href="https://forms.office.com/r/fcPX1HHfRD">Day 3</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

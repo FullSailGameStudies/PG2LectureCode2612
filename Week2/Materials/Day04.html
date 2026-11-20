@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+
+<h1>📘 Day 04 Lecture Practices</h1>
+
+<ul>
+  <li><a href="#-recursion">💻 Recursion</a></li>
+  <li><a href="#-sorting">💻 Sorting</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-recursion">💻 Recursion</h2>
+
+<h3>🧩 Part A-1.1: Recursion (Bats)</h3>
+<ol>
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>Above <code>Day4::PartA_1_1()</code>, write a method called <code>Bats</code>. Convert the following for loop into a recursive loop.</li>
+</ol>
+<pre><code><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">100</span>;i++)
+{
+	<span class="namespace">std</span>::cout &lt;&lt; (<span class="keyword">char</span>)<span class="number">78</span> &lt;&lt; (<span class="keyword">char</span>)<span class="number">65</span> &lt;&lt; <span class="string">' '</span>;
+}</code></pre>
+<ol start="3">
+  <li>Call your <code>Bats</code> method in <code>Day4::PartA_1_1()</code> before the char array line.</li>
+</ol>
+
+<h3>🧩 Part A-1.2: Recursion (Reverse Word)</h3>
+<ol>
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>Above <code>Day4::PartA_1_2()</code>, write a recursive method called <code>ReverseWord</code>. The result should print the reverse of the string that is passed in.</li>
+  <li>Call your method in <code>Day4::PartA_1_2()</code> before the cout line.</li>
+</ol>
+
+<p><strong>Example:</strong></p>
+<pre><code><span class="function">ReverseWord</span>(<span class="string">"Batman"</span>);</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>namtaB</code></pre>
+
+<h3>🧩 Part A-1.3: Recursion (Reverse words in a sentence)</h3>
+<ol>
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>Above <code>Day4::PartA_1_3()</code>, write a recursive method called <code>ReverseWords</code>. The result should print the words in a sentence in reverse order.</li>
+</ol>
+<blockquote>
+  NOTE: the characters of the words should not be reversed. Only the order of the words.
+</blockquote>
+<ol start="3">
+  <li>Call your method in <code>Day4::PartA_1_3()</code> <em>before</em> the <code>Console::Write(' ');</code> line.</li>
+</ol>
+
+<p><strong>Example:</strong></p>
+<pre><code><span class="function">ReverseWords</span>(<span class="string">"The quick brown fox jumps over the lazy dog"</span>);</code></pre>
+
+<p><strong>Output:</strong></p>
+<pre><code>dog lazy the over jumps fox brown quick The</code></pre>
+
+<hr>
+
+<h2 id="-sorting">💻 Sorting</h2>
+
+<h3>🧩 Part A-2: Sorting</h3>
+<ol>
+  <li>Open <code>Sorter.h</code> and add a method declaration called <code>BubbleSort</code>. The method should sort a vector of <code>Light</code> objects.</li>
+</ol>
+<blockquote>
+  NOTE: open the Light.h file to see the declaration of the Light structure.
+</blockquote>
+<ol start="2">
+  <li>Open <code>Sorter.cpp</code> and write a definition of the <code>BubbleSort</code> method. Translate the following pseudocode to sort the vector.</li>
+</ol>
+<pre><code>procedure bubbleSort(A : list of sortable items)
+  n := length(A)
+  repeat
+	  swapped := false
+	  for i := 1 to n - 1 inclusive do
+		  if A[i - 1] > A[i] then
+			  swap(A, i - 1, i)
+			  swapped = true
+		  end if
+	  end for
+	  n := n - 1
+  while swapped
+end procedure</code></pre>
+<ol start="3">
+  <li>Open <code>Day4.cpp</code>.</li>
+  <li>In the <code>Day4::PartA_2()</code> method, find <code>case SDLK_2:</code> and call your <code>BubbleSort</code> method after the <code>TODO</code> comment.</li>
+</ol>
+
+<h4>🎯 Result:</h4>
+<p><img src="../Lectures/SortingResult.png" alt="BubbleSort Result"></p>
+
+<p><img src="../../Shared/Images/separator01.png" alt="Footer Separator"></p>
+
+<h2>🧠 Lecture Practices</h2>
+
+<p>Here are the lecture Practices...</p>
+<ul>
+  <li><a href="./Day04.html">Day 4</a></li>
+  <li><a href="./Day05.html">Day 5</a></li>
+  <li><a href="./Day06.html">Day 6</a></li>
+</ul>
+
+<hr>
+
+<h2>🔍 Lecture Quizzes</h2>
+
+<p>Here are the lecture quizzes...</p>
+<ul>
+  <li><a href="https://forms.office.com/r/XUQYr2qrf4">Day 4</a></li>
+  <li><a href="https://forms.office.com/r/QRNDCnA8Fw">Day 5</a></li>
+  <li><a href="https://forms.office.com/r/pi9bMm1SfR">Day 6</a></li>
+</ul>
+
+
+</main>
+
+</body>
+</html>

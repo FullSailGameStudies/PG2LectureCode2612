@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 CSV (Comma-Separated Values) Data Format</h1>
+
+<ul>
+    <li><a href="#-overview">🧾 Overview</a></li>
+    <li><a href="#-structure">📐 Structure</a></li>
+    <li><a href="#-key-concepts">🧠 Key Concepts</a></li>
+    <li><a href="#%EF%B8%8F-use-cases">🛠️ Use Cases</a></li>
+    <li><a href="#%EF%B8%8F-limitations">⚠️ Limitations</a></li>
+    <li><a href="#-delimiters">Practice it!</a></li>
+</ul>
+
+<hr>
+
+<h2 id="-overview">🧾 Overview</h2>
+
+<p><strong>CSV</strong> is a simple, widely-used data format for storing <strong>tabular data</strong> (data structured in rows and columns). Each line in a CSV file corresponds to a <strong>row</strong>, and each value within that line corresponds to a <strong>column</strong>, separated by a <strong>delimiter</strong>, typically a comma (<code>,</code>).</p>
+
+<p>CSV is popular because it is:</p>
+<ul>
+  <li><strong>Human-readable</strong></li>
+  <li><strong>Lightweight</strong></li>
+  <li><strong>Easily parsed</strong> by programming languages and spreadsheet software (e.g., Excel, Google Sheets, Python, R)</li>
+</ul>
+
+<hr>
+
+<h2 id="-structure">📐 Structure</h2>
+
+<p>A typical CSV file has:</p>
+<ol>
+  <li><strong>Header row</strong> (optional): Names of the columns.</li>
+  <li><strong>Data rows</strong>: Each row contains values corresponding to the columns.</li>
+</ol>
+
+<h3>Basic Example</h3>
+<pre><code>Name,Age,Major
+Alice,21,Computer Science
+Bob,22,Mathematics
+Charlie,20,Physics</code></pre>
+
+<p>This represents a table like:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Major</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Alice</td>
+      <td>21</td>
+      <td>Computer Science</td>
+    </tr>
+    <tr>
+      <td>Bob</td>
+      <td>22</td>
+      <td>Mathematics</td>
+    </tr>
+    <tr>
+      <td>Charlie</td>
+      <td>20</td>
+      <td>Physics</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-key-concepts">🧠 Key Concepts</h2>
+
+<h3>1. <strong>Delimiters</strong></h3>
+<p>While commas are standard, other delimiters like semicolons (<code>;</code>) or tabs (<code>\t</code>) may be used, especially in regions where commas are used as decimal points.</p>
+
+<h3>2. <strong>Quoting</strong></h3>
+<p>Fields containing commas, newlines, or quotes must be enclosed in <strong>double quotes</strong> (<code>"</code>). Quotes inside fields are escaped by doubling them.</p>
+
+<pre><code>Name,Comment
+Alice,"Loves ""data"", math, and science"</code></pre>
+
+<h3>3. <strong>Missing Values</strong></h3>
+<p>Empty fields represent missing data.</p>
+
+<pre><code>Name,Age,Major
+Alice,21,
+Bob,,Mathematics</code></pre>
+
+<hr>
+
+<h2 id="%EF%B8%8F-use-cases">🛠️ Use Cases</h2>
+
+<ul>
+  <li><strong>Data exchange</strong> between systems (e.g., exporting from a database to Excel)</li>
+  <li><strong>Data ingestion</strong> in data science and machine learning workflows</li>
+  <li><strong>Configuration files</strong> for simple applications</li>
+</ul>
+
+<hr>
+
+<h2 id="%EF%B8%8F-limitations">⚠️ Limitations</h2>
+
+<ul>
+  <li>No support for nested or hierarchical data</li>
+  <li>No data types (everything is a string)</li>
+  <li>Ambiguity in delimiters and quoting rules across implementations</li>
+</ul>
+
+
+<h2 id="-delimiters">💻 Practice it! CSV Files</h2>
+
+<h3>🧩 CSV Delimiters</h3>
+<ul>
+  <li>Open the <code>whale.configSV</code> file in the <code>Lab4</code> project.</li>
+  <li>What are the delimiter(s) that you see in the file?</li>
+</ul>
+
+</main>
+
+</body>
+</html>

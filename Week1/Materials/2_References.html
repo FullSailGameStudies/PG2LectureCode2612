@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 C++ References</h1>
+
+<ul>
+    <li><a href="#-what-is-a-reference-in-c">What is a Reference in C++?</a></li>
+    <li><a href="#-key-properties-of-references">Key Properties of References</a></li>
+    <li><a href="#-basic-example">Basic Example</a></li>
+    <li><a href="#-references-vs-pointers">References vs Pointers</a></li>
+    <li><a href="#pass-by-value-vs-const">Pass-by-Value vs const&amp;</a></li>
+    <li><a href="#-use-cases">Use Cases</a></li>
+    <li><a href="#-summary">Summary</a></li>
+    <li><a href="#-pass-by-reference-coding-practice">Practice it!</a></li>
+</ul>
+
+<h2 id="-what-is-a-reference-in-c">🔹 What is a Reference in C++?</h2>
+
+<p>A <strong>reference</strong> in C++ is an <strong>alias</strong> for another variable. Once a reference is initialized to a variable, it becomes another name for that variable. Any operation on the reference is actually performed on the original variable.</p>
+
+<h3>Syntax:</h3>
+<pre><code><span class="type">type</span>&amp; referenceName = originalVariable;</code></pre>
+
+<h3>Example:</h3>
+<pre><code><span class="keyword">int</span> a = <span class="number">10</span>;
+<span class="keyword">int</span>&amp; ref = a;  <span class="comment">// ref is a reference to a</span></code></pre>
+
+<hr>
+
+<h2 id="-key-properties-of-references">🔹 Key Properties of References</h2>
+
+<ol>
+  <li><strong>Must be initialized when declared</strong>.</li>
+  <li><strong>Cannot be null</strong> (unlike pointers).</li>
+  <li><strong>Cannot be reseated</strong> to refer to another variable after initialization.</li>
+  <li><strong>Acts as an alias</strong> — changes to the reference affect the original variable.</li>
+</ol>
+
+<hr>
+
+<h2 id="-basic-example">🔹 Basic Example</h2>
+
+<pre><code><span class="comment">#include &lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> <span class="namespace">std</span>;
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> a = <span class="number">10</span>;
+    <span class="keyword">int</span>&amp; ref = a;  <span class="comment">// ref is a reference to a</span>
+
+    ref = <span class="number">20</span>;      <span class="comment">// modifies a</span>
+    cout &lt;&lt; <span class="string">"a = "</span> &lt;&lt; a &lt;&lt; endl;  <span class="comment">// Output: a = 20</span>
+
+    <span class="keyword">int</span> b = <span class="number">15</span>;
+    <span class="comment">//cannot RESEAT the reference to a different variable</span>
+    <span class="comment">//ex: the code below does NOT make ref a reference to b</span>
+    <span class="comment">//    it only COPIES b to ref (and in turn to a)</span>
+    ref = b; 
+    cout &lt;&lt; <span class="string">"a = "</span> &lt;&lt; a &lt;&lt; endl;  <span class="comment">// Output: a = 15</span>
+}</code></pre>
+
+<hr>
+
+<h2 id="-references-vs-pointers">🔹 References vs Pointers</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Reference</th>
+      <th>Pointer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Syntax</strong></td>
+      <td><code>int&amp; ref = var;</code></td>
+      <td><code>int* ptr = &amp;var;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Nullability</strong></td>
+      <td>Cannot be null</td>
+      <td>Can be null</td>
+    </tr>
+    <tr>
+      <td><strong>Reassignment</strong></td>
+      <td>Not allowed</td>
+      <td>Allowed</td>
+    </tr>
+    <tr>
+      <td><strong>Dereferencing</strong></td>
+      <td>Implicit</td>
+      <td>Explicit (<code>*ptr</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="pass-by-value-vs-const">Pass-by-Value vs `const&amp;`</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Situation</th>
+      <th>Best Choice</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Small, trivial type (int, double, enum, pointer)</td>
+      <td>Pass by value</td>
+    </tr>
+    <tr>
+      <td>Object is cheap to copy</td>
+      <td>Pass by value</td>
+    </tr>
+    <tr>
+      <td>You need a local copy anyway</td>
+      <td>Pass by value</td>
+    </tr>
+    <tr>
+      <td>Function takes ownership / is a “sink”</td>
+      <td>Pass by value + <code>std::move</code></td>
+    </tr>
+    <tr>
+      <td>Public API (strings, vectors)</td>
+      <td>Often pass by value</td>
+    </tr>
+    <tr>
+      <td>Mutating parameter without affecting caller</td>
+      <td>Pass by value</td>
+    </tr>
+    <tr>
+      <td>Large object, read-only, no ownership</td>
+      <td>Pass by <code>const&amp;</code></td>
+    </tr>
+    <tr>
+      <td>Performance-critical, avoid copies</td>
+      <td>Pass by <code>const&amp;</code></td>
+    </tr>
+    <tr>
+      <td>Function must modify caller’s object</td>
+      <td>Pass by non-const reference</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-use-cases">🔹 Use Cases</h2>
+
+<h3>1. <strong>Function Arguments (Pass-by-Reference)</strong></h3>
+
+<pre><code><span class="comment">//&amp; prevents a copy. </span>
+<span class="comment">//when called in main, x refers to the 'a' variable in main</span>
+<span class="keyword">void</span> <span class="function">increment</span>(<span class="keyword">int</span>&amp; x) <span class="comment">//pass-by reference. prevents a COPY!</span>
+{
+    x++; <span class="comment">// updates 'a' in main</span>
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> a = <span class="number">5</span>;
+    <span class="function">increment</span>(a);
+    cout &lt;&lt; a &lt;&lt; endl;  <span class="comment">// Output: 6
+</span>}</code></pre>
+
+<h4>When to use pass-by-reference</h4>
+<ul>
+  <li><strong>when the parameter is a class</strong> (user-defined classes and system classes).
+    <ul>
+      <li>why? to prevent a copy of the object. This is especially important for containers (vectors, maps, etc) that might hold a large number of objects.</li>
+    </ul>
+  </li>
+  <li><strong>when the method needs to modify the variable from the other scope</strong>.
+    <ul>
+      <li>for example...</li>
+    </ul>
+  </li>
+</ul>
+<pre><code>    <span class="keyword">int</span> <span class="function">MinMaxSum</span>(<span class="keyword">const</span> <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; numbers, <span class="keyword">int</span>&amp; min, <span class="keyword">int</span>&amp; max)
+    { 
+        <span class="keyword">int</span> sum = <span class="number">0</span>;
+        min = max = numbers[<span class="number">0</span>];
+        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;numbers.<span class="function">size</span>();i++)  {
+            <span class="keyword">if</span>(min &gt; numbers[i]) min = numbers[i];
+            <span class="keyword">if</span>(max &lt; numbers[i]) max = numbers[i];
+            sum += numbers[i];
+        }
+        <span class="keyword">return</span> sum;
+    }
+
+    <span class="namespace">std</span>::<span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; nums = {<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>};
+    <span class="keyword">int</span> minNumber = <span class="number">0</span>, maxNumber = <span class="number">0</span>;
+    <span class="keyword">int</span> sum = <span class="function">MinMaxSum</span>(nums, minNumber, maxNumber);</code></pre>
+
+<h3>2. <strong>Function Return Values</strong></h3>
+
+<pre><code><span class="keyword">int</span>&amp; <span class="function">getElement</span>(<span class="keyword">int</span> arr[], <span class="keyword">int</span> index) {
+    <span class="keyword">return</span> arr[index];
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">int</span> arr[<span class="number">3</span>] = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>};
+    <span class="keyword">int</span>&amp; num = <span class="function">getElement</span>(arr, <span class="number">1</span>); <span class="comment">//get a reference to the int in the array </span>
+    num = <span class="number">10</span>; <span class="comment">// modifies arr[1]</span>
+    cout &lt;&lt; arr[<span class="number">1</span>] &lt;&lt; endl;   <span class="comment">// Output: 10</span>
+}</code></pre>
+
+<h3>3. <strong>Range-Based For Loops</strong></h3>
+
+<pre><code><span class="type">vector</span>&lt;<span class="keyword">int</span>&gt; nums = {<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>};
+<span class="comment">//the loop variable, n, is a reference to the int in the vector</span>
+<span class="keyword">for</span> (<span class="keyword">int</span>&amp; n : nums) {
+    n *= <span class="number">2</span>; <span class="comment">//modifies the int in the vector</span>
+}
+
+<span class="comment">//the loop variable, n, is a reference to the int in the vector</span>
+<span class="comment">//it is NOT a copy of each int</span>
+<span class="keyword">for</span>(<span class="keyword">int</span>&amp; n : nums) {
+    cout &lt;&lt; n &lt;&lt; <span class="string">" "</span>; 
+} <span class="comment">//outputs 2 4 6</span></code></pre>
+
+<h3 id="-const-references">4. Const References</h3>
+
+<p>Used to avoid copying large objects and to ensure the referenced value is not modified.</p>
+
+<pre><code><span class="comment">//we don't know how big the string is</span>
+<span class="comment">//therefore, we should NOT copy it (pass-by-reference) AND</span>
+<span class="comment">//make it const so that we do not modify it</span>
+<span class="keyword">void</span> <span class="function">print</span>(<span class="keyword">const</span> <span class="type">string</span>&amp; str) {
+    cout &lt;&lt; str &lt;&lt; endl;
+}</code></pre>
+
+<h2 id="-summary">✅ Summary</h2>
+
+<ul>
+  <li>References provide a powerful way to alias variables.</li>
+  <li>They are safer and more intuitive than pointers in many cases.</li>
+  <li>Essential for efficient function parameter passing and object manipulation.</li>
+</ul>
+<hr>
+
+<h2 id="-pass-by-reference-coding-practice">💻 Practice it! Pass by Reference Coding Practice</h2>
+
+<h3>🧩 Part B-1.1: Add a method *declaration*</h3>
+<ol>
+  <li>Open <code>Day2.h</code></li>
+  <li>Add a declaration for a method called <code>SpawnZombies</code> to the <code>Day2.h</code> file.
+    <ul>
+      <li>It should not return anything.</li>
+      <li>It should have 3 parameters: a <code>PG2Graphics</code> parameter, a vector of <code>Zombie</code> parameter, and a <code>Player</code> parameter.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>🧩 Part B-1.2: Add a method *definition*</h3>
+<ol>
+  <li>Open the <code>Day2.cpp</code> file.</li>
+  <li>Add the <code>SpawnZombies</code> definition to the <code>Day2.cpp</code> file.
+    <ul>
+      <li>Fill the vector with 5 <code>Zombie</code> objects.</li>
+      <li>Randomize the x and y position of each zombie. (HINT: use <code>rand() % 10</code> where 10 is the size of the map)</li>
+      <li>Make sure the zombie position does NOT match the player's position. (HINT: get the player's position using the <code>GetXPosition</code> and <code>GetYPosition</code> methods of the player)</li>
+    </ul>
+  </li>
+</ol>
+<p>Example of how to create a Zombie object:</p>
+<pre><code><span class="type">Zombie</span> zeek(&amp;engine, <span class="number">0.5f</span>, x, y); <span class="comment">// NOTE: 0.5f is the scale</span></code></pre>
+
+<h3>🧩 Part B-1.3: call the method</h3>
+<ol>
+  <li>Open the <code>Day2.cpp</code> file.</li>
+  <li>In the <code>PartB()</code> method, call the <code>SpawnZombies</code> method passing the <code>engine</code>, <code>mobs</code>, and <code>player</code> variables.</li>
+  <li>Debug the <code>PartB</code> method and check that the <code>mobs</code> variable has 5 zombies in it after calling <code>SpawnZombies</code>.</li>
+</ol>
+
+
+</main>
+
+</body>
+</html>

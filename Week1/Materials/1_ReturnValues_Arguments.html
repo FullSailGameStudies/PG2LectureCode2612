@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs. Non-Static Member Functions in C++</title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 Return Types, Arguments, and Capturing Returned Data in C++</h1>
+
+<ul>
+    <li><a href="#-function-signature">Function Signature</a></li>
+    <li><a href="#-function-body">Function Body</a></li>
+    <li><a href="#-return-types">Return Types</a></li>
+    <li><a href="#-function-arguments-parameters">Function Arguments (Parameters)</a></li>
+    <li><a href="#-capturing-returned-data">Capturing Returned Data</a></li>
+    <li><a href="#-best-practices">Best Practices</a></li>
+    <li><a href="#-arguments-coding-practice">Practice it!</a></li>
+</ul>
+
+<p>In C++, functions are fundamental building blocks that allow you to encapsulate logic and reuse code. Understanding how to define return types, pass arguments, and capture returned values is essential for writing modular and reusable code.</p>
+
+<hr>
+
+<h2 id="-function-signature">🔹 Function Signature</h2>
+
+<p>A function in C++ is defined by its <strong>signature</strong>, which includes:</p>
+<ul>
+  <li>The <strong>return type</strong></li>
+  <li>The <strong>function name</strong></li>
+  <li>The <strong>parameter list</strong></li>
+</ul>
+
+<pre><code><span class="type">ReturnType</span> <span class="function">FunctionName</span>(<span class="type">ParameterType1</span> param1, <span class="type">ParameterType2</span> param2, ...);</code></pre>
+
+<pre><code><span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) <span class="comment">//this is the signature of the function</span>
+{  
+    <span class="keyword">return</span> a + b;
+}</code></pre>
+
+<hr>
+
+<h2 id="-function-body">🔹 Function Body</h2>
+
+<p>The code for a function is in the <strong>function body</strong>. The body consists of the { } and the statements inside the curly braces.</p>
+
+<pre><code><span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) 
+<span class="comment">//function body starts here</span>
+{  
+    <span class="keyword">return</span> a + b;
+}
+<span class="comment">//function body ends here</span></code></pre>
+
+<hr>
+
+<h2 id="-return-types">🔁 Return Types</h2>
+
+<h3><strong>Definition:</strong></h3>
+<p>The <strong>return type</strong> specifies the type of value a function sends back to the caller.</p>
+
+<h3><strong>Common Return Types:</strong></h3>
+<ul>
+  <li><strong>Primitive types</strong>: <code>int</code>, <code>double</code>, <code>char</code>, <code>bool</code></li>
+  <li><strong>Standard library types</strong>: <code>std::string</code>, <code>std::vector</code>, etc.</li>
+  <li><strong>User-defined types</strong>: classes or structs</li>
+  <li><strong><code>void</code></strong>: indicates no value is returned</li>
+</ul>
+
+<h3><strong>Example:</strong></h3>
+<pre><code><span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {
+    <span class="keyword">return</span> a + b;
+}</code></pre>
+
+<hr>
+
+<h2 id="-function-arguments-parameters">🧩 Function Arguments (Parameters)</h2>
+
+<h3><strong>Definition:</strong></h3>
+<ul>
+  <li><strong>Arguments</strong> are values passed to a function when it is called.</li>
+  <li><strong>Parameters</strong> are the variables that receive those values.</li>
+</ul>
+
+<pre><code><span class="comment">// Parameters: a and b</span>
+<span class="keyword">int</span> <span class="function">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">//constant arguments (5 and 2) passed to add</span>
+<span class="keyword">int</span> sum = <span class="function">add</span>(<span class="number">5</span>, <span class="number">2</span>);
+
+<span class="comment">//variables passed as arguments</span>
+<span class="keyword">int</span> num1 = <span class="number">5</span>, num2 = <span class="number">2</span>;
+<span class="keyword">int</span> result = <span class="function">add</span>(num1, num2);</code></pre>
+
+<h3><strong>Types of Parameter Passing:</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Syntax Example</th>
+      <th>Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Pass by Value</strong></td>
+      <td><code>void f(int x)</code></td>
+      <td>Copies the value</td>
+    </tr>
+    <tr>
+      <td><strong>Pass by Reference</strong></td>
+      <td><code>void f(int&amp; x)</code></td>
+      <td>Modifies the original</td>
+    </tr>
+    <tr>
+      <td><strong>Pass by Pointer</strong></td>
+      <td><code>void f(int* x)</code></td>
+      <td>Modifies via address</td>
+    </tr>
+    <tr>
+      <td><strong>Const Reference</strong></td>
+      <td><code>void f(const std::string&amp;)</code></td>
+      <td>Read-only access without copying</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2 id="-capturing-returned-data">📥 Capturing Returned Data</h2>
+
+<h3><strong>Definition:</strong></h3>
+<p>When a function returns a value, you can <strong>capture</strong> it by assigning the result to a variable.</p>
+
+<h3><strong>Syntax:</strong></h3>
+<pre><code><span class="type">ReturnType</span> result = <span class="function">FunctionName</span>(arguments);</code></pre>
+
+<h3><strong>Example:</strong></h3>
+<pre><code><span class="keyword">double</span> <span class="function">calculateArea</span>(<span class="keyword">double</span> width, <span class="keyword">double</span> height) {
+    <span class="keyword">return</span> width * height;
+}
+
+<span class="keyword">int</span> <span class="function">main</span>() {
+    <span class="keyword">double</span> w = <span class="number">5.0</span>, h = <span class="number">3.0</span>;
+    <span class="keyword">double</span> area = <span class="function">calculateArea</span>(w, h);  <span class="comment">// Capturing the return value</span>
+    <span class="namespace">std</span>::cout &lt;&lt; <span class="string">"Area: "</span> &lt;&lt; area &lt;&lt; <span class="namespace">std</span>::endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+
+<h3><strong>Why Capture Return Values?</strong></h3>
+<ul>
+  <li>To store results for later use</li>
+  <li>To pass results into other functions</li>
+  <li>To make decisions based on returned data</li>
+</ul>
+
+<hr>
+
+<h2 id="-best-practices">🧠 Best Practices</h2>
+
+<ul>
+  <li>Always <strong>match the return type</strong> of the function with the type of the variable capturing the result.</li>
+  <li>Use <code>auto</code> for type inference when the return type is complex:
+    <pre><code><span class="keyword">auto</span> result = <span class="function">someFunction</span>();</code></pre>
+  </li>
+  <li>Avoid ignoring return values unless the function is <code>void</code> or the result is truly unnecessary.</li>
+</ul>
+    
+<h2 id="-arguments-coding-practice">💻 Practice it!</h2>
+
+<h3>🧩 Part A-3: Return values and passing arguments</h3>
+<p>Ask the user for their age. A minimum age would be 0 and a maximum age would be 120.</p>
+
+<ol>
+  <li>Open <code>Lectures.cpp</code> and find the comment <code>part A-3</code></li>
+  <li>Add code in the case block to call <code>Input::GetInteger</code>.</li>
+  <li>Store the result in an int variable.</li>
+  <li>Print the age that the user enters.</li>
+</ol>
+<div class="tip-box">
+  <span class="tip-badge">TIP:</span> Open the <code>Input.h</code> file (look in <strong>Misc/Input</strong> in Solution Explorer) to see how <code>GetInteger</code> is declared.
+</div>
+
+</main>
+
+</body>
+</html>

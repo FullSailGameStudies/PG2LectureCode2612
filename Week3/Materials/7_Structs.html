@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+	
+	<style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #c9d1d9;          /* Core Dark Theme text tint */
+            background-color: #0d1117; /* Matches parent frame background */
+            padding: 40px;            /* Generates clean text breathing room margins */
+            max-width: 800px;
+            margin: 0 auto;           /* Centers text columns beautifully inside the frame viewport */
+            overflow-y: auto;         /* Allows natural scroll tracking for reading materials */
+        }
+
+        h1, h2, h3 { color: #58a6ff; }
+        h1 { border-bottom: 2px solid #21262d; padding-bottom: 10px; margin-top: 0; }
+        h2 { border-bottom: 1px solid #21262d; padding-bottom: 5px; margin-top: 40px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 30px 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background-color: #161b22; }
+        th, td { border: 1px solid #30363d; padding: 12px; text-align: left; }
+        th { background-color: #21262d; color: #f0f6fc; }
+        tr:nth-child(even) { background-color: #1c2128; }
+
+        pre { background-color: #161b22; color: #abb2bf; padding: 15px; border: 1px solid #30363d; border-radius: 6px; overflow-x: auto; font-family: monospace; font-size: 14px; }
+        code { font-family: monospace; background-color: #21262d; color: #ff7b72; padding: 2px 4px; border-radius: 3px; font-size: 90%; }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+        
+        .keyword { color: #ff7b72; font-weight: bold; }
+        .type { color: #f8e3a1; }
+        .string { color: #a5d6ff; }
+        .number { color: #f0883e; }
+        .comment { color: #8b949e; font-style: italic; }
+        .function { color: #d2a8ff; }
+        .namespace { color: #ff7b72; }
+
+        .tip-box {
+            background-color: #1a2333; /* Deep subtle blue tint */
+            border-left: 4px solid #3b82f6; /* Vibrant blue accent line */
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+        }
+
+        .tip-badge {
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 4px;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="main-content" id="w1-static-nonstatic">
+<h1>📘 C++ `struct` vs `class`</h1>
+
+<p>In C++, both <code>struct</code> and <code>class</code> are used to define <strong>user-defined types</strong> that can hold <strong>data</strong> and <strong>functions</strong>. While they are <strong>very similar</strong>, there are a few key differences that are important to understand.</p>
+
+
+<h2>🔹 What is a `struct`?</h2>
+
+<p>A <code>struct</code> (short for <strong>structure</strong>) is a way to group related variables (and optionally functions) under one name.</p>
+
+<pre><code><span class="keyword">struct</span> <span class="type">Color</span> {
+    <span class="keyword">int</span> red;
+    <span class="keyword">int</span> green;
+    <span class="keyword">int</span> blue;
+    <span class="keyword">int</span> alpha;
+};
+</code></pre>
+
+<h3>✅ Characteristics of <code>struct</code>:</h3>
+<ul>
+  <li><strong>Default access modifier:</strong> <code>public</code> 🔓</li>
+  <li>Typically used for <strong>plain-old-data (POD)</strong> types.</li>
+  <li>Supports <strong>member functions</strong>, <strong>constructors</strong>, <strong>destructors</strong>, <strong>inheritance</strong>, and <strong>polymorphism</strong> (just like classes).</li>
+  <li>Often used in <strong>C-style programming</strong> or for <strong>simple data containers</strong>.</li>
+</ul>
+    
+<h3>✅ Using a <code>struct</code>:</h3>
+<p>To use a <code>struct</code> is similar to using a class. Create an instance of the struct then access the members using the <code>dot</code> notation.</p>
+    
+<pre><code><span class="type">Color</span> clr;
+clr.red = 255;
+clr.green = clr.blue = 0;
+clr.alpha = 255;
+</code></pre>
+
+
+<h2>🔸 What is a `class`?</h2>
+
+<p>A <code>class</code> is a more formal and flexible way to define objects in C++. It encapsulates <strong>data</strong> and <strong>behavior</strong> and is the foundation of <strong>object-oriented programming (OOP)</strong> in C++.</p>
+
+<pre><code><span class="keyword">class</span> <span class="type">Circle</span> {
+<span class="keyword">private</span>:
+    <span class="keyword">double</span> radius;
+
+<span class="keyword">public</span>:
+    <span class="type">Circle</span>(<span class="keyword">double</span> r) : radius(r) {}
+
+    <span class="keyword">double</span> <span class="function">area</span>() <span class="keyword">const</span> {
+        <span class="keyword">return</span> <span class="number">3.14159</span> * radius * radius;
+    }
+};</code></pre>
+
+<h3>✅ Characteristics of `class`:</h3>
+<ul>
+  <li><strong>Default access modifier:</strong> <code>private</code> 🔒</li>
+  <li>Designed for <strong>encapsulation</strong>, <strong>abstraction</strong>, <strong>inheritance</strong>, and <strong>polymorphism</strong>.</li>
+  <li>Encourages <strong>data hiding</strong> and <strong>modular design</strong>.</li>
+  <li>Ideal for <strong>complex systems</strong> and <strong>OOP design patterns</strong>.</li>
+</ul>
+
+<hr>
+
+<h2>⚖️ Key Differences</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th><code>struct</code> 🧱</th>
+      <th><code>class</code> 🏛️</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Default access modifier</strong></td>
+      <td><code>public</code> 🔓</td>
+      <td><code>private</code> 🔒</td>
+    </tr>
+    <tr>
+      <td><strong>Inheritance default</strong></td>
+      <td><code>public</code></td>
+      <td><code>private</code></td>
+    </tr>
+    <tr>
+      <td><strong>Use case</strong></td>
+      <td>Simple data containers</td>
+      <td>Full OOP design</td>
+    </tr>
+    <tr>
+      <td><strong>Syntax</strong></td>
+      <td><code>struct Name { ... };</code></td>
+      <td><code>class Name { ... };</code></td>
+    </tr>
+    <tr>
+      <td><strong>Functionality</strong></td>
+      <td>Same as class</td>
+      <td>Same as struct</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>🧠 When to Use What?</h2>
+
+<ul>
+  <li>Use <strong><code>struct</code></strong> when:
+    <ul>
+      <li>You need a <strong>simple data structure</strong>.</li>
+      <li>You want <strong>public access</strong> by default.</li>
+      <li>You're working with <strong>interfacing C code</strong>.</li>
+    </ul>
+  </li>
+  <li>Use <strong><code>class</code></strong> when:
+    <ul>
+      <li>You need <strong>encapsulation</strong> and <strong>data hiding</strong>.</li>
+      <li>You're building <strong>complex systems</strong>.</li>
+      <li>You want to leverage <strong>OOP principles</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2>🧪 Fun Fact</h2>
+
+<p>In C++, the only <strong>technical difference</strong> between <code>struct</code> and <code>class</code> is the <strong>default access level</strong>. Everything else—constructors, destructors, inheritance, etc.—works the same!</p>
+
+
+</main>
+
+</body>
+</html>
