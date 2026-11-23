@@ -10,5 +10,6 @@ public:
 	//
 	// Part A-4.1: create the DECLARATION for CreateTargets
 	//
+	static std::vector<Target> CreateTargets(int mapSize);
 };
 

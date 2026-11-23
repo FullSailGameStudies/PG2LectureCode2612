@@ -64,6 +64,10 @@ int main(int argc, char* args[])
 			// 
 			//	Open the Input.h file(look in Misc / Input in Solution Explorer) to see how the GetInteger is declared.
 			//
+			int age = 0;
+			age = Input::GetInteger("What is your age?", 0, 120);
+			//std::cout << "Your age is " << age << ". Figures.\n";
+			Console::WriteLine("Your age is " + std::to_string(age));
 			break;
 		}
 		case 4:

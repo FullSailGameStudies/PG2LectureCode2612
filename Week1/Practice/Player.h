@@ -36,6 +36,7 @@ public:
 	void Undo();
 	void Redo();
 
+	//declarations
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();

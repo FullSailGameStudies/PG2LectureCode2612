@@ -150,6 +150,7 @@ void Player::MoveUp()
 	AddUndo("MoveUp");
 }
 
+//definition
 void Player::MoveDown()
 {
 	yVelocity_ += maxVelocity_;

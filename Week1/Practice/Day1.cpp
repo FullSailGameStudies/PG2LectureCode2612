@@ -73,6 +73,12 @@ void Day1::PartA_2()
 			}
 			steev.MoveRight();
 
+			bool canMoveInDirection = steev.CanMove(Direction::Up);
+			if (canMoveInDirection)
+			{
+
+			}
+
 
 			while (!quit)
 			{
@@ -104,6 +110,23 @@ void Day1::PartA_2()
 //
 // Part A-4.2: create the DEFINITION for CreateTargets
 //
+//  % N results in 0 - (N-1)
+//rand() % mapSize - range is 0 to mapSize-1
+std::vector<Target> Day1::CreateTargets(int mapSize)
+{
+	std::vector<Target> targets;
+
+	for (int i = 0; i < 10; i++)
+	{
+		Target t1000;
+		t1000.row = rand() % mapSize;
+		t1000.col = rand() % mapSize;
+
+		targets.push_back(t1000);
+	}
+
+	return targets;
+}
 
 void Day1::PartA_4()
 {
@@ -139,6 +162,7 @@ void Day1::PartA_4()
 		// Part A-4.3: Call CreateTargets and store the returned vector into the "targets" variable.
 		//
 		std::vector<Target> targets;
+		targets = CreateTargets(mapSize);
 
 		float scale = 0.25f;
 		Player player(&engine, scale, 1, 1);
