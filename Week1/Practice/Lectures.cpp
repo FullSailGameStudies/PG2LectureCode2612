@@ -39,6 +39,8 @@ int main(int argc, char* args[])
 			//  Experiment with changing the colors.
 			//  Open the Console.h file (look in Misc/Console in Solution Explorer) to see how the methods are declared.
 			//
+			Console::Write("Batman is > Superman?");
+			Console::WriteLine(" YES!", ConsoleColor::Blue, ConsoleColor::White);
 			break;
 		}
 		case 2:

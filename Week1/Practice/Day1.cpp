@@ -27,14 +27,14 @@ void Day1::PartA_2()
 		Console::WriteLine("HINT: explore the Player.h file to see what methods could be used.");
 
 		float scale = 0.25f;
-		Player player(&engine, scale, 1, 1);
-		if (!player.IsValid())
+		Player steev(&engine, scale, 1, 1);
+		if (!steev.IsValid())
 		{
 			printf("Failed to load media!\n");
 		}
 		else
 		{
-			Map map(engine.Renderer(), player.Size());
+			Map map(engine.Renderer(), steev.Size());
 			map.mapData =
 			{
 				1,1,1,1,1,1,1,1,1,1,
@@ -57,7 +57,7 @@ void Day1::PartA_2()
 			}
 			oreTexture.BlendMode(SDL_BLENDMODE_NONE);
 
-			player.SetMap(map.mapData, 10, 10);
+			steev.SetMap(map.mapData, 10, 10);
 
 			bool quit = false;
 			SDL_Event e;
@@ -66,6 +66,12 @@ void Day1::PartA_2()
 			//
 			//Part A-2: move player to a predefined Target spot 
 			//
+			for (int i = 0; i < 5; i++)
+			{
+				steev.MoveDown();
+				steev.MoveRight();
+			}
+			steev.MoveRight();
 
 
 			while (!quit)
@@ -84,7 +90,7 @@ void Day1::PartA_2()
 				//map.DrawCell(target.col, target.row, target.red, target.green, target.blue);
 				map.DrawCell(target.col, target.row, &oreTexture, 1);
 
-				player.Render();
+				steev.Render();
 
 				//Update screen
 				engine.Present();
