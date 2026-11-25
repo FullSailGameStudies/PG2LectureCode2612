@@ -15,11 +15,12 @@ private:
 	//
 	// Part B-1.1: Add a method declaration for SpawnZombies
 	//
-	void SpawnZombies(PG2Graphics& engine, std::vector<Zombie>& zeeks, Player& p1);
+	void SpawnZombies(PG2Graphics& engine, std::vector<Zombie>& zeeks,const Player& p1) const;
 
 	//
 	// Part B-2.1: Add a method declaration for RenderZombies
 	//
+	void RenderZombies(const std::vector<Zombie>& zeeks) const;
 
 	//
 	// Part B-3.1: Add a method declaration for KillZombies

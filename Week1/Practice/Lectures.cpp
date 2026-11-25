@@ -9,14 +9,14 @@
 //		- if it is a class, pass by ref
 // 2) to change a variable in a different scope
 
-void PrintVector(std::vector<int>& nummies)
+void PrintVector(const std::vector<int>& nummies)
 {
 	//range-based or foreach
 	//for (int i = 0; i < nummies.size(); i++)
 	//{
 	//	std::cout << nummies[i] << "\n";
 	//}
-	for (int& num : nummies)
+	for (auto& num : nummies)
 	{
 		std::cout << num << "\n";
 	}
@@ -34,6 +34,8 @@ int main(int argc, char* args[])
 	int nummy = 10;
 	Add_Print(nummy);
 	int& numRef = nummy;//numRef always points to nummy
+
+	const float PI = 3.1415f;
 
 	int num2 = 14;
 	numRef = num2;//copies num2 to nummy

@@ -7,7 +7,7 @@
 //
 // Part B-1.1: Add a method definition for SpawnZombies
 //
-void Day2::SpawnZombies(PG2Graphics& engine, std::vector<Zombie>& zeeks, Player& p1)
+void Day2::SpawnZombies(PG2Graphics& engine, std::vector<Zombie>& zeeks,const Player& p1) const
 {
 	//ctrl + k,d to format your document
 	int x, y;
@@ -27,9 +27,17 @@ void Day2::SpawnZombies(PG2Graphics& engine, std::vector<Zombie>& zeeks, Player&
 }
 
 
+
 //
 // Part B-2.1: Add a method definition for RenderZombies
 //
+void Day2::RenderZombies(const std::vector<Zombie>& zeeks) const
+{
+	for (auto& zeek : zeeks)
+	{
+		zeek.Render();
+	}
+}
 
 //
 // Part B-3.1: Add a method definition for KillZombies
@@ -123,6 +131,7 @@ void Day2::PartB(int option)
 				//
 				// Part B-2.3 call RenderZombies
 				//
+				RenderZombies(mobs);
 
 
 				player.Render();
