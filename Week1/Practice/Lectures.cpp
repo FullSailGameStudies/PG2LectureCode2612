@@ -4,9 +4,42 @@
 #include <Console.h>
 #include <Input.h>
 
+//When to use pass by reference?
+// 1) to prevent a copy
+//		- if it is a class, pass by ref
+// 2) to change a variable in a different scope
+
+void PrintVector(std::vector<int>& nummies)
+{
+	//range-based or foreach
+	//for (int i = 0; i < nummies.size(); i++)
+	//{
+	//	std::cout << nummies[i] << "\n";
+	//}
+	for (int& num : nummies)
+	{
+		std::cout << num << "\n";
+	}
+
+}
+void Add_Print(int& num)//pass by reference (ALIAS)
+{
+	num += rand();
+	std::cout << num << "\n";
+}
 int main(int argc, char* args[])
 {
 	Day2 day2;
+
+	int nummy = 10;
+	Add_Print(nummy);
+	int& numRef = nummy;//numRef always points to nummy
+
+	int num2 = 14;
+	numRef = num2;//copies num2 to nummy
+
+	numRef += 10;
+	std::cout << nummy << "\n";
 
 	int menuSelection = 0;
 	std::vector<std::string> menuOptions{
@@ -83,6 +116,7 @@ int main(int argc, char* args[])
 			//
 			// part B-1: Pass by reference
 			//
+			day2.PartB(1);
 			break;
 		}
 		case 6:
@@ -90,6 +124,7 @@ int main(int argc, char* args[])
 			//
 			// part B-2: const
 			//
+			day2.PartB(2);
 			break;
 		}
 		case 7:
@@ -97,6 +132,7 @@ int main(int argc, char* args[])
 			//
 			// part B-3: Erasing in a loop
 			//
+			day2.PartB(3);
 			break;
 		}
 		case 8:
